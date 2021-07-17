@@ -1,6 +1,6 @@
 package com.github.graycat27.twitterbot.heroku.db.domain;
 
-public class TwitterAuthDomain {
+public class TwitterAuthDomain implements IDbDomain {
 
     public final String apiKey;
     public final String secretKey;
