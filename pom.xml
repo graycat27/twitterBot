@@ -18,16 +18,18 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>appassembler-maven-plugin</artifactId>
-                <version>1.10</version>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
-                    <programs>
-                        <program>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>com.github.graycat27.twitterbot.TwitterBot</mainClass>
-                            <id>twitterBot</id>
-                        </program>
-                    </programs>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
