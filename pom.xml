@@ -28,6 +28,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>com.github.graycat27.twitterbot.TwitterBot</mainClass>
+                            <packageName>com.github.graycat27.twitterbot</packageName>
                         </manifest>
                     </archive>
                 </configuration>
