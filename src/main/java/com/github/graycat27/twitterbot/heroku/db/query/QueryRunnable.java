@@ -9,7 +9,7 @@ import java.io.InputStream;
 public abstract class QueryRunnable implements IQuery {
 
     // フィールド
-    private SqlSessionFactory factory;
+    protected SqlSessionFactory factory;
 
     // コンストラクタ
     public QueryRunnable(){

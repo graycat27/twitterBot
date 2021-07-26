@@ -2,6 +2,8 @@ package com.github.graycat27.twitterbot.heroku.db.query;
 
 import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
 
+import java.util.List;
+
 public interface IQuery {
 
     void insert(IDbDomain param);
@@ -10,5 +12,5 @@ public interface IQuery {
 
     IDbDomain selectOne(IDbDomain param);
 
-    IDbDomain selectMulti(IDbDomain param);
+    List<IDbDomain> selectMulti(IDbDomain param);
 }
