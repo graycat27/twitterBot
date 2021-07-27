@@ -12,25 +12,35 @@ import java.util.List;
 public class BotUserQuery extends QueryRunnable{
     @Override
     public void insert(IDbDomain param) {
-
-    }
-
-    @Override
-    public void update(IDbDomain cond, IDbDomain param) {
-
-    }
-
-    @Override
-    public BotUsersDomain selectOne(IDbDomain param) {
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            return session.selectOne(BotUserSql.selectAll);
+            session.update(BotUserSql.insert, param);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
     }
 
     @Override
-    public List<IDbDomain> selectMulti(IDbDomain param) {
+    public void update(IDbDomain cond, IDbDomain param) {
+        try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            BotUsersDomain domainCond = (BotUsersDomain)cond;
+            BotUsersDomain queryParam = new BotUsersDomain(domainCond.getTwUserId());
+            session.update(BotUserSql.update, queryParam);
+        } catch (SQLException sqlEx) {
+            throw new RuntimeException(sqlEx);
+        }
+    }
+
+    @Override
+    public BotUsersDomain selectOne(IDbDomain param) {
+        try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            return session.selectOne(BotUserSql.selectOne, param);
+        } catch (SQLException sqlEx) {
+            throw new RuntimeException(sqlEx);
+        }
+    }
+
+    @Override
+    public List<BotUsersDomain> selectMulti(IDbDomain param) {
         try(SqlSession session = factory.openSession()){
             return session.selectList(BotUserSql.selectAll);
         }
