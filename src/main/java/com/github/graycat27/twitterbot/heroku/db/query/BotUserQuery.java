@@ -41,8 +41,10 @@ public class BotUserQuery extends QueryRunnable{
 
     @Override
     public List<BotUsersDomain> selectMulti(IDbDomain param) {
-        try(SqlSession session = factory.openSession()){
+        try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             return session.selectList(BotUserSql.selectAll);
+        } catch (SQLException sqlEx) {
+            throw new RuntimeException(sqlEx);
         }
     }
 }
