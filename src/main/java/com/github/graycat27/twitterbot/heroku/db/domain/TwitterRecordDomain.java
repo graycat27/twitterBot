@@ -1,5 +1,7 @@
 package com.github.graycat27.twitterbot.heroku.db.domain;
 
+import com.google.gson.Gson;
+
 import java.sql.Timestamp;
 
 public class TwitterRecordDomain extends CommonDomain {
@@ -38,7 +40,7 @@ public class TwitterRecordDomain extends CommonDomain {
 
     @Override
     public String toString() {
-        return super.toString() + ",{TwitterRecordDomain:{recordTime:"+ getRecordTime()
-                +", totalTweetCount:"+ getTotalTweetCount() +", twitterDisplayId:"+ getTwitterDisplayId() +"}}";
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

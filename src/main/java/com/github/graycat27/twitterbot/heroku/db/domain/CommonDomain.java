@@ -1,5 +1,7 @@
 package com.github.graycat27.twitterbot.heroku.db.domain;
 
+import com.google.gson.Gson;
+
 import java.sql.Timestamp;
 
 public abstract class CommonDomain implements IDbDomain {
@@ -21,7 +23,7 @@ public abstract class CommonDomain implements IDbDomain {
 
     @Override
     public String toString() {
-        return "{CommonDomain:{createdDate:"+ getCreatedDate() +", updateDate:"+ getUpdateDate() +"," +
-                "isDeleted:"+ isDeleted() +"}}";
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

@@ -1,5 +1,7 @@
 package com.github.graycat27.twitterbot.heroku.db.domain;
 
+import com.google.gson.Gson;
+
 public class TwitterAuthDomain extends CommonDomain {
 
     private String apiKey;
@@ -27,7 +29,7 @@ public class TwitterAuthDomain extends CommonDomain {
 
     @Override
     public String toString() {
-        return super.toString() + ",{TwitterAuthDomain:{apiKey:"+ getApiKey() +", secretKey:"+ getSecretKey()
-                +", bearerToken:"+ getBearerToken() +"}}";
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }
