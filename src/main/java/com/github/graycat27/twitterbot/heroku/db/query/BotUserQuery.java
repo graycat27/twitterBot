@@ -13,7 +13,7 @@ public class BotUserQuery extends QueryRunnable{
     @Override
     public void insert(IDbDomain param) {
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            session.update(BotUserSql.insert, param);
+            session.insert(BotUserSql.insert, param);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }

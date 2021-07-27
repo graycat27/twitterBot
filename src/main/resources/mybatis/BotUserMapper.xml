@@ -26,7 +26,7 @@
             AND tw_user_id = #{twUserId}
     </select>
 
-    <insert id="insert">
+    <insert id="insert" parameterType="BotUsersDomain">
         INSERT INTO bot_users
             (tw_user_id)
         VALUES
