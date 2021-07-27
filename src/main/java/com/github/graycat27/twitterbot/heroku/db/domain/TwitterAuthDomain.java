@@ -1,10 +1,19 @@
 package com.github.graycat27.twitterbot.heroku.db.domain;
 
-public class TwitterAuthDomain implements IDbDomain {
+public class TwitterAuthDomain extends CommonDomain {
 
-    public final String apiKey;
-    public final String secretKey;
-    public final String bearerToken;
+    private String apiKey;
+    public String getApiKey(){
+        return apiKey;
+    }
+    private String secretKey;
+    public String getSecretKey(){
+        return secretKey;
+    }
+    private String bearerToken;
+    public String getBearerToken(){
+        return bearerToken;
+    }
 
     public TwitterAuthDomain(
         String apiKey,
@@ -16,4 +25,9 @@ public class TwitterAuthDomain implements IDbDomain {
         this.bearerToken = bearerToken;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + ",{TwitterAuthDomain:{apiKey:"+ getApiKey() +", secretKey:"+ getSecretKey()
+                +", bearerToken:"+ getBearerToken() +"}}";
+    }
 }

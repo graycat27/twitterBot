@@ -1,23 +1,19 @@
 package com.github.graycat27.twitterbot.heroku.db.query;
 
 import com.github.graycat27.twitterbot.heroku.db.DBConnection;
-import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
-import com.github.graycat27.twitterbot.heroku.db.sql.BotUserSql;
+import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
+import com.github.graycat27.twitterbot.heroku.db.sql.TwitterRecordSql;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class BotUserQuery extends QueryRunnable{
+public class TwitterRecordQuery extends QueryRunnable{
     @Override
     public void insert(IDbDomain param) {
-        if(param != null && !(param instanceof BotUsersDomain)){
-            throw new IllegalArgumentException("param is wrong Type");
-        }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            BotUsersDomain domainParam = (BotUsersDomain) param;
-            session.insert(BotUserSql.insert, domainParam);
+            session.insert(TwitterRecordSql.insert, param);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -25,39 +21,43 @@ public class BotUserQuery extends QueryRunnable{
 
     @Override
     public void update(IDbDomain cond, IDbDomain param) {
-        if(cond != null && !(cond instanceof BotUsersDomain) || param != null && !(param instanceof BotUsersDomain)){
+        if( cond != null && !(cond instanceof TwitterRecordDomain) ||
+            param != null && !(param instanceof TwitterRecordDomain)){
             throw new IllegalArgumentException("cond or param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            BotUsersDomain domainCond = (BotUsersDomain)cond;
-            BotUsersDomain queryParam = new BotUsersDomain(domainCond.getTwUserId());
-            session.update(BotUserSql.update, queryParam);
+            TwitterRecordDomain domainCond = (TwitterRecordDomain)cond;
+            TwitterRecordDomain domainParam = (TwitterRecordDomain)param;
+            TwitterRecordDomain queryParam = new TwitterRecordDomain(
+                    domainParam.getRecordTime(), domainCond.getTwitterUserId(),
+                    domainParam.getTotalTweetCount(), domainParam.getTwitterDisplayId());
+            session.update(TwitterRecordSql.update, queryParam);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
     }
 
     @Override
-    public BotUsersDomain selectOne(IDbDomain param) {
-        if(param != null && !(param instanceof BotUsersDomain)){
+    public TwitterRecordDomain selectOne(IDbDomain param) {
+        if(param != null && !(param instanceof TwitterRecordDomain)){
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            BotUsersDomain domainParam = (BotUsersDomain)param;
-            return session.selectOne(BotUserSql.selectOne, domainParam);
+            TwitterRecordDomain domainParam = (TwitterRecordDomain) param;
+            return session.selectOne(TwitterRecordSql.selectOne, domainParam);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
     }
 
     @Override
-    public List<BotUsersDomain> selectMulti(IDbDomain param) {
-        if(param != null && !(param instanceof BotUsersDomain)){
+    public List<TwitterRecordDomain> selectMulti(IDbDomain param) {
+        if(param != null && !(param instanceof TwitterRecordDomain)){
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            BotUsersDomain domainParam = (BotUsersDomain)param;
-            return session.selectList(BotUserSql.selectMulti, domainParam);
+            TwitterRecordDomain domainParam = (TwitterRecordDomain) param;
+            return session.selectList(TwitterRecordSql.selectMulti, domainParam);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }

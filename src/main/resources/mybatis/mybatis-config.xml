@@ -15,8 +15,8 @@
 
     <mappers>
         <mapper resource="mybatis/BotUserMapper.xml" />
-
-
+        <mapper resource="mybatis/TwitterAuthMapper.xml" />
+        <mapper resource="mybatis/TwitterRecordMapper.xml" />
     </mappers>
 
 

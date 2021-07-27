@@ -12,5 +12,5 @@ public interface IQuery {
 
     IDbDomain selectOne(IDbDomain param);
 
-    List<IDbDomain> selectMulti(IDbDomain param);
+    List<? extends IDbDomain> selectMulti(IDbDomain param);
 }
