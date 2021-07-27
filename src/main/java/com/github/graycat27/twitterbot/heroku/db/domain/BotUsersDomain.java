@@ -1,6 +1,6 @@
 package com.github.graycat27.twitterbot.heroku.db.domain;
 
-public class BotUsersDomain implements IDbDomain {
+public class BotUsersDomain extends CommonDomain {
 
     private String twUserId;
     public String getTwUserId(){
