@@ -6,10 +6,50 @@
     <select id="selectMulti" resultType="BotUsersDomain" parameterType="BotUsersDomain">
         SELECT * FROM bot_users
         <where>
+            is_deleted = FALSE
             <if test="twUserId != null">
                 tw_user_id = #{twUserId}
             </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate}
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate}
+            </if>
         </where>
     </select>
+
+    <select id="selectOne" resultType="BotUsersDomain" parameterType="BotUsersDomain">
+        SELECT * FROM bot_users
+        WHERE
+            is_deleted = FALSE
+            AND tw_user_id = #{twUserId}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO bot_users
+            (tw_user_id)
+        VALUES
+            (#{twUserId})
+    </insert>
+
+    <update id="update" parameterType="BotUsersDomain">
+        UPDATE bot_users
+        <set>
+            update_date = CURRENT_TIMESTAMP
+        </set>
+        <where>
+            tw_user_id = #{twUserId}
+        </where>
+    </update>
+
+    <update id="delete" parameterType="BotUsersDomain">
+        UPDATE bot_users
+        SET
+            update_date = CURRENT_TIMESTAMP,
+            is_deleted = TRUE
+        WHERE
+            tw_user_id = #{twUserId}
+    </update>
 
 </mapper>
