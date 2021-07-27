@@ -14,7 +14,7 @@
     </typeAliases>
 
     <mappers>
-        <mapper resource="BotUserMapper.xml" />
+        <mapper resource="mybatis/BotUserMapper.xml" />
 
 
     </mappers>
