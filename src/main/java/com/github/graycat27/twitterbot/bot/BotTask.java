@@ -27,7 +27,7 @@ public class BotTask {
 
         TwitterAuthQuery authQuery = new TwitterAuthQuery();
         TwitterAuthDomain authResult = authQuery.selectOne(null);
-        System.out.println(authResult);
+        //System.out.println(authResult);
 
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();
         List<TwitterRecordDomain> recordResult = recordQuery.selectMulti(null);
