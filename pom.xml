@@ -22,7 +22,12 @@
             <artifactId>mybatis</artifactId>
             <version>3.5.7</version>
         </dependency>
-
+        <dependency>
+            <!-- jdbc driver https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.23</version>
+        </dependency>
     </dependencies>
 
     <build>
