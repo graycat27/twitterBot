@@ -12,8 +12,12 @@ import java.util.List;
 public class BotUserQuery extends QueryRunnable{
     @Override
     public void insert(IDbDomain param) {
+        if(param != null && !(param instanceof BotUsersDomain)){
+            throw new IllegalArgumentException("param is wrong Type");
+        }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            session.insert(BotUserSql.insert, param);
+            BotUsersDomain domainParam = (BotUsersDomain) param;
+            session.insert(BotUserSql.insert, domainParam);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -21,6 +25,9 @@ public class BotUserQuery extends QueryRunnable{
 
     @Override
     public void update(IDbDomain cond, IDbDomain param) {
+        if(cond != null && !(cond instanceof BotUsersDomain) || param != null && !(param instanceof BotUsersDomain)){
+            throw new IllegalArgumentException("cond or param is wrong Type");
+        }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             BotUsersDomain domainCond = (BotUsersDomain)cond;
             BotUsersDomain queryParam = new BotUsersDomain(domainCond.getTwUserId());
@@ -32,7 +39,7 @@ public class BotUserQuery extends QueryRunnable{
 
     @Override
     public BotUsersDomain selectOne(IDbDomain param) {
-        if(!(param instanceof BotUsersDomain)){
+        if(param != null && !(param instanceof BotUsersDomain)){
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
@@ -45,7 +52,7 @@ public class BotUserQuery extends QueryRunnable{
 
     @Override
     public List<BotUsersDomain> selectMulti(IDbDomain param) {
-        if(!(param instanceof BotUsersDomain)){
+        if(param != null && !(param instanceof BotUsersDomain)){
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){

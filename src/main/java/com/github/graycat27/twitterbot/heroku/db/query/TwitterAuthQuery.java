@@ -3,7 +3,6 @@ package com.github.graycat27.twitterbot.heroku.db.query;
 import com.github.graycat27.twitterbot.heroku.db.DBConnection;
 import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
-import com.github.graycat27.twitterbot.heroku.db.sql.BotUserSql;
 import com.github.graycat27.twitterbot.heroku.db.sql.TwitterAuthSql;
 import org.apache.ibatis.session.SqlSession;
 
@@ -24,8 +23,12 @@ public class TwitterAuthQuery extends QueryRunnable {
 
     @Override
     public TwitterAuthDomain selectOne(IDbDomain param) {
+        if(param != null && !(param instanceof TwitterAuthDomain)){
+            throw new IllegalArgumentException("param is wrong Type");
+        }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            return session.selectOne(TwitterAuthSql.selectOne, param);
+            TwitterAuthDomain domainParam = (TwitterAuthDomain) param;
+            return session.selectOne(TwitterAuthSql.selectOne, domainParam);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
