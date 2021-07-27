@@ -32,8 +32,12 @@ public class BotUserQuery extends QueryRunnable{
 
     @Override
     public BotUsersDomain selectOne(IDbDomain param) {
+        if(!(param instanceof BotUsersDomain)){
+            throw new IllegalArgumentException("param is wrong Type");
+        }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            return session.selectOne(BotUserSql.selectOne, param);
+            BotUsersDomain domainParam = (BotUsersDomain)param;
+            return session.selectOne(BotUserSql.selectOne, domainParam);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -41,8 +45,12 @@ public class BotUserQuery extends QueryRunnable{
 
     @Override
     public List<BotUsersDomain> selectMulti(IDbDomain param) {
+        if(!(param instanceof BotUsersDomain)){
+            throw new IllegalArgumentException("param is wrong Type");
+        }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            return session.selectList(BotUserSql.selectAll);
+            BotUsersDomain domainParam = (BotUsersDomain)param;
+            return session.selectList(BotUserSql.selectMulti, domainParam);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }

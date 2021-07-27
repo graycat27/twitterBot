@@ -40,6 +40,7 @@
         </set>
         <where>
             tw_user_id = #{twUserId}
+            AND is_deleted = FALSE
         </where>
     </update>
 
@@ -50,6 +51,7 @@
             is_deleted = TRUE
         WHERE
             tw_user_id = #{twUserId}
+            AND is_deleted = FALSE
     </update>
 
 </mapper>
