@@ -9,7 +9,7 @@ public class ListUtil {
     public static void printList(List<?> targetList){
         int size = targetList.size();
 
-        System.out.println("{ List:{size: ,");
+        System.out.println("{ List:{size: "+ size +",");
         System.out.println("       data:[");
         for(int i=0; i<size-1; i++){
             System.out.print(targetList.get(i).toString());
