@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="twitterBot.TwitterRecordMapper">
+    <select id="selectMulti" resultType="TwitterRecordDomain" parameterType="TwitterRecordDomain">
+        SELECT * FROM twitter_record
+        <where>
+            is_deleted = FALSE
+            <if test="recordTime != null">
+                record_time = #{recordTime}
+            </if>
+            <if test="twUserId != null">
+                tw_user_id = #{twUserId}
+            </if>
+            <if test="twDisplayId != null">
+                tw_display_id = #{tw_display_id}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOne" resultType="TwitterRecordDomain" parameterType="TwitterRecordDomain">
+        SELECT * FROM twitter_record
+        WHERE
+            is_deleted = FALSE
+            AND tw_user_id = #{twUserId}
+    </select>
+
+    <insert id="insert" parameterType="TwitterRecordDomain">
+        INSERT INTO twitter_record
+            (record_time, tw_user_id, total_tweet_count, tw_display_id)
+        VALUES
+            (CURRENT_TIMESTAMP, #{twUserId}, #{totalTweetCount}, #{twDisplayId})
+    </insert>
+
+    <update id="update" parameterType="TwitterRecordDomain">
+        UPDATE twitter_record
+        <set>
+            update_date = CURRENT_TIMESTAMP,
+            record_time = CURRENT_TIMESTAMP,
+            total_tweet_count = #{totalTweetCount},
+            tw_display_id = #{twDisplayId}
+        </set>
+        <where>
+            tw_user_id = #{twUserId}
+            AND is_deleted = FALSE
+        </where>
+    </update>
+
+    <update id="delete" parameterType="TwitterRecordDomain">
+        UPDATE twitter_record
+        <set>
+            update_date = CURRENT_TIMESTAMP,
+            is_deleted = TRUE
+        </set>
+        <where>
+            tw_user_id = #{twUserId}
+            AND is_deleted = FALSE
+        </where>
+    </update>
+
+</mapper>
