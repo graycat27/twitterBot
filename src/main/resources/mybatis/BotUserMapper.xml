@@ -6,7 +6,7 @@
     <select id="selectMulti" resultType="BotUsersDomain" parameterType="BotUsersDomain">
         SELECT * FROM bot_users
         <where>
-            twUserId = #{twUserId}
+            tw_user_id = #{twUserId}
         </where>
     </select>
 
