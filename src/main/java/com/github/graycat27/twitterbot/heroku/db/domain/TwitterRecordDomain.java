@@ -2,7 +2,7 @@ package com.github.graycat27.twitterbot.heroku.db.domain;
 
 import java.sql.Timestamp;
 
-public class TwitterRecordDomain implements IDbDomain {
+public class TwitterRecordDomain extends CommonDomain {
 
     private Timestamp recordTime;
     public Timestamp getRecordTime(){
