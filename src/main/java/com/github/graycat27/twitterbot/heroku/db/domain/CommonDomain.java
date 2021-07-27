@@ -19,4 +19,9 @@ public abstract class CommonDomain implements IDbDomain {
         return isDeleted;
     }
 
+    @Override
+    public String toString() {
+        return "{CommonDomain:{createdDate:"+ getCreatedDate() +", updateDate:"+ getUpdateDate() +"," +
+                "isDeleted:"+ isDeleted() +"}}";
+    }
 }

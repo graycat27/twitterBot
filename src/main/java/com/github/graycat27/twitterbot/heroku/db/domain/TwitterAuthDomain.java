@@ -25,4 +25,9 @@ public class TwitterAuthDomain extends CommonDomain {
         this.bearerToken = bearerToken;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + ",{TwitterAuthDomain:{apiKey:"+ getApiKey() +", secretKey:"+ getSecretKey()
+                +", bearerToken:"+ getBearerToken() +"}}";
+    }
 }

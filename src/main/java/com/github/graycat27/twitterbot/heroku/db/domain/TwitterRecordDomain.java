@@ -35,4 +35,10 @@ public class TwitterRecordDomain implements IDbDomain {
         this.totalTweetCount = totalTweetCount;
         this.twitterDisplayId = twitterDisplayId;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ",{TwitterRecordDomain:{recordTime:"+ getRecordTime()
+                +", totalTweetCount:"+ getTotalTweetCount() +", twitterDisplayId:"+ getTwitterDisplayId() +"}}";
+    }
 }

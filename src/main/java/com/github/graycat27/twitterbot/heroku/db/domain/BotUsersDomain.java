@@ -16,6 +16,6 @@ public class BotUsersDomain extends CommonDomain {
 
     @Override
     public String toString() {
-        return "BotUsersDomain:{twUserId:"+getTwUserId()+"}";
+        return super.toString() + ",{BotUsersDomain:{twUserId:"+getTwUserId()+"}}";
     }
 }
