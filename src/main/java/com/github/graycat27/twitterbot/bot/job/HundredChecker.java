@@ -16,7 +16,7 @@ public class HundredChecker implements IBatchJob {
         Random r = new Random();
         TwitterRecordDomain inDomain = new TwitterRecordDomain(
                 new Timestamp(System.nanoTime()),
-                "testId2",
+                "testid2",
                 r.nextInt(100000),
                 "@testId2");
         System.out.println("insert record : "+ inDomain);
