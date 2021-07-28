@@ -22,6 +22,6 @@ public class WebController {
     String index(Locale locale, Model model, Principal p){
         model.addAttribute("sample", "this is sample");
 
-        return "index";
+        return "index.jsp";
     }
 }
