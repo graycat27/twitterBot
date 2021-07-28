@@ -19,8 +19,8 @@ public class HundredChecker implements IBatchJob {
                 "testid2",
                 r.nextInt(100000),
                 "@testId2");
-        System.out.println("insert record : "+ inDomain);
-        recordQuery.insert(inDomain);
+        System.out.println("update record : "+ inDomain);
+        recordQuery.update(inDomain, inDomain);
 
     }
 }
