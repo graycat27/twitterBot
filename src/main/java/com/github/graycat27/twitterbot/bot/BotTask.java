@@ -1,37 +1,24 @@
 package com.github.graycat27.twitterbot.bot;
 
-import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
-import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
-import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
-import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
-import com.github.graycat27.twitterbot.heroku.db.query.BotUserQuery;
-import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
-import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
-import com.github.graycat27.twitterbot.utils.ListUtil;
-
-import java.util.List;
+import com.github.graycat27.twitterbot.bot.job.GetTargetList;
+import com.github.graycat27.twitterbot.bot.job.HundredChecker;
+import com.github.graycat27.twitterbot.bot.job.IBatchJob;
+import com.github.graycat27.twitterbot.bot.job.TweetDailyCount;
+import com.github.graycat27.twitterbot.utils.TaskStartEndLogging;
 
 public class BotTask {
 
+    @TaskStartEndLogging
     public void run(){
-        System.out.println("BotTask Start ----->");
-        sampleDbIoTask();
-        System.out.println("BotTask End -----<");
+        IBatchJob job;
+        job = new GetTargetList();
+        job.run();
+
+        job = new HundredChecker();
+        job.run();
+
+        job = new TweetDailyCount();
+        job.run();
     }
 
-    private void sampleDbIoTask(){
-
-        BotUserQuery query = new BotUserQuery();
-        List<BotUsersDomain> resultList = query.selectMulti(null);
-        ListUtil.printList(resultList);
-
-        TwitterAuthQuery authQuery = new TwitterAuthQuery();
-        TwitterAuthDomain authResult = authQuery.selectOne(null);
-        //System.out.println(authResult);
-
-        TwitterRecordQuery recordQuery = new TwitterRecordQuery();
-        List<TwitterRecordDomain> recordResult = recordQuery.selectMulti(null);
-        ListUtil.printList(recordResult);
-
-    }
 }
