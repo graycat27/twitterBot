@@ -100,8 +100,8 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.github.graycat27.twitterbot.TwitterBot</mainClass>
-                            <packageName>com.github.graycat27.twitterbot</packageName>
+                            <mainClass>com.github.graycat27.twitterbot.web.WebController</mainClass>
+                            <packageName>com.github.graycat27.twitterbot.web</packageName>
                         </manifest>
                     </archive>
                 </configuration>
