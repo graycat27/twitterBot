@@ -19,7 +19,9 @@ public class WebController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    String index(){
+    String index(Locale locale, Model model, Principal p){
+        model.addAttribute("sample", "this is sample");
+
         return "index";
     }
 }
