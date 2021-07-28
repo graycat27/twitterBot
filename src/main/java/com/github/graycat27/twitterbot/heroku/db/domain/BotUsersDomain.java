@@ -1,5 +1,7 @@
 package com.github.graycat27.twitterbot.heroku.db.domain;
 
+import com.google.gson.Gson;
+
 public class BotUsersDomain extends CommonDomain {
 
     private String twUserId;
@@ -16,6 +18,7 @@ public class BotUsersDomain extends CommonDomain {
 
     @Override
     public String toString() {
-        return super.toString() + ",{BotUsersDomain:{twUserId:"+getTwUserId()+"}}";
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }
