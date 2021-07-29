@@ -6,10 +6,10 @@ import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
 import java.sql.Timestamp;
 import java.util.Random;
 
-public class HundredChecker implements IBatchJob {
+public class HundredChecker extends AbstractJob {
 
     @Override
-    public void run() {
+    public void jobTask() {
         //TODO make this
 
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();

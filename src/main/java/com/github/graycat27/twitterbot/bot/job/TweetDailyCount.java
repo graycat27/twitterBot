@@ -6,10 +6,10 @@ import com.github.graycat27.twitterbot.utils.ListUtil;
 
 import java.util.List;
 
-public class TweetDailyCount implements IBatchJob {
+public class TweetDailyCount extends AbstractJob {
 
     @Override
-    public void run() {
+    public void jobTask() {
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();
         List<TwitterRecordDomain> recordResult = recordQuery.selectMulti(null);
         ListUtil.printList(recordResult);
