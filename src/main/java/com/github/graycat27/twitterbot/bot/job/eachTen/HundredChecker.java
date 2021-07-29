@@ -1,5 +1,6 @@
-package com.github.graycat27.twitterbot.bot.job;
+package com.github.graycat27.twitterbot.bot.job.eachTen;
 
+import com.github.graycat27.twitterbot.bot.job.AbstractJob;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
 
@@ -22,5 +23,25 @@ public class HundredChecker extends AbstractJob {
         System.out.println("update record : "+ inDomain);
         recordQuery.update(inDomain, inDomain);
 
+
+        /* この処理のフロー
+         *
+         * targetUsersを読み出す
+         *
+         * user毎ループ：
+         *    ApiCall#getUserData
+         *       (@ID, totalTweetCount)
+         *    checkID
+         *       :if changed = update record
+         *    select record
+         *    calc nowTotalCnt - record.dayTotalCnt *A
+         *    calc record.latestCnt - record.dayTotalCnd *B
+         *    %100 ?
+         *
+         *    ApiCall#sendTweet
+         *
+         *    update record.latestCnt
+         *
+         */
     }
 }

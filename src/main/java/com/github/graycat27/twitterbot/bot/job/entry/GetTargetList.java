@@ -1,6 +1,7 @@
-package com.github.graycat27.twitterbot.bot.job;
+package com.github.graycat27.twitterbot.bot.job.entry;
 
 import com.github.graycat27.twitterbot.bot.BotTask;
+import com.github.graycat27.twitterbot.bot.job.AbstractJob;
 import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.BotUserQuery;
 import com.github.graycat27.twitterbot.utils.ListUtil;
