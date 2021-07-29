@@ -6,6 +6,8 @@ import java.util.List;
 
 public class ListUtil {
 
+    private ListUtil(){ /* インスタンス化防止 */ }
+
     public static void printList(List<?> targetList){
         int size = targetList.size();
 
