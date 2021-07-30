@@ -60,13 +60,13 @@ public class BotTask {
         }
         data.setTargetUsers(list);
     }
-    public static void getUserList(){
+    public static List<BotUsersDomain> getUserList(){
         try{
             validateAccess();
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        data.getTargetUsers();
+        return data.getTargetUsers();
     }
 
 }
