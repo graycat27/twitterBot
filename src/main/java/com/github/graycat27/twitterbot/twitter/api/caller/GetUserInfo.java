@@ -54,17 +54,17 @@ public class GetUserInfo {
         HttpResponse response = httpClient.execute(httpGet);
         HttpEntity entity = response.getEntity();
 
-        String userResponse = null;
+        String responseJsonStr = null;
         if (null != entity) {
-            userResponse = EntityUtils.toString(entity, "UTF-8");
+            responseJsonStr = EntityUtils.toString(entity, "UTF-8");
         }
 
         System.out.println("============>>>>>");
-        System.out.println(userResponse);
+        System.out.println(responseJsonStr);
         System.out.println("============<<<<<");
 
         Type dataType = new TypeToken<ResponseCore<UserInfoData>>(){}.getType();
-        ResponseCore<UserInfoData> data = JsonUtil.getObjectFromJsonStr(userResponse, dataType);
+        ResponseCore<UserInfoData> data = JsonUtil.getObjectFromJsonStr(responseJsonStr, dataType);
 
         System.out.println("============>>>>>");
         System.out.println(data);
