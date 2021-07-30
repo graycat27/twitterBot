@@ -3,8 +3,11 @@ package com.github.graycat27.twitterbot.twitter.api.caller;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.twitter.api.GetApiAuth;
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
+import com.github.graycat27.twitterbot.twitter.api.response.UserInfoData;
+import com.github.graycat27.twitterbot.utils.JsonUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -18,6 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
@@ -28,7 +32,7 @@ public class GetUserInfo {
      * @throws URISyntaxException
      * @throws IOException
      */
-    public static String getUser() throws URISyntaxException, IOException {
+    public static ResponseCore<UserInfoData> getUser() throws URISyntaxException, IOException {
         HttpClient httpClient = HttpClients.custom()
                 .setDefaultRequestConfig(RequestConfig.custom()
                         .setCookieSpec(CookieSpecs.STANDARD).build())
@@ -59,12 +63,13 @@ public class GetUserInfo {
         System.out.println(userResponse);
         System.out.println("============<<<<<");
 
-        Gson gson = new GsonBuilder().create();
-        ResponseCore resCore = gson.fromJson(userResponse, ResponseCore.class);
+        Type dataType = new TypeToken<ResponseCore<UserInfoData>>(){}.getType();
+        ResponseCore<UserInfoData> data = JsonUtil.getObjectFromJsonStr(userResponse, dataType);
+
         System.out.println("============>>>>>");
-        System.out.println(resCore.getData().toString());
+        System.out.println(data);
         System.out.println("============<<<<<");
 
-        return userResponse;
+        return data;
     }
 }
