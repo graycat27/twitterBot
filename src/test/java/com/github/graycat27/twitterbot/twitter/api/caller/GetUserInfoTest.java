@@ -1,7 +1,6 @@
 package com.github.graycat27.twitterbot.twitter.api.caller;
 
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
-import com.github.graycat27.twitterbot.twitter.api.response.UserInfoData;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 
