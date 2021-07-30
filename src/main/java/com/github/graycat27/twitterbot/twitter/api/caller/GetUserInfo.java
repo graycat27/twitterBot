@@ -55,11 +55,15 @@ public class GetUserInfo {
             userResponse = EntityUtils.toString(entity, "UTF-8");
         }
 
+        System.out.println("============>>>>>");
+        System.out.println(userResponse);
+        System.out.println("============<<<<<");
+
         Gson gson = new GsonBuilder().create();
         ResponseCore resCore = gson.fromJson(userResponse, ResponseCore.class);
-        System.out.println("============");
+        System.out.println("============>>>>>");
         System.out.println(resCore.getData().toString());
-        System.out.println("============");
+        System.out.println("============<<<<<");
 
         return userResponse;
     }
