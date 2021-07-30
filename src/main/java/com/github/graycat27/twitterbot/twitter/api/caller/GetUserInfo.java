@@ -35,13 +35,12 @@ public class GetUserInfo {
                 .build();
 
         URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/users/466278557");
-/*
+
         ArrayList<NameValuePair> queryParameters;
         queryParameters = new ArrayList<>();
-        queryParameters.add(new BasicNameValuePair("usernames", "gray_cat27"));
-        queryParameters.add(new BasicNameValuePair("user.fields", "created_at,description,pinned_tweet_id"));
+        queryParameters.add(new BasicNameValuePair("user.fields", "public_metrics"));
         uriBuilder.addParameters(queryParameters);
-*/
+
         TwitterAuthDomain auth = GetApiAuth.getTwitterAuth();
 
         HttpGet httpGet = new HttpGet(uriBuilder.build());
