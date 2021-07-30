@@ -2,6 +2,9 @@ package com.github.graycat27.twitterbot.twitter.api.caller;
 
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.twitter.api.GetApiAuth;
+import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -47,13 +50,20 @@ public class GetUserInfo {
         HttpResponse response = httpClient.execute(httpGet);
         HttpEntity entity = response.getEntity();
 
-        System.out.println(entity);
-
         String userResponse = null;
         if (null != entity) {
             userResponse = EntityUtils.toString(entity, "UTF-8");
         }
+
+        Gson gson = new GsonBuilder().create();
+        ResponseCore resCore = gson.fromJson(userResponse, ResponseCore.class);
+        System.out.println("============");
         System.out.println(userResponse);
+        System.out.println("============");
+        System.out.println(resCore.toString());
+        System.out.println("============");
+
+
         return userResponse;
     }
 }
