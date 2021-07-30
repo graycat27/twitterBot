@@ -46,6 +46,9 @@ public class GetUserInfo {
 
         HttpResponse response = httpClient.execute(httpGet);
         HttpEntity entity = response.getEntity();
+
+        System.out.println(entity);
+
         String userResponse = null;
         if (null != entity) {
             userResponse = EntityUtils.toString(entity, "UTF-8");
