@@ -1,18 +1,15 @@
 package com.github.graycat27.twitterbot.twitter.api.response;
 
-import com.google.gson.internal.LinkedTreeMap;
+import com.github.graycat27.twitterbot.utils.JsonUtil;
 
-import java.util.Arrays;
+public class ResponseCore<T extends IMetaData> {
 
-public class ResponseCore {
-
-    private LinkedTreeMap<String,String>[] data;
-    public LinkedTreeMap<String,String> getData(){
-        return data[0];
+    private T data;
+    public T getData(){
+        return data;
     }
 
-
     public String toString(){
-        return "ResponseCore=data:{"+ Arrays.toString(data) +"}";
+        return "ResponseCore:"+ JsonUtil.getJsonString(this);
     }
 }
