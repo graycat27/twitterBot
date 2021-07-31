@@ -82,7 +82,8 @@ public class UserHundredChecker extends AbstractJob {
 
         TwitterRecordDomain newData = new TwitterRecordDomain(
                 null, (String)userData.getData().get("id"),
-                (Integer)metrics.get("tweet_count"), (String)userData.getData().get("username")
+                (Integer)metrics.get("tweet_count"), (Integer)metrics.get("tweet_count"),
+                (String)userData.getData().get("username")
         );
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();
         recordQuery.insert(newData);
