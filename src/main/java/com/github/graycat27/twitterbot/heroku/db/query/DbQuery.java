@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.heroku.db.query;
 import com.github.graycat27.twitterbot.heroku.db.DBConnection;
 import com.github.graycat27.twitterbot.heroku.db.domain.DbDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
+import com.github.graycat27.twitterbot.heroku.db.sql.DbQuerySql;
 import com.github.graycat27.twitterbot.heroku.db.sql.TwitterRecordSql;
 import org.apache.ibatis.session.SqlSession;
 
@@ -13,7 +14,7 @@ public class DbQuery extends QueryRunnable {
 
     public DbDomain.Today getToday(){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            return session.selectOne(TwitterRecordSql.selectOne, null);
+            return session.selectOne(DbQuerySql.selectTodayString, null);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
