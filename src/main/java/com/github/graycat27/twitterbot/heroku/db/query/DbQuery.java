@@ -4,7 +4,6 @@ import com.github.graycat27.twitterbot.heroku.db.DBConnection;
 import com.github.graycat27.twitterbot.heroku.db.domain.DbDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
 import com.github.graycat27.twitterbot.heroku.db.sql.DbQuerySql;
-import com.github.graycat27.twitterbot.heroku.db.sql.TwitterRecordSql;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.SQLException;

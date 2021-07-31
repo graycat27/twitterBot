@@ -13,7 +13,6 @@ import com.github.graycat27.twitterbot.twitter.api.response.UserInfoData;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
-import java.util.Random;
 
 public class UserHundredChecker extends AbstractJob {
 

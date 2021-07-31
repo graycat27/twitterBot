@@ -1,7 +1,5 @@
 package com.github.graycat27.twitterbot.utils;
 
-import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
-
 import java.util.List;
 
 public class ListUtil {
