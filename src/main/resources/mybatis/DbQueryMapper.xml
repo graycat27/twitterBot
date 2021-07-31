@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="twitterBot.DbQueryMapper">
+    <select id="selectTodayString" resultType="DbDomain">
+        SELECT to_char(CURRENT_TIMESTAMP, 'YYYY-MM-DD') AS today
+    </select>
+</mapper>
