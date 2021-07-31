@@ -31,6 +31,7 @@ public class UserHundredChecker extends AbstractJob {
                 new Timestamp(System.nanoTime()),
                 "testid2",
                 r.nextInt(100000),
+                r.nextInt(100000),
                 "@testId2");
         System.out.println("update record : "+ inDomain);
         recordQuery.update(inDomain, inDomain);
@@ -54,7 +55,7 @@ public class UserHundredChecker extends AbstractJob {
         try {
             ResponseCore<UserInfoData> userData = GetUserInfoApi.getUser(user.getTwUserId());
             TwitterRecordDomain selectParam = new TwitterRecordDomain(
-                    null, user.getTwUserId(), null, null);
+                    null, user.getTwUserId(), null, null, null);
             TwitterRecordDomain record = recordQuery.selectOne(selectParam);
 
             if(record != null){

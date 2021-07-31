@@ -28,9 +28,9 @@
 
     <insert id="insert" parameterType="TwitterRecordDomain">
         INSERT INTO twitter_record
-            (record_time, tw_user_id, total_tweet_count, tw_display_id)
+            (record_time, tw_user_id, total_tweet_count, total_tweet_count_at_date, tw_display_id)
         VALUES
-            (CURRENT_TIMESTAMP, #{twUserId}, #{totalTweetCount}, #{twDisplayId})
+            (CURRENT_TIMESTAMP, #{twUserId}, #{totalTweetCount}, #{totalTweetCountAtDate}, #{twDisplayId})
     </insert>
 
     <update id="update" parameterType="TwitterRecordDomain">
@@ -39,6 +39,7 @@
             update_date = CURRENT_TIMESTAMP,
             record_time = CURRENT_TIMESTAMP,
             total_tweet_count = #{totalTweetCount},
+            total_tweet_count_at_date = #{totalTweetCountAtDate},
             tw_display_id = #{twDisplayId}
         </set>
         <where>
