@@ -2,7 +2,7 @@ package com.github.graycat27.twitterbot.bot.job.eachTen;
 
 import com.github.graycat27.twitterbot.bot.job.AbstractJob;
 import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
-import com.github.graycat27.twitterbot.heroku.db.domain.DbDomain;
+import com.github.graycat27.twitterbot.heroku.db.domain.Today;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.DbQuery;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
@@ -80,7 +80,7 @@ public class UserHundredChecker extends AbstractJob {
             if(hundred != 0){
 
                 DbQuery dbQuery = new DbQuery();
-                DbDomain.Today dbToday = dbQuery.getToday();
+                Today dbToday = dbQuery.getToday();
                 String today = dbToday.getToday();
 
                 tweetHundred(hundred, today);
