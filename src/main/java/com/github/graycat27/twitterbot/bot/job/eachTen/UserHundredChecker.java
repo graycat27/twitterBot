@@ -27,18 +27,6 @@ public class UserHundredChecker extends AbstractJob {
     @Override
     protected void jobTask() {
 
-        TwitterRecordQuery recordQuery = new TwitterRecordQuery();
-        Random r = new Random();
-        TwitterRecordDomain inDomain = new TwitterRecordDomain(
-                new Timestamp(System.nanoTime()),
-                "testid2",
-                r.nextInt(100000),
-                r.nextInt(100000),
-                "@testId2");
-        System.out.println("update record : "+ inDomain);
-        recordQuery.update(inDomain, inDomain);
-
-
         /* user毎ループ：
                 *    ApiCall#getUserData
                 *       (@ID, totalTweetCount)
@@ -56,6 +44,7 @@ public class UserHundredChecker extends AbstractJob {
 
         try {
             ResponseCore<UserInfoData> userData = GetUserInfoApi.getUser(user.getTwUserId());
+            TwitterRecordQuery recordQuery = new TwitterRecordQuery();
             TwitterRecordDomain selectParam = new TwitterRecordDomain(
                     null, user.getTwUserId(), null, null, null);
             TwitterRecordDomain record = recordQuery.selectOne(selectParam);
@@ -99,11 +88,16 @@ public class UserHundredChecker extends AbstractJob {
             }
         }
 
-
-        //TODO make this
-        TwitterRecordDomain updateInfoDomain = new TwitterRecordDomain(
-
-        );
+        TwitterRecordQuery recordQuery = new TwitterRecordQuery();
+        TwitterRecordDomain inDomain = new TwitterRecordDomain(
+                new Timestamp(System.nanoTime()),
+                (String)userData.getData().get("id"),
+                totalTweetCountLatest,
+                totalTweetCountYesterdayLast,
+                (String)userData.getData().get("username")
+            );
+        System.out.println("update record : "+ inDomain);
+        recordQuery.update(inDomain, inDomain);
 
     }
 
