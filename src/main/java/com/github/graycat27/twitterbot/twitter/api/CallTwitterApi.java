@@ -29,7 +29,7 @@ public class CallTwitterApi {
 
     // method
     public String callApi(URIBuilder callUrl){
-        HttpEntity entity = null;
+        HttpEntity entity;
         String responseJsonStr = null;
         try {
             HttpClient httpClient =
