@@ -2,7 +2,9 @@ package com.github.graycat27.twitterbot.bot.job.eachTen;
 
 import com.github.graycat27.twitterbot.bot.job.AbstractJob;
 import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
+import com.github.graycat27.twitterbot.heroku.db.domain.DbDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
+import com.github.graycat27.twitterbot.heroku.db.query.DbQuery;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
 import com.github.graycat27.twitterbot.twitter.api.caller.GetUserInfoApi;
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
@@ -74,6 +76,35 @@ public class UserHundredChecker extends AbstractJob {
 
     private void doTask4KnownUser(ResponseCore<UserInfoData> userData, TwitterRecordDomain record){
         //TODO make this
+
+        UserInfoData.PublicMetrics metrics = (UserInfoData.PublicMetrics) userData.getData().get("public_metrics");
+
+        int totalTweetCountLatest = (Integer)metrics.get("tweet_count");
+        int totalTweetCountBefore = record.getTotalTweetCount();
+        int totalTweetCountYesterdayLast = record.getTotalTweetCountAtDate();
+
+
+        if(totalTweetCountLatest - totalTweetCountYesterdayLast < 0){
+            // 総ツイ数が減少しているケース
+            //TODO make this
+        }else{
+            int hundred = checkHundred(totalTweetCountLatest, totalTweetCountBefore, totalTweetCountYesterdayLast);
+            if(hundred != 0){
+
+                DbQuery dbQuery = new DbQuery();
+                DbDomain.Today dbToday = dbQuery.getToday();
+                String today = dbToday.getToday();
+
+                tweetHundred(hundred, today);
+            }
+        }
+
+
+        //TODO make this
+        TwitterRecordDomain updateInfoDomain = new TwitterRecordDomain(
+
+        );
+
     }
 
     /** recordが存在しない新規ユーザ向けの処理 */
@@ -109,5 +140,7 @@ public class UserHundredChecker extends AbstractJob {
 
     private void tweetHundred(int amount, String today){
         //TODO make this
+
+        System.out.println("tweet that hundred limitation for "+ amount + ", "+ today);
     }
 }
