@@ -88,6 +88,24 @@ public class UserHundredChecker extends AbstractJob {
         recordQuery.insert(newData);
     }
 
+    /**
+     * 100の倍数回を超えた初回かどうかを判定する。
+     * @param now 今回実行時の値
+     * @param before 前回実行時の値
+     * @param base 昨日末時点の値
+     * @return 今回100の倍数を超えた場合、その倍数値。その他の場合、<code>0</code>
+     * */
+    private int checkHundred(int now, int before, int base){
+        int deltaNow = now - base;
+        int deltaBefore = before - base;
+
+        if(deltaNow / 100 == deltaBefore / 100){
+            return 0;
+        }
+
+        return ( deltaNow / 100 ) * 100;
+    }
+
     private void tweetHundred(int amount, String today){
         //TODO make this
     }
