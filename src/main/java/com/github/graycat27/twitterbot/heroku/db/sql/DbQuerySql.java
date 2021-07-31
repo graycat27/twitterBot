@@ -4,5 +4,5 @@ import com.github.graycat27.twitterbot.heroku.db.Names;
 
 public class DbQuerySql {
 
-    public static final String selectTodayString = Names.Mybatis.dbQuery+"selectTodayString";
+    public static final String selectTodayString = Names.Mybatis.dbQuery+".selectTodayString";
 }
