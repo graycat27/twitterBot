@@ -5,6 +5,8 @@ import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
 import com.github.graycat27.twitterbot.twitter.api.caller.GetUserInfoApi;
+import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
+import com.github.graycat27.twitterbot.twitter.api.response.UserInfoData;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -50,10 +52,42 @@ public class UserHundredChecker extends AbstractJob {
                 */
 
         try {
-            GetUserInfoApi.getUser("466278557");    //FIXME gray_cat27 のIDを決め打ちしている
+            ResponseCore<UserInfoData> userData = GetUserInfoApi.getUser(user.getTwUserId());
+            TwitterRecordDomain selectParam = new TwitterRecordDomain(
+                    null, user.getTwUserId(), null, null);
+            TwitterRecordDomain record = recordQuery.selectOne(selectParam);
+
+            if(record != null){
+                // checkID then update
+                doTask4KnownUser(userData, record);
+            }else{
+                // insert
+                doTask4NewUser(userData);
+            }
+
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void doTask4KnownUser(ResponseCore<UserInfoData> userData, TwitterRecordDomain record){
+        //TODO make this
+    }
+
+    /** recordが存在しない新規ユーザ向けの処理 */
+    private void doTask4NewUser(ResponseCore<UserInfoData> userData){
+        UserInfoData.PublicMetrics metrics = (UserInfoData.PublicMetrics) userData.getData().get("public_metrics");
+
+        TwitterRecordDomain newData = new TwitterRecordDomain(
+                null, (String)userData.getData().get("id"),
+                (Integer)metrics.get("tweet_count"), (String)userData.getData().get("username")
+        );
+        TwitterRecordQuery recordQuery = new TwitterRecordQuery();
+        recordQuery.insert(newData);
+    }
+
+    private void tweetHundred(int amount, String today){
+        //TODO make this
     }
 }
