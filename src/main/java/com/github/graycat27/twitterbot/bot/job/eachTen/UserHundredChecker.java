@@ -4,7 +4,7 @@ import com.github.graycat27.twitterbot.bot.job.AbstractJob;
 import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
-import com.github.graycat27.twitterbot.twitter.api.caller.GetUserInfo;
+import com.github.graycat27.twitterbot.twitter.api.caller.GetUserInfoApi;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -50,7 +50,7 @@ public class UserHundredChecker extends AbstractJob {
                 */
 
         try {
-            GetUserInfo.getUser();
+            GetUserInfoApi.getUser("466278557");    //FIXME gray_cat27 のIDを決め打ちしている
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
         }

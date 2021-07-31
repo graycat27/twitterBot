@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GetUserInfoTest {
+class GetUserInfoApiTest {
 
     @Test
     public void fromJson(){
