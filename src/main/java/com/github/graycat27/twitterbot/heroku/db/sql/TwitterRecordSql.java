@@ -4,6 +4,8 @@ import com.github.graycat27.twitterbot.heroku.db.Names;
 
 public class TwitterRecordSql {
 
+    private TwitterRecordSql(){ /* インスタンス化防止 */ }
+
     public static final String selectOne = Names.Mybatis.twitterRecord + ".selectOne";
     public static final String selectMulti = Names.Mybatis.twitterRecord + ".selectMulti";
 
