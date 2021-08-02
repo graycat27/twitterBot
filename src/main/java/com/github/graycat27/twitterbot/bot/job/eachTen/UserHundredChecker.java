@@ -75,10 +75,9 @@ public class UserHundredChecker extends AbstractJob {
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();
         TwitterRecordDomain inDomain = new TwitterRecordDomain(
                 (String)userData.getData().get("id"),
-                new Timestamp(System.nanoTime()),
+                null,   //CURRENT_TIMESTAMP
                 totalTweetCountLatest,
-                record.getDateRecordTime(),
-                totalTweetCountYesterdayLast,
+                null, null,
                 (String)userData.getData().get("username")
             );
         recordQuery.update(inDomain, inDomain);

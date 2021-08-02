@@ -41,8 +41,12 @@
             update_date = CURRENT_TIMESTAMP,
             record_time = CURRENT_TIMESTAMP,
             total_tweet_count = #{totalTweetCount},
-            date_record_time = #{dateRecordTime},
-            total_tweet_count_at_date = #{totalTweetCountAtDate},
+            <if test="dateRecordTime != null">
+                date_record_time = #{dateRecordTime},
+            </if>
+            <if test="totalTweetCountAtDate != null">
+                total_tweet_count_at_date = #{totalTweetCountAtDate},
+            </if>
             tw_display_id = #{twDisplayId}
         </set>
         <where>
