@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 
 public class UserHundredChecker extends AbstractJob {
 
-    private BotUsersDomain user;
+    private final BotUsersDomain user;
 
     // package-private constructor
     UserHundredChecker(BotUsersDomain user){
@@ -25,21 +25,6 @@ public class UserHundredChecker extends AbstractJob {
 
     @Override
     protected void jobTask() {
-
-        /* user毎ループ：
-                *    ApiCall#getUserData
-                *       (@ID, totalTweetCount)
-                *    checkID
-                *       :if changed = update record
-                *    select record
-                *    calc nowTotalCnt - record.dayTotalCnt *A
-                *    calc record.latestCnt - record.dayTotalCnd *B
-                *    %100 ?
-                *
-                *    ApiCall#sendTweet
-                *
-                *    update record.latestCnt
-                */
 
         try {
             ResponseCore<UserInfoData> userData = GetUserInfoApi.getUser(user.getTwUserId());
@@ -95,7 +80,6 @@ public class UserHundredChecker extends AbstractJob {
                 totalTweetCountYesterdayLast,
                 (String)userData.getData().get("username")
             );
-        System.out.println("update record : "+ inDomain);
         recordQuery.update(inDomain, inDomain);
 
     }
