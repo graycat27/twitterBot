@@ -77,7 +77,7 @@ public class UserHundredChecker extends AbstractJob {
                 (String)userData.getData().get("id"),
                 new Timestamp(System.nanoTime()),
                 totalTweetCountLatest,
-                new Timestamp(System.nanoTime()),
+                record.getDateRecordTime(),
                 totalTweetCountYesterdayLast,
                 (String)userData.getData().get("username")
             );
