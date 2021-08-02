@@ -13,12 +13,21 @@ public class UserTweetDailyCount extends AbstractJob {
     }
 
     /**
+     * 日付が変わっている場合、
      * ユーザ毎に日次の結果をツイートする
      * recordを更新する
      */
     @Override
     protected void jobTask() {
         //TODO make this
+
+        /*
+         * select record by userID
+         * compare timestamp to day changed
+         * if isNewDayArrived
+         *    tweet daily result
+         *    update record
+         */
 
     }
 }
