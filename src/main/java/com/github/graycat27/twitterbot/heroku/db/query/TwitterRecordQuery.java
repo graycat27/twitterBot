@@ -29,8 +29,9 @@ public class TwitterRecordQuery extends QueryRunnable{
             TwitterRecordDomain domainCond = (TwitterRecordDomain)cond;
             TwitterRecordDomain domainParam = (TwitterRecordDomain)param;
             TwitterRecordDomain queryParam = new TwitterRecordDomain(
-                    domainParam.getRecordTime(), domainCond.getTwUserId(),
-                    domainParam.getTotalTweetCount(), domainParam.getTotalTweetCountAtDate(),
+                    domainCond.getTwUserId(),
+                    domainParam.getRecordTime(), domainParam.getTotalTweetCount(),
+                    domainParam.getDateRecordTime(), domainParam.getTotalTweetCountAtDate(),
                     domainParam.getTwDisplayId());
             session.update(TwitterRecordSql.update, queryParam);
         } catch (SQLException sqlEx) {

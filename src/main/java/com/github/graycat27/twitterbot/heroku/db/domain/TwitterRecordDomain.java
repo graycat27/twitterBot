@@ -6,17 +6,21 @@ import java.sql.Timestamp;
 
 public class TwitterRecordDomain extends CommonDomain {
 
-    private final Timestamp recordTime;
-    public Timestamp getRecordTime(){
-        return recordTime;
-    }
     private final String twUserId;
     public String getTwUserId(){
         return twUserId;
     }
+    private final Timestamp recordTime;
+    public Timestamp getRecordTime(){
+        return recordTime;
+    }
     private final Integer totalTweetCount;
     public int getTotalTweetCount(){
         return totalTweetCount;
+    }
+    private final Timestamp dateRecordTime;
+    public Timestamp getDateRecordTime(){
+        return dateRecordTime;
     }
     private final Integer totalTweetCountAtDate;
     public int getTotalTweetCountAtDate(){
@@ -28,18 +32,20 @@ public class TwitterRecordDomain extends CommonDomain {
     }
 
     public TwitterRecordDomain(){
-        this(null, null, null, null, null);
+        this(null, null, null, null, null, null);
     }
     public TwitterRecordDomain(
-        Timestamp recordTime,
         String twitterUserId,
+        Timestamp recordTime,
         Integer totalTweetCount,
+        Timestamp dateRecordTime,
         Integer totalTweetAtDate,
         String twitterDisplayId
     ){
-        this.recordTime = recordTime;
         this.twUserId = twitterUserId;
+        this.recordTime = recordTime;
         this.totalTweetCount = totalTweetCount;
+        this.dateRecordTime = dateRecordTime;
         this.totalTweetCountAtDate = totalTweetAtDate;
         this.twDisplayId = twitterDisplayId;
     }
