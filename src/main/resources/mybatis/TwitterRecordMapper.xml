@@ -63,4 +63,17 @@
         </where>
     </update>
 
+    <update id="updateDaily" parameterType="TwitterRecordDomain">
+        UPDATE twitter_record
+        <set>
+            update_date = CURRENT_TIMESTAMP,
+            date_record_time = #{dateRecordTime},
+            total_tweet_count_at_date = #{totalTweetCountAtDate}
+        </set>
+        <where>
+            tw_user_id = #{twUserId}
+            AND is_deleted = FALSE
+        </where>
+    </update>
+
 </mapper>

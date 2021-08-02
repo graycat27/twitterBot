@@ -37,11 +37,11 @@ public class UserTweetDailyCount extends AbstractJob {
                 user.getTwUserId(),
                 null, null, null, null, null
         );
-        TwitterRecordDomain recordResult = recordQuery.selectOne(recordParamDomain);
+        final TwitterRecordDomain recordResult = recordQuery.selectOne(recordParamDomain);
 
         if(isNewDate(recordResult)){
             tweetDailyResult();
-            updateDailyData();
+            updateDailyData(recordResult);
         }
 
     }
@@ -79,7 +79,12 @@ public class UserTweetDailyCount extends AbstractJob {
         //TODO make this
     }
 
-    private void updateDailyData(){
-        //TODO make this
+    private void updateDailyData(final TwitterRecordDomain record){
+        TwitterRecordQuery recordQuery = new TwitterRecordQuery();
+        TwitterRecordDomain updateInfo = new TwitterRecordDomain(
+                record.getTwUserId(), null, null,
+                record.getRecordTime(), record.getTotalTweetCount(), null
+        );
+        recordQuery.updateDaily(updateInfo);
     }
 }

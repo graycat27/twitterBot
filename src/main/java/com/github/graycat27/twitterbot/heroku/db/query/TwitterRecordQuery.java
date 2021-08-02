@@ -64,4 +64,15 @@ public class TwitterRecordQuery extends QueryRunnable{
             throw new RuntimeException(sqlEx);
         }
     }
+
+    public void updateDaily(TwitterRecordDomain updateInfo){
+        try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            TwitterRecordDomain queryParam = new TwitterRecordDomain(
+                    updateInfo.getTwUserId(), null, null,
+                    updateInfo.getDateRecordTime(), updateInfo.getTotalTweetCountAtDate(), null);
+            session.update(TwitterRecordSql.updateDaily, queryParam);
+        } catch (SQLException sqlEx) {
+            throw new RuntimeException(sqlEx);
+        }
+    }
 }

@@ -11,4 +11,6 @@ public class TwitterRecordSql {
 
     public static final String insert = Names.Mybatis.twitterRecord + ".insert";
     public static final String update = Names.Mybatis.twitterRecord + ".update";
+
+    public static final String updateDaily = Names.Mybatis.twitterRecord + ".updateDaily";
 }
