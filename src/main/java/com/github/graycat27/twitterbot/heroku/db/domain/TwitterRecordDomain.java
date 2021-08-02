@@ -15,7 +15,7 @@ public class TwitterRecordDomain extends CommonDomain {
         return recordTime;
     }
     private final Integer totalTweetCount;
-    public int getTotalTweetCount(){
+    public Integer getTotalTweetCount(){
         return totalTweetCount;
     }
     private final Timestamp dateRecordTime;
@@ -23,7 +23,7 @@ public class TwitterRecordDomain extends CommonDomain {
         return dateRecordTime;
     }
     private final Integer totalTweetCountAtDate;
-    public int getTotalTweetCountAtDate(){
+    public Integer getTotalTweetCountAtDate(){
         return totalTweetCountAtDate;
     }
     private final String twDisplayId;
