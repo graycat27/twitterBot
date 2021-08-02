@@ -30,7 +30,7 @@ public class UserHundredChecker extends AbstractJob {
             ResponseCore<UserInfoData> userData = GetUserInfoApi.getUser(user.getTwUserId());
             TwitterRecordQuery recordQuery = new TwitterRecordQuery();
             TwitterRecordDomain selectParam = new TwitterRecordDomain(
-                    null, user.getTwUserId(), null, null, null);
+                    user.getTwUserId(), null, null, null, null, null);
             TwitterRecordDomain record = recordQuery.selectOne(selectParam);
 
             if(record != null){
@@ -74,9 +74,10 @@ public class UserHundredChecker extends AbstractJob {
 
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();
         TwitterRecordDomain inDomain = new TwitterRecordDomain(
-                new Timestamp(System.nanoTime()),
                 (String)userData.getData().get("id"),
+                new Timestamp(System.nanoTime()),
                 totalTweetCountLatest,
+                new Timestamp(System.nanoTime()),
                 totalTweetCountYesterdayLast,
                 (String)userData.getData().get("username")
             );
@@ -89,8 +90,9 @@ public class UserHundredChecker extends AbstractJob {
         UserInfoData.PublicMetrics metrics = (UserInfoData.PublicMetrics) userData.getData().get("public_metrics");
 
         TwitterRecordDomain newData = new TwitterRecordDomain(
-                null, (String)userData.getData().get("id"),
-                (Integer)metrics.get("tweet_count"), (Integer)metrics.get("tweet_count"),
+                (String)userData.getData().get("id"),
+                null, (Integer)metrics.get("tweet_count"),
+                null, (Integer)metrics.get("tweet_count"),
                 (String)userData.getData().get("username")
         );
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();
