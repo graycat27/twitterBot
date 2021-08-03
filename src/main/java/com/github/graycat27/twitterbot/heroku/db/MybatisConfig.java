@@ -18,23 +18,26 @@ import java.sql.JDBCType;
 @Configuration
 public class MybatisConfig {
 
-  /*  public static DataSourceTransactionManager transactionManager(DataSource dataSource){
-        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
-        transactionManager.setDataSource(dataSource);
-
-        return transactionManager;
-    }
- */
-    public static SqlSessionFactory sqlSessionFactory() throws Exception {
-        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-
+    private static DataSource psqlDataSource;
+    static{
         DataSourceBuilder<PGSimpleDataSource> builder = DataSourceBuilder.create().type(PGSimpleDataSource.class);
         builder.driverClassName("org.postgresql.Driver");
         builder.url(System.getenv("JDBC_DATABASE_URL"));
         builder.username(System.getenv("JDBC_DATABASE_USERNAME"));
         builder.password(System.getenv("JDBC_DATABASE_PASSWORD"));
+        psqlDataSource = builder.build();
+    }
 
-        sessionFactory.setDataSource(builder.build());
+    public static DataSourceTransactionManager transactionManager(){
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+        transactionManager.setDataSource(psqlDataSource);
+
+        return transactionManager;
+    }
+
+    public static SqlSessionFactory sqlSessionFactory() throws Exception {
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        sessionFactory.setDataSource(psqlDataSource);
         sessionFactory.setVfs(SpringBootVFS.class);
 
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration();
