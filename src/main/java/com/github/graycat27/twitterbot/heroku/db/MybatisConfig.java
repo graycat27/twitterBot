@@ -33,7 +33,7 @@ public class MybatisConfig {
         sessionFactory.setConfiguration(config);
 
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sessionFactory.setMapperLocations(resolver.getResources("classpath:/resources/mybatis/*.xml"));
+        sessionFactory.setMapperLocations(resolver.getResources("classpath:/mybatis/*.xml"));
 
         return sessionFactory.getObject();
     }
