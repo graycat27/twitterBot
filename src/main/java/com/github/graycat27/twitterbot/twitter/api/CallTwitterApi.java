@@ -49,22 +49,28 @@ public class CallTwitterApi {
             System.out.println(callUrl);
             throw new RuntimeException(e);
         }
-        try {
-            if (null != entity) {
-                responseJsonStr = EntityUtils.toString(entity, StandardCharsets.UTF_8.name());
-            }
-        }catch(IOException e){
-            System.out.println("Exception occurred while converting API response data");
-            System.out.println(e.getMessage());
-            System.out.println(callUrl);
-            System.out.println(entity);
-            throw new RuntimeException(e);
-        }
+        responseJsonStr = convertEntity2JsonStr(entity);
 
         System.out.println("==ApiResponse==>>>>>");
         System.out.println(responseJsonStr);
         System.out.println("==ApiResponse==<<<<<");
 
         return responseJsonStr;
+    }
+
+    private static String convertEntity2JsonStr(HttpEntity entity) {
+        String jsonStr = "";
+        try {
+            if (null != entity) {
+                jsonStr = EntityUtils.toString(entity, StandardCharsets.UTF_8.name());
+            }
+        } catch (IOException e) {
+            System.out.println("Exception occurred while converting API response data");
+            System.out.println(e.getMessage());
+            System.out.println(entity);
+            throw new RuntimeException(e);
+        }
+
+        return jsonStr;
     }
 }
