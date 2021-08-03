@@ -14,6 +14,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 
 public class CallTwitterApi {
 
@@ -28,7 +29,7 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApi(URIBuilder callUrl){
+    public String callApiV2(URIBuilder callUrl){
         HttpEntity entity;
         String responseJsonStr = null;
         try {
@@ -43,14 +44,14 @@ public class CallTwitterApi {
             HttpResponse response = httpClient.execute(httpGet);
             entity = response.getEntity();
         }catch(URISyntaxException | IOException e){
-            System.out.println("Exception occurred while calling Twitter API");
+            System.out.println("Exception occurred while calling Twitter API v2");
             System.out.println(e.getMessage());
             System.out.println(callUrl);
             throw new RuntimeException(e);
         }
         try {
             if (null != entity) {
-                responseJsonStr = EntityUtils.toString(entity, "UTF-8");
+                responseJsonStr = EntityUtils.toString(entity, StandardCharsets.UTF_8.name());
             }
         }catch(IOException e){
             System.out.println("Exception occurred while converting API response data");
