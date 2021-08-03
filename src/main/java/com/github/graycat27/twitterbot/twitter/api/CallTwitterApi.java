@@ -33,7 +33,7 @@ public class CallTwitterApi {
     // method
     public String callApiV1(URIBuilder callUrl){
         HttpEntity entity;
-        String responseJsonStr = null;
+        String responseJsonStr;
         try{
             HttpClient httpClient =
                     HttpClients.custom().setDefaultRequestConfig(
@@ -65,7 +65,7 @@ public class CallTwitterApi {
 
     public String callApiV2(URIBuilder callUrl){
         HttpEntity entity;
-        String responseJsonStr = null;
+        String responseJsonStr;
         try {
             HttpClient httpClient =
                     HttpClients.custom().setDefaultRequestConfig(
@@ -93,7 +93,7 @@ public class CallTwitterApi {
     }
 
     private static String convertEntity2JsonStr(HttpEntity entity) {
-        String jsonStr = "";
+        String jsonStr = null;
         try {
             if (null != entity) {
                 jsonStr = EntityUtils.toString(entity, StandardCharsets.UTF_8.name());
