@@ -40,6 +40,8 @@ public class MybatisConfig {
         sessionFactory.setDataSource(psqlDataSource);
         sessionFactory.setVfs(SpringBootVFS.class);
 
+        sessionFactory.setTransactionFactory(new JdbcTransactionFactory());
+
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration();
         config.setMapUnderscoreToCamelCase(true);
         config.setAutoMappingBehavior(AutoMappingBehavior.FULL);
