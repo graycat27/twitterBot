@@ -14,9 +14,8 @@ public abstract class QueryRunnable implements IQuery {
 
     // コンストラクタ
     public QueryRunnable(){
-        try(InputStream in = QueryRunnable.class.getResourceAsStream("/mybatis/mybatis-config.xml")) {
+        try {
             factory = MybatisConfig.sqlSessionFactory();
-            //factory = new SqlSessionFactoryBuilder().build(in);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
