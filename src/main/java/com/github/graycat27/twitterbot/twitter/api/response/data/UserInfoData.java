@@ -1,4 +1,4 @@
-package com.github.graycat27.twitterbot.twitter.api.response;
+package com.github.graycat27.twitterbot.twitter.api.response.data;
 
 public class UserInfoData extends IMetaData {
     private String id;

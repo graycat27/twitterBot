@@ -1,4 +1,4 @@
-package com.github.graycat27.twitterbot.twitter.api.response;
+package com.github.graycat27.twitterbot.twitter.api.response.data;
 
 import com.github.graycat27.twitterbot.utils.JsonUtil;
 

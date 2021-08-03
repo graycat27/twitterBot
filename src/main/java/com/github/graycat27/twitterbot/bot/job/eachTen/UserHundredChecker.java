@@ -8,11 +8,10 @@ import com.github.graycat27.twitterbot.heroku.db.query.DbQuery;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
 import com.github.graycat27.twitterbot.twitter.api.caller.GetUserInfoApi;
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
-import com.github.graycat27.twitterbot.twitter.api.response.UserInfoData;
+import com.github.graycat27.twitterbot.twitter.api.response.data.UserInfoData;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.sql.Timestamp;
 
 public class UserHundredChecker extends AbstractJob {
 
