@@ -5,7 +5,6 @@ import org.apache.ibatis.session.AutoMappingBehavior;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -15,18 +14,15 @@ import javax.sql.DataSource;
 @Configuration
 public class MybatisConfig {
 
-    @Bean
-    public DataSourceTransactionManager transactionManager(DataSource dataSource){
+  /*  public static DataSourceTransactionManager transactionManager(DataSource dataSource){
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
         transactionManager.setDataSource(dataSource);
 
         return transactionManager;
     }
-
-    @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+ */
+    public static SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource);
         sessionFactory.setVfs(SpringBootVFS.class);
 
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration();

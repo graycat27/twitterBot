@@ -1,5 +1,6 @@
 package com.github.graycat27.twitterbot.heroku.db.query;
 
+import com.github.graycat27.twitterbot.heroku.db.MybatisConfig;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
@@ -14,8 +15,9 @@ public abstract class QueryRunnable implements IQuery {
     // コンストラクタ
     public QueryRunnable(){
         try(InputStream in = QueryRunnable.class.getResourceAsStream("/mybatis/mybatis-config.xml")) {
-            factory = new SqlSessionFactoryBuilder().build(in);
-        } catch (IOException e) {
+            factory = MybatisConfig.sqlSessionFactory();
+            //factory = new SqlSessionFactoryBuilder().build(in);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
