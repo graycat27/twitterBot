@@ -20,4 +20,5 @@ public class ApiUrl {
 
     // public field
     public static final UrlString userById = new UrlString(twitterApiCore + "/2/users/");
+    public static final UrlString getRequestToken = new UrlString(twitterApiCore + "/oauth/request_token");
 }
