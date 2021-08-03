@@ -7,6 +7,10 @@ public class ListUtil {
     private ListUtil(){ /* インスタンス化防止 */ }
 
     public static void printList(List<?> targetList){
+        if(targetList == null){
+            System.out.println("List is null");
+            return;
+        }
         int size = targetList.size();
 
         System.out.println("{ List:{size: "+ size +",");
@@ -15,7 +19,7 @@ public class ListUtil {
             System.out.print(targetList.get(i).toString());
             System.out.println(",");
         }
-        if(size>1) {
+        if(size>0) {
             System.out.println(targetList.get(size - 1).toString());
         }
         System.out.println("]} }");
