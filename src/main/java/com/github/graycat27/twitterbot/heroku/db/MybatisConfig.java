@@ -27,7 +27,14 @@ public class MybatisConfig {
  */
     public static SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(new PGSimpleDataSource());
+
+        DataSourceBuilder<PGSimpleDataSource> builder = DataSourceBuilder.create().type(PGSimpleDataSource.class);
+        builder.driverClassName("org.postgresql.Driver");
+        builder.url(System.getenv("JDBC_DATABASE_URL"));
+        builder.username(System.getenv("JDBC_DATABASE_USERNAME"));
+        builder.password(System.getenv("JDBC_DATABASE_PASSWORD"));
+
+        sessionFactory.setDataSource(builder.build());
         sessionFactory.setVfs(SpringBootVFS.class);
 
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration();
