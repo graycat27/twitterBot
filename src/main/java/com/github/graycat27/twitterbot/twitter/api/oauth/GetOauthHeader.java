@@ -40,11 +40,11 @@ public class GetOauthHeader {
 
         // 署名(oauth_signature) の生成
         try{
-            String paramStr = "";
+            StringBuilder paramStrBuilder = new StringBuilder();
             for(Map.Entry<String, String> param : oauthParam.entrySet()){
-                paramStr += ("&" + param.getKey() + "=" + param.getValue());
+                paramStrBuilder.append("&").append(param.getKey()).append("=").append(param.getValue());
             }
-            paramStr = paramStr.substring(1);   //最初の&を削除
+            String paramStr = paramStrBuilder.substring(1);   //最初の&を削除
 
             String baseText = oauthRequest.getMethod().toString()
                     + "&" + urlEncode(oauthRequest.getUrlStr())
