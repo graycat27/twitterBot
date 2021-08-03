@@ -29,8 +29,10 @@ public class TwitterRecordQuery extends QueryRunnable{
             TwitterRecordDomain domainCond = (TwitterRecordDomain)cond;
             TwitterRecordDomain domainParam = (TwitterRecordDomain)param;
             TwitterRecordDomain queryParam = new TwitterRecordDomain(
-                    domainParam.getRecordTime(), domainCond.getTwUserId(),
-                    domainParam.getTotalTweetCount(), domainParam.getTwDisplayId());
+                    domainCond.getTwUserId(),
+                    domainParam.getRecordTime(), domainParam.getTotalTweetCount(),
+                    domainParam.getDateRecordTime(), domainParam.getTotalTweetCountAtDate(),
+                    domainParam.getTwDisplayId());
             session.update(TwitterRecordSql.update, queryParam);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
@@ -58,6 +60,17 @@ public class TwitterRecordQuery extends QueryRunnable{
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             TwitterRecordDomain domainParam = (TwitterRecordDomain) param;
             return session.selectList(TwitterRecordSql.selectMulti, domainParam);
+        } catch (SQLException sqlEx) {
+            throw new RuntimeException(sqlEx);
+        }
+    }
+
+    public void updateDaily(TwitterRecordDomain updateInfo){
+        try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            TwitterRecordDomain queryParam = new TwitterRecordDomain(
+                    updateInfo.getTwUserId(), null, null,
+                    updateInfo.getDateRecordTime(), updateInfo.getTotalTweetCountAtDate(), null);
+            session.update(TwitterRecordSql.updateDaily, queryParam);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }

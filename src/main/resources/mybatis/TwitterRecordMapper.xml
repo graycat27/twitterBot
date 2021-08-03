@@ -28,9 +28,11 @@
 
     <insert id="insert" parameterType="TwitterRecordDomain">
         INSERT INTO twitter_record
-            (record_time, tw_user_id, total_tweet_count, tw_display_id)
+            (tw_user_id, record_time, total_tweet_count,
+             date_record_time, total_tweet_count_at_date, tw_display_id)
         VALUES
-            (CURRENT_TIMESTAMP, #{twUserId}, #{totalTweetCount}, #{twDisplayId})
+            (#{twUserId}, CURRENT_TIMESTAMP, #{totalTweetCount},
+             CURRENT_TIMESTAMP, #{totalTweetCountAtDate}, #{twDisplayId})
     </insert>
 
     <update id="update" parameterType="TwitterRecordDomain">
@@ -39,6 +41,12 @@
             update_date = CURRENT_TIMESTAMP,
             record_time = CURRENT_TIMESTAMP,
             total_tweet_count = #{totalTweetCount},
+            <if test="dateRecordTime != null">
+                date_record_time = #{dateRecordTime},
+            </if>
+            <if test="totalTweetCountAtDate != null">
+                total_tweet_count_at_date = #{totalTweetCountAtDate},
+            </if>
             tw_display_id = #{twDisplayId}
         </set>
         <where>
@@ -52,6 +60,19 @@
         <set>
             update_date = CURRENT_TIMESTAMP,
             is_deleted = TRUE
+        </set>
+        <where>
+            tw_user_id = #{twUserId}
+            AND is_deleted = FALSE
+        </where>
+    </update>
+
+    <update id="updateDaily" parameterType="TwitterRecordDomain">
+        UPDATE twitter_record
+        <set>
+            update_date = CURRENT_TIMESTAMP,
+            date_record_time = #{dateRecordTime},
+            total_tweet_count_at_date = #{totalTweetCountAtDate}
         </set>
         <where>
             tw_user_id = #{twUserId}
