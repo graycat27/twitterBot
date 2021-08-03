@@ -3,17 +3,16 @@ package com.github.graycat27.twitterbot.heroku.db;
 import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.session.AutoMappingBehavior;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.postgresql.ds.PGSimpleDataSource;
-import org.springframework.boot.autoconfigure.integration.IntegrationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
-import java.sql.JDBCType;
 
 @Configuration
 public class MybatisConfig {
