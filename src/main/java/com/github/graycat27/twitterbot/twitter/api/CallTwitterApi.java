@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.twitter.api;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
+import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -32,7 +33,7 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV1Post(URIBuilder callUrl){
+    public String callApiV1Post(URIBuilder callUrl, RequestToken token){
         loggingStart(callUrl, HttpMethod.POST);
 
         HttpEntity entity;
@@ -43,7 +44,7 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpPost httpPost = new HttpPost(callUrl.build());
-            httpPost.setHeader("Authorization", GetOauthHeader.getOauthHeader());
+            httpPost.setHeader("Authorization", GetOauthHeader.getOauthHeader(token));
             httpPost.setHeader("Content-Type", "application/json");
 
             HttpResponse response = httpClient.execute(httpPost);

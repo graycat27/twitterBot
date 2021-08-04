@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.twitter.api.oauth;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
+import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.springframework.http.HttpMethod;
 
 import javax.crypto.Mac;
@@ -18,7 +19,7 @@ public class GetOauthHeader {
 
     private GetOauthHeader(){ /* インスタンス化防止 */ }
 
-    public static String getOauthHeader(){
+    public static String getOauthHeader(RequestToken token){
         TwitterAuthQuery authQuery = new TwitterAuthQuery();
         TwitterAuthDomain authInfo = authQuery.selectOne(null);
 
@@ -34,6 +35,16 @@ public class GetOauthHeader {
         oauthParam.put("oauth_timestamp", String.valueOf( (int)(System.currentTimeMillis()/1000L) ));
         oauthParam.put("oauth_nonce", get32ByteRandomData());
         oauthParam.put("oauth_version", "1.0");
+
+        if(token != null){
+            oauthParam.put("oauth_token", token.getToken());
+            if(token.getTokenSecret() != null){
+                oauthParam.put("oauth_secret", token.getTokenSecret());
+            }
+            if(token.getOauthVerifier() != null) {
+                oauthParam.put("oauth_verifier", token.getOauthVerifier());
+            }
+        }
 
         // 署名(oauth_signature) の生成
         try{

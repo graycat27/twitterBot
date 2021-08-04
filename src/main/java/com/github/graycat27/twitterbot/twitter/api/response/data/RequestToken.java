@@ -13,10 +13,15 @@ public class RequestToken extends IMetaData {
     public String getTokenSecret(){
         return oauth_token_secret;
     }
+    private final String oauth_verifier;
+    public String getOauthVerifier(){
+        return oauth_verifier;
+    }
 
-    public RequestToken(String token, String tokenSecret){
+    public RequestToken(String token, String tokenSecret, String verifier){
         this.oauth_token = token;
         this.oauth_token_secret = tokenSecret;
+        this.oauth_verifier = verifier;
     }
 
 }

@@ -28,7 +28,7 @@ public class GetAuthService {
 
         AccessToken apiResult;
         try{
-            apiResult = AccessTokenGetterApi.getAccessToken();
+            apiResult = AccessTokenGetterApi.getAccessToken(token, verifier);
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

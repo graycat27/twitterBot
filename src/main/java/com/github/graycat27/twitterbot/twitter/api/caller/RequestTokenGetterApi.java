@@ -21,7 +21,7 @@ public class RequestTokenGetterApi {
     public static RequestToken getRequestToken() throws URISyntaxException, IOException {
 
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.getRequestToken.url);
-        String resStr = ApiManager.getApiCaller().callApiV1Post(uriBuilder);
+        String resStr = ApiManager.getApiCaller().callApiV1Post(uriBuilder, null);
 
         RequestToken result = convertQueryStr2Domain(resStr);
 
@@ -48,7 +48,7 @@ public class RequestTokenGetterApi {
                         break;
                 }
             }
-            RequestToken result = new RequestToken(token, tokenSecret);
+            RequestToken result = new RequestToken(token, tokenSecret, null);
             return result;
         }catch(URISyntaxException e){
             System.err.println("*** error while converting request param to domain ***");
