@@ -47,7 +47,7 @@ public class CallTwitterApi {
             entity = response.getEntity();
 
         }catch(URISyntaxException | IOException e){
-            System.out.println("Exception occurred while calling Twitter API v2");
+            System.out.println("Exception occurred while calling Twitter API v1");
             System.out.println(e.getMessage());
             System.out.println(callUrl);
             throw new RuntimeException(e);
