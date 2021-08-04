@@ -2,16 +2,14 @@ package com.github.graycat27.twitterbot.twitter.api.caller;
 
 import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
-import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
-import com.github.graycat27.twitterbot.utils.JsonUtil;
-import com.google.gson.reflect.TypeToken;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class AccessTokenGetterApi {
 
@@ -20,15 +18,46 @@ public class AccessTokenGetterApi {
     public static AccessToken getAccessToken(String token, String verifier) throws URISyntaxException, IOException {
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.getAccessToken.url);
         RequestToken requestToken = new RequestToken(token, null, verifier);
-        String resJson = ApiManager.getApiCaller().callApiV1Post(uriBuilder, requestToken);
+        String resStr = ApiManager.getApiCaller().callApiV1Post(uriBuilder, requestToken);
 
-        Type dataType = new TypeToken<ResponseCore<AccessToken>>(){}.getType();
-        ResponseCore<AccessToken> data = JsonUtil.getObjectFromJsonStr(resJson, dataType);
+        AccessToken data = convertQueryStr2Domain(resStr);
 
         System.out.println("============>>>>>");
         System.out.println(data);
         System.out.println("============<<<<<");
 
-        return data.getData();
+        return data;
+    }
+
+    private static AccessToken convertQueryStr2Domain(String queryStr) {
+        try {
+            URIBuilder urlBuilder = new URIBuilder("?"+ queryStr);
+            List<NameValuePair> params = urlBuilder.getQueryParams();
+            String token = null;
+            String tokenSecret = null;
+            String userId = null;
+            String screenName = null;
+            for (NameValuePair keyVal : params) {
+                switch (keyVal.getName()) {
+                    case "oauth_token":
+                        token = keyVal.getValue();
+                        break;
+                    case "oauth_token_secret":
+                        tokenSecret = keyVal.getValue();
+                        break;
+                    case "user_id":
+                        userId = keyVal.getValue();
+                        break;
+                    case "screen_name":
+                        screenName = keyVal.getValue();
+                        break;
+                }
+            }
+            AccessToken result = new AccessToken(token, tokenSecret, userId, screenName);
+            return result;
+        }catch(URISyntaxException e){
+            System.err.println("*** error while converting request param to domain ***");
+            throw new RuntimeException(e);
+        }
     }
 }
