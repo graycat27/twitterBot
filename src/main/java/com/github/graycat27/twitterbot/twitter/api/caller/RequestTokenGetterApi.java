@@ -2,15 +2,13 @@ package com.github.graycat27.twitterbot.twitter.api.caller;
 
 import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
-import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
-import com.github.graycat27.twitterbot.utils.JsonUtil;
-import com.google.gson.reflect.TypeToken;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class RequestTokenGetterApi {
 
@@ -18,20 +16,32 @@ public class RequestTokenGetterApi {
      * ref: https://developer.twitter.com/ja/docs/authentication/oauth-1-0a/authorizing-a-request
      * ref: https://n3104.hatenablog.com/entry/20101014/1287070373
      */
-    public static ResponseCore<RequestToken> getRequestToken() throws URISyntaxException, IOException {
+    public static RequestToken getRequestToken() throws URISyntaxException, IOException {
 
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.getRequestToken.url);
+        String resStr = ApiManager.getApiCaller().callApiV1(uriBuilder);
 
-        String resJson = ApiManager.getApiCaller().callApiV1(uriBuilder);
-
-        Type dataType = new TypeToken<ResponseCore<RequestToken>>(){}.getType();
-        ResponseCore<RequestToken> data = JsonUtil.getObjectFromJsonStr(resJson, dataType);
+        URIBuilder urlBuilder = new URIBuilder(resStr);
+        List<NameValuePair> params = urlBuilder.getQueryParams();
+        String token = null;
+        String tokenSecret = null;
+        for(NameValuePair keyVal : params){
+            switch (keyVal.getName()){
+                case "oauth_token":
+                    token = keyVal.getValue();
+                    break;
+                case "oauth_token_secret":
+                    tokenSecret = keyVal.getValue();
+                    break;
+            }
+        }
+        RequestToken result = new RequestToken(token, tokenSecret);
 
         System.out.println("============>>>>>");
-        System.out.println(data);
+        System.out.println(result);
         System.out.println("============<<<<<");
 
-        return data;
+        return result;
     }
 
 

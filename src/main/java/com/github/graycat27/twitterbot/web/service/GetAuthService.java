@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 public class GetAuthService {
 
     public RequestToken getAuth(){
-        ResponseCore<RequestToken> apiResult;
+        RequestToken apiResult;
         try {
             apiResult = RequestTokenGetterApi.getRequestToken();
         } catch (URISyntaxException | IOException e) {
@@ -20,7 +20,7 @@ public class GetAuthService {
             throw new RuntimeException(e);
         }
 
-        return apiResult.getData();
+        return apiResult;
     }
 
 }
