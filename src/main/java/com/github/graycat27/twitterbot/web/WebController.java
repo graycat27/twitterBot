@@ -18,8 +18,13 @@ public class WebController {
         SpringApplication.run(WebController.class, args);
     }
 
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	String index(){
+		return idx();
+	}
+	
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    String index(){
+    String idx(){
         return "index";
     }
 
