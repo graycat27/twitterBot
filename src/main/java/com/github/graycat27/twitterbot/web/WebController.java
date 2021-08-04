@@ -25,8 +25,6 @@ public class WebController {
 
     @RequestMapping(value = "/getAuth", method = RequestMethod.GET)
     String getAuth(){
-        String callbackUrl = "https://graycat27twitterbot.herokuapp.com/twitterauthCallback";
-
         GetAuthService service = new GetAuthService();
         RequestToken requestToken = service.getAuth();
         return "redirect:https://api.twitter.com/oauth/authorize?oauth_token="+ requestToken.get("oauth_token");
