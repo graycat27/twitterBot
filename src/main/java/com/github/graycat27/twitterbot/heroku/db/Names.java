@@ -11,6 +11,7 @@ public class Names {
         public static final String botUsers = mybatisNameSpace+"BotUserMapper";
         public static final String twitterAuth = mybatisNameSpace+"TwitterAuthMapper";
         public static final String twitterRecord = mybatisNameSpace+"TwitterRecordMapper";
+        public static final String twitterUserToken = mybatisNameSpace+"TwitterUserTokenMapper";
         public static final String dbQuery = mybatisNameSpace+"DbQueryMapper";
     }
 
