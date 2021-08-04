@@ -64,7 +64,7 @@
             AND is_deleted = TRUE
     </update>
 
-    <select id="selectThoughDeleted" parameterType="BotUsersDomain">
+    <select id="selectThoughDeleted" resultType="BotUsersDomain" parameterType="BotUsersDomain">
         SELECT * FROM bot_users
         WHERE
             tw_user_id = #{twUserId}
