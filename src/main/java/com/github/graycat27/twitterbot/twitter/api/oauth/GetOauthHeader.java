@@ -12,10 +12,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class GetOauthHeader {
 
@@ -35,7 +32,7 @@ public class GetOauthHeader {
         oauthParam.put("oauth_consumer_key", oauthRequest.getConsumerKey());
         oauthParam.put("oauth_signature_method", "HMAC-SHA1");
         oauthParam.put("oauth_timestamp", String.valueOf( (int)(System.currentTimeMillis()/1000L) ));
-        oauthParam.put("oauth_nonce", String.valueOf(Math.random()));
+        oauthParam.put("oauth_nonce", get32ByteRandomData());
         oauthParam.put("oauth_version", "1.0");
 
         // 署名(oauth_signature) の生成
@@ -84,5 +81,19 @@ public class GetOauthHeader {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * ref https://www.delftstack.com/howto/java/random-alphanumeric-string-in-java/#generate-random-alphanumeric-string-in-java-using-the-math-random-method
+     */
+    private static String get32ByteRandomData(){
+        int maxLen = 32;
+        StringBuilder sb = new StringBuilder(maxLen);
+        String oneByteChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        for(int i=0; i<maxLen; i++){
+            int randIdx = (int)(oneByteChar.length() * Math.random());
+            sb.append(oneByteChar.charAt(randIdx));
+        }
+        return sb.toString();
     }
 }
