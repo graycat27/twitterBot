@@ -22,5 +22,5 @@ public class ApiUrl {
     public static final UrlString userById = new UrlString(twitterApiCore + "/2/users/");
     public static final UrlString getRequestToken = new UrlString(twitterApiCore + "/oauth/request_token");
     public static final UrlString getAccessToken = new UrlString(twitterApiCore + "/oauth/access_token");
-    public static final UrlString statusesUpdate = new UrlString(twitterApiCore + "/statuses/update");
+    public static final UrlString statusesUpdate = new UrlString(twitterApiCore + "/1.1/statuses/update");
 }
