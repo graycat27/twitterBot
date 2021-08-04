@@ -54,6 +54,16 @@
             AND is_deleted = FALSE
     </update>
 
+    <update id="restoreDeletedUser" parameterType="BotUsersDomain">
+        UPDATE bot_users
+        SET
+            update_date = CURRENT_TIMESTAMP,
+            is_deleted = FALSE
+        WHERE
+            tw_user_id = #{twUserId}
+            AND is_deleted = TRUE
+    </update>
+
     <select id="selectThoughDeleted" parameterType="BotUsersDomain">
         SELECT * FROM bot_users
         WHERE

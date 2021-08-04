@@ -71,6 +71,14 @@ public class BotUserQuery extends QueryRunnable{
         }
     }
 
+    public void restoreDeletedUser(BotUsersDomain param){
+        try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            session.update(BotUserSql.restoreDeletedUser, param);
+        } catch (SQLException sqlEx) {
+            throw new RuntimeException(sqlEx);
+        }
+    }
+
     public BotUsersDomain selectThoughDeleted(BotUsersDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             return session.selectOne(BotUserSql.selectThoughDeleted, param);

@@ -13,6 +13,7 @@ public class BotUserSql {
     public static final String update = Names.Mybatis.botUsers + ".update";
 
     public static final String deleteLogical = Names.Mybatis.botUsers + ".deleteLogical";
+    public static final String restoreDeletedUser = Names.Mybatis.botUsers + ".restoreDeletedUser";
     public static final String selectThoughDeleted = Names.Mybatis.botUsers + ".selectThoughDeleted";
 
 }

@@ -43,17 +43,17 @@ public class GetAuthService {
 
     /**
      * AccessToken からIDを取得し、DBのマスタ登録をする
-     * @param token
      */
     public void registerUserAccessToken(AccessToken token){
         BotUserQuery userQuery = new BotUserQuery();
         TwitterUserTokenQuery tokenQuery = new TwitterUserTokenQuery();
 
         BotUsersDomain searchBotUser = new BotUsersDomain(token.getId());
-        BotUsersDomain selectUserResult = userQuery.selectOne(searchBotUser);
+        BotUsersDomain selectUserResult = userQuery.selectThoughDeleted(searchBotUser);
         if(selectUserResult == null){
             userQuery.insert(searchBotUser);
         }else{
+            userQuery.restoreDeletedUser(searchBotUser);
             TwitterUserTokenDomain deleteDomain = new TwitterUserTokenDomain(
                     token.getId(), null, null
             );
