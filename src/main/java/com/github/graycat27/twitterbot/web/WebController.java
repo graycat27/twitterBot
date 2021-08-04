@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Objects;
+
 @Controller
 @SpringBootApplication
 public class WebController {
@@ -37,6 +39,12 @@ public class WebController {
 
     @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
     String authCallBack(String oauth_token, String oauth_verifier){
+        try{
+            Objects.requireNonNull(oauth_token);
+            Objects.requireNonNull(oauth_verifier);
+        }catch(NullPointerException e){
+            return idx();
+        }
         GetAuthService service = new GetAuthService();
         AccessToken response = service.getUserAccessToken(oauth_token, oauth_verifier);
         service.registerUserAccessToken(response);
