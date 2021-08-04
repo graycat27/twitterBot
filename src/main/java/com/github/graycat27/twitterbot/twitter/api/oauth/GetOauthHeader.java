@@ -35,7 +35,7 @@ public class GetOauthHeader {
         oauthParam.put("oauth_consumer_key", oauthRequest.getConsumerKey());
         oauthParam.put("oauth_signature_method", "HMAC-SHA1");
         oauthParam.put("oauth_timestamp", String.valueOf( (int)(System.currentTimeMillis()/1000L) ));
-        oauthParam.put("oaut_nonce", String.valueOf(Math.random()));
+        oauthParam.put("oauth_nonce", String.valueOf(Math.random()));
         oauthParam.put("oauth_version", "1.0");
 
         // 署名(oauth_signature) の生成
