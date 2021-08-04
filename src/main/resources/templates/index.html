@@ -8,11 +8,28 @@
             window.location.href = 'getAuth'
         }
     </script>
+    <style>
+        body{
+            font-family: Helvetica Neue Pro;
+            font-weight: bold;
+        }
+        button#startAuth {
+            background-color: #1da1f2;
+            color: #fff;
+            font-size: 27px;
+            font-family: Helvetica Neue Pro;
+            font-weight: bold;
+
+        }
+    </style>
 </head>
 <body>
-<h1>hello heroku web world!</h1>
-
-<button onclick="onAuthClick()">get req auth</button>
-
+<h1>ツイート数カウントbotへようこそ</h1>
+<button id="startAuth" onclick="onAuthClick()">
+    <img src="../web-image/twitter-logo-white.png" style="width:30px;" />  Twitter連携！
+</button>
+<div>
+毎日日付が変わったころに、1日のツイート数をつぶやきます
+</div>
 </body>
 </html>
