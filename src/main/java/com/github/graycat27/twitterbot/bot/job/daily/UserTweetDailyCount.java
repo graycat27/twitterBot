@@ -23,14 +23,6 @@ public class UserTweetDailyCount extends AbstractJob {
      */
     @Override
     protected void jobTask() {
-        //TODO make this
-        /*
-         * select record by userID
-         * compare timestamp to day changed
-         * if isNewDayArrived
-         *    tweet daily result
-         *    update record
-         */
 
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();
         TwitterRecordDomain recordParamDomain = new TwitterRecordDomain(
