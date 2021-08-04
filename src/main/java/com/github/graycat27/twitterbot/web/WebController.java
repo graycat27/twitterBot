@@ -34,12 +34,8 @@ public class WebController {
     String authCallBack(String oauth_token, String oauth_verifier){
         GetAuthService service = new GetAuthService();
         AccessToken response = service.getUserAccessToken(oauth_token, oauth_verifier);
+        service.registerUserAccessToken(response);
 
-        //TODO make this
-        System.out.println(response);
-        /*
-         * AccessToken からIDを取得し、DBのマスタ登録をする
-         */
         return "twitterAuthCallback";
     }
 }
