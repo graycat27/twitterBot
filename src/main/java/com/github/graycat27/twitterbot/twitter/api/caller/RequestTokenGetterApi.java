@@ -32,7 +32,7 @@ public class RequestTokenGetterApi {
         return result;
     }
 
-    private static RequestToken convertQueryStr2Domain(String queryStr) {
+    private static RequestToken convertQueryStr2Domain(String queryStr) throws URISyntaxException {
         try {
             URIBuilder urlBuilder = new URIBuilder("?"+ queryStr);
             List<NameValuePair> params = urlBuilder.getQueryParams();
@@ -48,11 +48,11 @@ public class RequestTokenGetterApi {
                         break;
                 }
             }
-            RequestToken result = new RequestToken(token, tokenSecret, null);
-            return result;
+            return new RequestToken(token, tokenSecret, null);
         }catch(URISyntaxException e){
             System.err.println("*** error while converting request param to domain ***");
-            throw new RuntimeException(e);
+            System.err.println("*** tried to convert = "+ queryStr);
+            throw e;
         }
     }
 
