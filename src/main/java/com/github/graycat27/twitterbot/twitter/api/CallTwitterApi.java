@@ -4,6 +4,7 @@ import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
+import com.github.graycat27.twitterbot.utils.JsonUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -53,6 +54,7 @@ public class CallTwitterApi {
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             }
             HttpResponse response = httpClient.execute(httpPost);
+            loggingApiResponse(response);
             entity = response.getEntity();
 
         }catch(URISyntaxException | IOException e){
@@ -88,6 +90,7 @@ public class CallTwitterApi {
             httpGet.setHeader("Content-Type", "application/json");
 
             HttpResponse response = httpClient.execute(httpGet);
+            loggingApiResponse(response);
             entity = response.getEntity();
         }catch(URISyntaxException | IOException e){
             System.out.println("Exception occurred while calling Twitter API v2");
@@ -109,6 +112,10 @@ public class CallTwitterApi {
         System.out.println("--- Api call start ----->");
         System.out.println("--- call URL = "+ url.getPath());
         System.out.println("--- call method = "+ method);
+    }
+
+    private static void loggingApiResponse(HttpResponse response){
+        System.out.println(JsonUtil.getJsonString(response));
     }
 
     private static void loggingEnd(URIBuilder url){
