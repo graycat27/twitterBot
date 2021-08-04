@@ -48,28 +48,20 @@ public class UserHundredChecker extends AbstractJob {
     }
 
     private void doTask4KnownUser(ResponseCore<UserInfoData> userData, TwitterRecordDomain record){
-        //TODO make this
-
         UserInfoData.PublicMetrics metrics = (UserInfoData.PublicMetrics) userData.getData().get("public_metrics");
 
         int totalTweetCountLatest = (Integer)metrics.get("tweet_count");
         int totalTweetCountBefore = record.getTotalTweetCount();
         int totalTweetCountYesterdayLast = record.getTotalTweetCountAtDate();
 
+        int hundred = checkHundred(totalTweetCountLatest, totalTweetCountBefore, totalTweetCountYesterdayLast);
+        if(hundred != 0){
 
-        if(totalTweetCountLatest - totalTweetCountYesterdayLast < 0){
-            // 総ツイ数が減少しているケース
-            //TODO make this
-        }else{
-            int hundred = checkHundred(totalTweetCountLatest, totalTweetCountBefore, totalTweetCountYesterdayLast);
-            if(hundred != 0){
+            DbQuery dbQuery = new DbQuery();
+            Today dbToday = dbQuery.getToday();
+            String today = dbToday.getToday();
 
-                DbQuery dbQuery = new DbQuery();
-                Today dbToday = dbQuery.getToday();
-                String today = dbToday.getToday();
-
-                tweetHundred(hundred, today);
-            }
+            tweetHundred(hundred, today);
         }
 
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();
@@ -108,6 +100,10 @@ public class UserHundredChecker extends AbstractJob {
     private int checkHundred(int now, int before, int base){
         int deltaNow = now - base;
         int deltaBefore = before - base;
+
+        if(now < before){
+            return 0;   //ツイ消しorRTの垢消し等が疑われるケース
+        }
 
         if(deltaNow / 100 == deltaBefore / 100){
             return 0;
