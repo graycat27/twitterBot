@@ -21,21 +21,7 @@ public class RequestTokenGetterApi {
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.getRequestToken.url);
         String resStr = ApiManager.getApiCaller().callApiV1(uriBuilder);
 
-        URIBuilder urlBuilder = new URIBuilder(resStr);
-        List<NameValuePair> params = urlBuilder.getQueryParams();
-        String token = null;
-        String tokenSecret = null;
-        for(NameValuePair keyVal : params){
-            switch (keyVal.getName()){
-                case "oauth_token":
-                    token = keyVal.getValue();
-                    break;
-                case "oauth_token_secret":
-                    tokenSecret = keyVal.getValue();
-                    break;
-            }
-        }
-        RequestToken result = new RequestToken(token, tokenSecret);
+        RequestToken result = convertQueryStr2Domain(resStr);
 
         System.out.println("============>>>>>");
         System.out.println(result);
@@ -44,5 +30,28 @@ public class RequestTokenGetterApi {
         return result;
     }
 
+    private static RequestToken convertQueryStr2Domain(String queryStr) {
+        try {
+            URIBuilder urlBuilder = new URIBuilder("?"+ queryStr);
+            List<NameValuePair> params = urlBuilder.getQueryParams();
+            String token = null;
+            String tokenSecret = null;
+            for (NameValuePair keyVal : params) {
+                switch (keyVal.getName()) {
+                    case "oauth_token":
+                        token = keyVal.getValue();
+                        break;
+                    case "oauth_token_secret":
+                        tokenSecret = keyVal.getValue();
+                        break;
+                }
+            }
+            RequestToken result = new RequestToken(token, tokenSecret);
+            return result;
+        }catch(URISyntaxException e){
+            System.err.println("*** error while converting request param to domain ***");
+            throw new RuntimeException(e);
+        }
+    }
 
 }
