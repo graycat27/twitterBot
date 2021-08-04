@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.http.HttpMethod;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -32,6 +33,8 @@ public class CallTwitterApi {
 
     // method
     public String callApiV1Post(URIBuilder callUrl){
+        loggingStart(callUrl, HttpMethod.POST);
+
         HttpEntity entity;
         String responseJsonStr;
         try{
@@ -59,11 +62,14 @@ public class CallTwitterApi {
         System.out.println(responseJsonStr);
         System.out.println("==ApiResponse==<<<<<");
 
+        loggingEnd(callUrl);
         return responseJsonStr;
 
     }
 
     public String callApiV2Get(URIBuilder callUrl){
+        loggingStart(callUrl, HttpMethod.GET);
+
         HttpEntity entity;
         String responseJsonStr;
         try {
@@ -89,8 +95,21 @@ public class CallTwitterApi {
         System.out.println(responseJsonStr);
         System.out.println("==ApiResponse==<<<<<");
 
+        loggingEnd(callUrl);
         return responseJsonStr;
     }
+
+    private static void loggingStart(URIBuilder url, HttpMethod method){
+        System.out.println("--- Api call start ----->");
+        System.out.println("--- call URL = "+ url.getPath());
+        System.out.println("--- call method = "+ method);
+    }
+
+    private static void loggingEnd(URIBuilder url){
+        System.out.println("--- called URL = "+ url.getPath());
+        System.out.println("--- Api call end -----<");
+    }
+
 
     private static String convertEntity2JsonStr(HttpEntity entity) {
         String jsonStr = null;
