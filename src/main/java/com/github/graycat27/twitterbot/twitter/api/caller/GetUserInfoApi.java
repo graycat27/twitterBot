@@ -32,7 +32,7 @@ public class GetUserInfoApi {
         queryParameters.add(new BasicNameValuePair("user.fields", "public_metrics"));
         uriBuilder.addParameters(queryParameters);
 
-        String resJson = ApiManager.getApiCaller().callApiV2(uriBuilder);
+        String resJson = ApiManager.getApiCaller().callApiV2Get(uriBuilder);
 
         Type dataType = new TypeToken<ResponseCore<UserInfoData>>(){}.getType();
         ResponseCore<UserInfoData> data = JsonUtil.getObjectFromJsonStr(resJson, dataType);

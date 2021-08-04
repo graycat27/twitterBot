@@ -18,7 +18,7 @@ public class AccessTokenGetterApi {
 
     public static AccessToken getAccessToken() throws URISyntaxException, IOException {
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.getAccessToken.url);
-        String resJson = ApiManager.getApiCaller().callApiV1(uriBuilder);
+        String resJson = ApiManager.getApiCaller().callApiV1Post(uriBuilder);
 
         Type dataType = new TypeToken<ResponseCore<AccessToken>>(){}.getType();
         ResponseCore<AccessToken> data = JsonUtil.getObjectFromJsonStr(resJson, dataType);

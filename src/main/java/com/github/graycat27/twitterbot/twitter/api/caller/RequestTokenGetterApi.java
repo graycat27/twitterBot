@@ -21,7 +21,7 @@ public class RequestTokenGetterApi {
     public static RequestToken getRequestToken() throws URISyntaxException, IOException {
 
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.getRequestToken.url);
-        String resStr = ApiManager.getApiCaller().callApiV1(uriBuilder);
+        String resStr = ApiManager.getApiCaller().callApiV1Post(uriBuilder);
 
         RequestToken result = convertQueryStr2Domain(resStr);
 

@@ -31,7 +31,7 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV1(URIBuilder callUrl){
+    public String callApiV1Post(URIBuilder callUrl){
         HttpEntity entity;
         String responseJsonStr;
         try{
@@ -63,7 +63,7 @@ public class CallTwitterApi {
 
     }
 
-    public String callApiV2(URIBuilder callUrl){
+    public String callApiV2Get(URIBuilder callUrl){
         HttpEntity entity;
         String responseJsonStr;
         try {
