@@ -16,10 +16,12 @@ public class JsonUtil {
 
     public static final Gson gson;
 
+    /** 引数のobjectをJSON文字列に変換します */
     public static String getJsonString(Object o){
         return gson.toJson(o);
     }
 
+    /** JSON文字列からType引数の型のオブジェクトに変換します */
     public static <T> T getObjectFromJsonStr(String json, Type o){
         return gson.fromJson(json, o);
     }
