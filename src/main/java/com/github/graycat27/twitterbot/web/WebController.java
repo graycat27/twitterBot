@@ -1,5 +1,6 @@
 package com.github.graycat27.twitterbot.web;
 
+import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import com.github.graycat27.twitterbot.web.service.GetAuthService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,10 +23,11 @@ public class WebController {
     }
 
     @RequestMapping(value = "/getAuth", method = RequestMethod.GET)
-    void getAuth(){
+    String getAuth(){
         String callbackUrl = "https://graycat27twitterbot.herokuapp.com/twitterauthCallback";
 
         GetAuthService service = new GetAuthService();
-        service.getAuth();
+        RequestToken requestToken = service.getAuth();
+        return "redirect:https://api.twitter.com/oauth/authorize?oauth_token="+ requestToken.get("oauth_token");
     }
 }
