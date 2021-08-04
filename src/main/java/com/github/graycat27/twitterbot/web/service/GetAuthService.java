@@ -4,8 +4,10 @@ import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterUserTokenDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.BotUserQuery;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterUserTokenQuery;
+import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.caller.AccessTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
+import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.springframework.stereotype.Service;
@@ -65,6 +67,13 @@ public class GetAuthService {
         );
         tokenQuery.insert(insertDomain);
 
+
+        /*  */
+        try {
+            SendTweetApi.sendTweet(token.getId());
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
