@@ -30,4 +30,17 @@ public class WebController {
         RequestToken requestToken = service.getAuth();
         return "redirect:https://api.twitter.com/oauth/authorize?oauth_token="+ requestToken.get("oauth_token");
     }
+
+    @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
+    String authCallBack(String oauth_token, String oauth_verifier){
+        GetAuthService service = new GetAuthService();
+        AccessToken response = service.getUserAccessToken(oauth_token, oauth_verifier);
+
+        //TODO make this
+        System.out.println(response);
+        /*
+         * AccessToken からIDを取得し、DBのマスタ登録をする
+         */
+        return "twitterAuthCallback";
+    }
 }
