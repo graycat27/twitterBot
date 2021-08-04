@@ -1,5 +1,6 @@
 package com.github.graycat27.twitterbot.web;
 
+import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import com.github.graycat27.twitterbot.web.service.GetAuthService;
 import org.springframework.boot.SpringApplication;
