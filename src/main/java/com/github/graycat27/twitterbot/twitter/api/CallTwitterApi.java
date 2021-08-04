@@ -6,9 +6,11 @@ import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
@@ -19,6 +21,7 @@ import org.springframework.http.HttpMethod;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class CallTwitterApi {
 
@@ -33,7 +36,7 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV1Post(URIBuilder callUrl, RequestToken token){
+    public String callApiV1Post(URIBuilder callUrl, RequestToken token, List<NameValuePair> postParam){
         loggingStart(callUrl, HttpMethod.POST);
 
         HttpEntity entity;
@@ -46,7 +49,9 @@ public class CallTwitterApi {
             HttpPost httpPost = new HttpPost(callUrl.build());
             httpPost.setHeader("Authorization", GetOauthHeader.getOauthHeader(token));
             httpPost.setHeader("Content-Type", "application/json");
-
+            if(postParam != null && postParam.size() > 0) {
+                httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
+            }
             HttpResponse response = httpClient.execute(httpPost);
             entity = response.getEntity();
 

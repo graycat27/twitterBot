@@ -5,10 +5,14 @@ import com.github.graycat27.twitterbot.heroku.db.query.TwitterUserTokenQuery;
 import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SendTweetApi {
 
@@ -17,10 +21,11 @@ public class SendTweetApi {
     public static void sendTweet(String userId) throws URISyntaxException, IOException {
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.statusesUpdate.url);
 
-        uriBuilder.addParameter("status", "#ツイート数えったー テストツイートです");
+        List<NameValuePair> postParam = new ArrayList<>();
+        postParam.add(new BasicNameValuePair("status","#ツイート数えったー テストツイートです"));
 
         RequestToken token = getTokenByUser(userId);
-        ApiManager.getApiCaller().callApiV1Post(uriBuilder, token);
+        ApiManager.getApiCaller().callApiV1Post(uriBuilder, token, postParam);
 
     }
 
