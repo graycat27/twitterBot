@@ -44,7 +44,7 @@
         </where>
     </update>
 
-    <update id="delete" parameterType="BotUsersDomain">
+    <update id="deleteLogical" parameterType="BotUsersDomain">
         UPDATE bot_users
         SET
             update_date = CURRENT_TIMESTAMP,
@@ -53,5 +53,11 @@
             tw_user_id = #{twUserId}
             AND is_deleted = FALSE
     </update>
+
+    <select id="selectThoughDeleted" parameterType="BotUsersDomain">
+        SELECT * FROM bot_users
+        WHERE
+            tw_user_id = #{twUserId}
+    </select>
 
 </mapper>
