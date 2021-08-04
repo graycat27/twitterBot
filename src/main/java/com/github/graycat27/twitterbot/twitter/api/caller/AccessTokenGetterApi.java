@@ -14,6 +14,8 @@ import java.net.URISyntaxException;
 
 public class AccessTokenGetterApi {
 
+    private AccessTokenGetterApi(){ /* インスタンス化防止 */ }
+
     public static AccessToken getAccessToken() throws URISyntaxException, IOException {
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.getAccessToken.url);
         String resJson = ApiManager.getApiCaller().callApiV1(uriBuilder);

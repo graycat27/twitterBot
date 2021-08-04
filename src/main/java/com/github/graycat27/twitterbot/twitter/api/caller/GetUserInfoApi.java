@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 public class GetUserInfoApi {
 
+    private GetUserInfoApi(){ /* インスタンス化防止 */ }
+
     /**
      * https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/User-Lookup/UsersDemo.java
      * @throws URISyntaxException

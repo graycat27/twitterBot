@@ -12,6 +12,8 @@ import java.util.List;
 
 public class RequestTokenGetterApi {
 
+    private RequestTokenGetterApi(){ /* インスタンス化防止 */ }
+
     /*
      * ref: https://developer.twitter.com/ja/docs/authentication/oauth-1-0a/authorizing-a-request
      * ref: https://n3104.hatenablog.com/entry/20101014/1287070373
