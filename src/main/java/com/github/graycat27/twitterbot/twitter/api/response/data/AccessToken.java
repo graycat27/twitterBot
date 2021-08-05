@@ -1,12 +1,14 @@
 package com.github.graycat27.twitterbot.twitter.api.response.data;
 
-public class AccessToken extends IMetaData{
+public class AccessToken extends IMetaData implements OauthToken{
 
     private final String oauth_token;
+    @Override
     public String getToken(){
         return oauth_token;
     }
     private final String oauth_token_secret;
+    @Override
     public String getTokenSecret(){
         return oauth_token_secret;
     }
