@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 
 @Service
 public class GetAuthService {
@@ -70,7 +71,9 @@ public class GetAuthService {
 
         /*  */
         try {
-            SendTweetApi.sendTweet(token.getId());
+            String dateTime = Calendar.getInstance().getTime().toString();
+            String status = "#ツイート数えったー テストツイートです "+ dateTime;
+            SendTweetApi.sendTweet(token.getId(), status);
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
         }

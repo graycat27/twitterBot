@@ -11,19 +11,16 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class SendTweetApi {
 
     private SendTweetApi(){ /* インスタンス化防止 */ }
 
-    public static void sendTweet(String userId) throws URISyntaxException, IOException {
+    public static void sendTweet(String userId, String tweetText) throws URISyntaxException, IOException {
 
         List<NameValuePair> postParam = new ArrayList<>();
-
-        String dateTime = Calendar.getInstance().getTime().toString();
-        postParam.add(new BasicNameValuePair("status","#ツイート数えったー テストツイートです "+ dateTime));
+        postParam.add(new BasicNameValuePair("status", tweetText));
 
         AccessToken token = getTokenByUser(userId);
         ApiManager.getApiCaller().callApiV1Post(ApiUrl.statusesUpdate, token, postParam);
