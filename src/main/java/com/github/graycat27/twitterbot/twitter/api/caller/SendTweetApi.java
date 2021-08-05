@@ -6,12 +6,12 @@ import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SendTweetApi {
@@ -21,7 +21,9 @@ public class SendTweetApi {
     public static void sendTweet(String userId) throws URISyntaxException, IOException {
 
         List<NameValuePair> postParam = new ArrayList<>();
-        postParam.add(new BasicNameValuePair("status","#ツイート数えったー テストツイートです"));
+
+        String dateTime = Calendar.getInstance().getTime().toString();
+        postParam.add(new BasicNameValuePair("status","#ツイート数えったー テストツイートです "+ dateTime));
 
         AccessToken token = getTokenByUser(userId);
         ApiManager.getApiCaller().callApiV1Post(ApiUrl.statusesUpdate, token, postParam);
