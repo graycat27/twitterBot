@@ -168,9 +168,9 @@ public class GetOauthHeader {
      * ref https://www.delftstack.com/howto/java/random-alphanumeric-string-in-java/#generate-random-alphanumeric-string-in-java-using-the-math-random-method
      */
     private static String get32ByteRandomData(){
-        int maxLen = 32;
+        int maxLen = 42;
         StringBuilder sb = new StringBuilder(maxLen);
-        String oneByteChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String oneByteChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         for(int i=0; i<maxLen; i++){
             int randIdx = (int)(oneByteChar.length() * Math.random());
             sb.append(oneByteChar.charAt(randIdx));
