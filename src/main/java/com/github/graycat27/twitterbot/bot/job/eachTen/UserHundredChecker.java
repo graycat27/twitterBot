@@ -43,7 +43,7 @@ public class UserHundredChecker extends AbstractJob {
             }
 
             String dateTime = Calendar.getInstance().getTime().toString();
-            SendTweetApi.sendTweet(user.getTwUserId(), "("+ dateTime +")現在のツイート数を記録しました");
+            SendTweetApi.sendTweet(user.getTwUserId(), "("+ dateTime +")現在のツイート数を記録しました #ツイート数えったー");
 
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
