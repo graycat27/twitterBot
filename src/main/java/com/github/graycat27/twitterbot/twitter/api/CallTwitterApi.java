@@ -158,8 +158,13 @@ public class CallTwitterApi {
 
     private static void loggingApiResponse(HttpResponse response){
         System.out.println("HttpStatus: " + response.getStatusLine().getStatusCode());
-        AbstractHttpEntity entity = (AbstractHttpEntity)(response.getEntity());
-        System.out.println("HttpEntity: " + entity.toString());
+        try{
+            String entityStr = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+            System.out.println("HttpEntity: " + entityStr);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            System.err.println("error while parsing HttpEntity for logging");
+        }
     }
 
     private static void loggingEnd(URIBuilder url){
