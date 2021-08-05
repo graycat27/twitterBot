@@ -125,6 +125,12 @@ public class GetOauthHeader {
             String signKey = urlEncode(oauthRequest.getConsumerSecret())
                     + "&" + urlEncode(oauthRequest.getOauthTokenSecret());
 
+            //debug
+            System.out.println("baseText= "+ baseText);
+            System.out.println("tokenSecret= "+ oauthRequest.getOauthTokenSecret());
+            System.out.println("署名key= "+ signKey);
+            //debug
+
             SecretKeySpec signingKey = new SecretKeySpec(signKey.getBytes(), "HmacSHA1");
             javax.crypto.Mac mac = Mac.getInstance(signingKey.getAlgorithm());
             mac.init(signingKey);
