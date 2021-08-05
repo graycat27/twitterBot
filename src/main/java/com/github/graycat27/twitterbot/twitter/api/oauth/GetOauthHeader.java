@@ -123,7 +123,7 @@ public class GetOauthHeader {
                     + "&" + urlEncode(paramStr);
 
             String signKey = urlEncode(oauthRequest.getConsumerSecret())
-                    + "&" + urlEncode(token.getTokenSecret());
+                    + "&" + urlEncode(oauthRequest.getOauthTokenSecret());
 
             SecretKeySpec signingKey = new SecretKeySpec(signKey.getBytes(), "HmacSHA1");
             javax.crypto.Mac mac = Mac.getInstance(signingKey.getAlgorithm());
