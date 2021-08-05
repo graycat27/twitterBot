@@ -94,7 +94,7 @@ public class GetOauthHeader {
 
         RequestDomain oauthRequest = new RequestDomain(
                 authInfo.getApiKey(), authInfo.getSecretKey(),
-                "", "", HttpMethod.POST,
+                token.getToken(), token.getTokenSecret(), HttpMethod.POST,
                 url.url
         );
 
@@ -104,8 +104,7 @@ public class GetOauthHeader {
         oauthParam.put("oauth_timestamp", String.valueOf( (int)(System.currentTimeMillis()/1000L) ));
         oauthParam.put("oauth_nonce", get32ByteRandomData());
         oauthParam.put("oauth_version", "1.0");
-
-        oauthParam.put("oauth_token", token.getToken());
+        oauthParam.put("oauth_token", oauthRequest.getOauthToken());
 
         for(NameValuePair pair : requestParam){
             oauthParam.put(pair.getName(), pair.getValue());
@@ -136,6 +135,10 @@ public class GetOauthHeader {
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        }
+
+        for(NameValuePair pair : requestParam){
+            oauthParam.remove(pair.getName());
         }
 
         // Authorization header の作成
