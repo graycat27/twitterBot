@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.twitter.api;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
+import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import com.github.graycat27.twitterbot.utils.JsonUtil;
 import org.apache.http.HttpEntity;
@@ -37,6 +38,45 @@ public class CallTwitterApi {
     }
 
     // method
+    public String callApiV1Post(URIBuilder callUrl, AccessToken token,List<NameValuePair> postParam){
+        loggingStart(callUrl, HttpMethod.POST);
+
+        HttpEntity entity;
+        String responseJsonStr;
+        try{
+            HttpClient httpClient =
+                    HttpClients.custom().setDefaultRequestConfig(
+                            RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
+                    ).build();
+            HttpPost httpPost = new HttpPost(callUrl.build());
+            httpPost.setHeader("Authorization", GetOauthHeader.getUserOauthHeader(token));
+            httpPost.setHeader("Content-Type", "application/json");
+            if(postParam != null && postParam.size() > 0) {
+                httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
+            }
+            HttpResponse response = httpClient.execute(httpPost);
+            loggingApiResponse(response);
+            entity = response.getEntity();
+
+        }catch(URISyntaxException | IOException e){
+            System.out.println("Exception occurred while calling Twitter API v1");
+            System.out.println(e.getMessage());
+            System.out.println(callUrl);
+            throw new RuntimeException(e);
+        }
+
+        responseJsonStr = convertEntity2JsonStr(entity);
+
+        System.out.println("==ApiResponse==>>>>>");
+        System.out.println(responseJsonStr);
+        System.out.println("==ApiResponse==<<<<<");
+
+        loggingEnd(callUrl);
+        return responseJsonStr;
+
+    }
+
+
     public String callApiV1Post(URIBuilder callUrl, RequestToken token, List<NameValuePair> postParam){
         loggingStart(callUrl, HttpMethod.POST);
 
