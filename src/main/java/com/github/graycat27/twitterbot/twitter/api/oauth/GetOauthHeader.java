@@ -105,9 +105,6 @@ public class GetOauthHeader {
         oauthParam.put("oauth_version", "1.0");
 
         oauthParam.put("oauth_token", token.getToken());
-        if(token.getTokenSecret() != null){
-            oauthParam.put("oauth_secret", token.getTokenSecret());
-        }
 
         // 署名(oauth_signature) の生成
         try{
@@ -122,7 +119,7 @@ public class GetOauthHeader {
                     + "&" + urlEncode(paramStr);
 
             String signKey = urlEncode(oauthRequest.getConsumerSecret())
-                    + "&" + urlEncode(oauthRequest.getOauthTokenSecret());
+                    + "&" + urlEncode(token.getTokenSecret());
 
             SecretKeySpec signingKey = new SecretKeySpec(signKey.getBytes(), "HmacSHA1");
             javax.crypto.Mac mac = Mac.getInstance(signingKey.getAlgorithm());
