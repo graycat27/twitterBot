@@ -19,13 +19,12 @@ public class SendTweetApi {
     private SendTweetApi(){ /* インスタンス化防止 */ }
 
     public static void sendTweet(String userId) throws URISyntaxException, IOException {
-        URIBuilder uriBuilder = new URIBuilder(ApiUrl.statusesUpdate.url);
 
         List<NameValuePair> postParam = new ArrayList<>();
         postParam.add(new BasicNameValuePair("status","#ツイート数えったー テストツイートです"));
 
         AccessToken token = getTokenByUser(userId);
-        ApiManager.getApiCaller().callApiV1Post(uriBuilder, token, postParam);
+        ApiManager.getApiCaller().callApiV1Post(ApiUrl.statusesUpdate, token, postParam);
 
     }
 

@@ -38,20 +38,22 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV1Post(URIBuilder callUrl, AccessToken token,List<NameValuePair> postParam){
-        loggingStart(callUrl, HttpMethod.POST);
-
+    public String callApiV1Post(ApiUrl.UrlString callUrl, AccessToken token,List<NameValuePair> postParam){
+        URIBuilder uriBuilder;
         HttpEntity entity;
         String responseJsonStr;
 
-        callUrl.addParameters(postParam);
         try{
+            uriBuilder = new URIBuilder(callUrl.url);
+            loggingStart(uriBuilder, HttpMethod.POST);
+
+            uriBuilder.addParameters(postParam);
             HttpClient httpClient =
                     HttpClients.custom().setDefaultRequestConfig(
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
-            HttpPost httpPost = new HttpPost(callUrl.build());
-            httpPost.setHeader("Authorization", GetOauthHeader.getUserOauthHeader(token, postParam));
+            HttpPost httpPost = new HttpPost(uriBuilder.build());
+            httpPost.setHeader("Authorization", GetOauthHeader.getUserOauthHeader(token, callUrl, postParam));
             httpPost.setHeader("Content-Type", "application/json");
             if(postParam != null && postParam.size() > 0) {
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
@@ -73,11 +75,10 @@ public class CallTwitterApi {
         System.out.println(responseJsonStr);
         System.out.println("==ApiResponse==<<<<<");
 
-        loggingEnd(callUrl);
+        loggingEnd(uriBuilder);
         return responseJsonStr;
 
     }
-
 
     public String callApiV1Post(URIBuilder callUrl, RequestToken token, List<NameValuePair> postParam){
         loggingStart(callUrl, HttpMethod.POST);

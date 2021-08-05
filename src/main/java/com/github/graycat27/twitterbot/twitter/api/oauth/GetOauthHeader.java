@@ -88,14 +88,14 @@ public class GetOauthHeader {
         return authHeader;
     }
 
-    public static String getUserOauthHeader(AccessToken token, List<NameValuePair> requestParam){
+    public static String getUserOauthHeader(AccessToken token, ApiUrl.UrlString url, List<NameValuePair> requestParam){
         TwitterAuthQuery authQuery = new TwitterAuthQuery();
         TwitterAuthDomain authInfo = authQuery.selectOne(null);
 
         RequestDomain oauthRequest = new RequestDomain(
                 authInfo.getApiKey(), authInfo.getSecretKey(),
                 "", "", HttpMethod.POST,
-                ApiUrl.getRequestToken.url
+                url.url
         );
 
         SortedMap<String, String> oauthParam = new TreeMap<>();
