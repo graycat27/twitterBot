@@ -40,12 +40,13 @@ public class GetOauthHeader {
 
         if(token != null){
             oauthParam.put("oauth_token", token.getToken());
-            if(token.getTokenSecret() != null){
+        /*    if(token.getTokenSecret() != null){
                 oauthParam.put("oauth_secret", token.getTokenSecret());
             }
             if(token.getOauthVerifier() != null) {
                 oauthParam.put("oauth_verifier", token.getOauthVerifier());
             }
+         */
         }
 
         // 署名(oauth_signature) の生成
