@@ -155,7 +155,7 @@ public class CallTwitterApi {
     }
 
     private static void loggingApiResponse(HttpResponse response){
-        System.out.println(JsonUtil.getJsonString(response));
+        //System.out.println(JsonUtil.getJsonString(response));
     }
 
     private static void loggingEnd(URIBuilder url){
