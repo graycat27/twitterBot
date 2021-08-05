@@ -43,13 +43,15 @@ public class CallTwitterApi {
 
         HttpEntity entity;
         String responseJsonStr;
+
+        callUrl.addParameters(postParam);
         try{
             HttpClient httpClient =
                     HttpClients.custom().setDefaultRequestConfig(
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpPost httpPost = new HttpPost(callUrl.build());
-            httpPost.setHeader("Authorization", GetOauthHeader.getUserOauthHeader(token));
+            httpPost.setHeader("Authorization", GetOauthHeader.getUserOauthHeader(token, postParam));
             httpPost.setHeader("Content-Type", "application/json");
             if(postParam != null && postParam.size() > 0) {
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));

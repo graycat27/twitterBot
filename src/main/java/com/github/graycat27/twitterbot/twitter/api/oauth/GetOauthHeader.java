@@ -5,6 +5,7 @@ import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
+import org.apache.http.NameValuePair;
 import org.springframework.http.HttpMethod;
 
 import javax.crypto.Mac;
@@ -87,7 +88,7 @@ public class GetOauthHeader {
         return authHeader;
     }
 
-    public static String getUserOauthHeader(AccessToken token){
+    public static String getUserOauthHeader(AccessToken token, List<NameValuePair> requestParam){
         TwitterAuthQuery authQuery = new TwitterAuthQuery();
         TwitterAuthDomain authInfo = authQuery.selectOne(null);
 
@@ -105,6 +106,10 @@ public class GetOauthHeader {
         oauthParam.put("oauth_version", "1.0");
 
         oauthParam.put("oauth_token", token.getToken());
+
+        for(NameValuePair pair : requestParam){
+            oauthParam.put(pair.getName(), pair.getValue());
+        }
 
         // 署名(oauth_signature) の生成
         try{
