@@ -16,6 +16,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.http.HttpMethod;
@@ -157,7 +158,8 @@ public class CallTwitterApi {
 
     private static void loggingApiResponse(HttpResponse response){
         System.out.println("HttpStatus: " + response.getStatusLine().getStatusCode());
-        System.out.println("HttpEntity: " + response.getEntity());
+        AbstractHttpEntity entity = (AbstractHttpEntity)(response.getEntity());
+        System.out.println("HttpEntity: " + entity.toString());
     }
 
     private static void loggingEnd(URIBuilder url){
