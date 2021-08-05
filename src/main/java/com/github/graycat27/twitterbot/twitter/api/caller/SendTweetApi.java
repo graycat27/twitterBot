@@ -5,7 +5,6 @@ import com.github.graycat27.twitterbot.heroku.db.query.TwitterUserTokenQuery;
 import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
-import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
