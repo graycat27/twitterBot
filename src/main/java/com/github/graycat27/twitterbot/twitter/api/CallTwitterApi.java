@@ -55,6 +55,7 @@ public class CallTwitterApi {
             HttpPost httpPost = new HttpPost(uriBuilder.build());
             httpPost.setHeader("Authorization", GetOauthHeader.getUserOauthHeader(token, callUrl, postParam));
             httpPost.setHeader("Content-Type", "application/json");
+            httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             HttpResponse response = httpClient.execute(httpPost);
             loggingApiResponse(response);
             entity = response.getEntity();
