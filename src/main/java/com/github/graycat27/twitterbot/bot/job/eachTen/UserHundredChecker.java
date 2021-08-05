@@ -7,11 +7,13 @@ import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.DbQuery;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
 import com.github.graycat27.twitterbot.twitter.api.caller.GetUserInfoApi;
+import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
 import com.github.graycat27.twitterbot.twitter.api.response.data.UserInfoData;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 
 public class UserHundredChecker extends AbstractJob {
 
@@ -39,6 +41,9 @@ public class UserHundredChecker extends AbstractJob {
                 // insert
                 doTask4NewUser(userData);
             }
+
+            String dateTime = Calendar.getInstance().getTime().toString();
+            SendTweetApi.sendTweet(user.getTwUserId(), "("+ dateTime +")現在のツイート数を記録しました");
 
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
