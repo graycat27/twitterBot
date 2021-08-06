@@ -67,14 +67,9 @@ public class GetAuthService {
         );
         tokenQuery.insert(insertDomain);
 
-
         /* 登録したことをツイート */
-        try {
-            String status = TweetTemplate.authed;
-            SendTweetApi.sendTweet(token.getId(), status);
-        } catch (URISyntaxException | IOException e) {
-            e.printStackTrace();
-        }
+        String status = TweetTemplate.authed;
+        SendTweetApi.sendTweet(token.getId(), status);
     }
 
 }

@@ -115,12 +115,7 @@ public class UserHundredChecker extends AbstractJob {
 
     private void tweetHundred(int amount, String today){
         String tweetText = String.format(TweetTemplate.hundred, today, amount);
-        try {
-            SendTweetApi.sendTweet(user.getTwUserId(), tweetText);
-        } catch (URISyntaxException | IOException e) {
-            System.err.println("ツイートに失敗しました。 " + user.getTwUserId());
-            System.err.println(e.getMessage());
-        }
+        SendTweetApi.sendTweet(user.getTwUserId(), tweetText);
 
     }
 }
