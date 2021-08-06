@@ -39,13 +39,11 @@ public class CallTwitterApi {
 
     // method
     public String callApiV1Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
-        URIBuilder uriBuilder;
         HttpEntity entity;
         String responseJsonStr;
 
         try{
-            uriBuilder = new URIBuilder(callUrl.url);
-            loggingStart(uriBuilder, HttpMethod.POST);
+            loggingStart(callUrl, HttpMethod.POST);
 
 //            if(postParam != null) {
 //                uriBuilder.addParameters(postParam);
@@ -54,7 +52,7 @@ public class CallTwitterApi {
                     HttpClients.custom().setDefaultRequestConfig(
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
-            HttpPost httpPost = new HttpPost(uriBuilder.build());
+            HttpPost httpPost = new HttpPost(callUrl.url);
             httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
             httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
             if(postParam != null){
@@ -63,7 +61,7 @@ public class CallTwitterApi {
             HttpResponse response = httpClient.execute(httpPost);
             entity = response.getEntity();
 
-        }catch(URISyntaxException | IOException e){
+        }catch(IOException e){
             System.out.println("Exception occurred while calling Twitter API v1");
             System.out.println(e.getMessage());
             System.out.println(callUrl);
@@ -76,7 +74,7 @@ public class CallTwitterApi {
         System.out.println(responseJsonStr);
         System.out.println("==ApiResponse==<<<<<");
 
-        loggingEnd(uriBuilder);
+        loggingEnd(callUrl);
         return responseJsonStr;
 
     }
@@ -113,10 +111,21 @@ public class CallTwitterApi {
         return responseJsonStr;
     }
 
+    private static void loggingStart(ApiUrl.UrlString url, HttpMethod method){
+        System.out.println("--- Api call start ----->");
+        System.out.println("--- call URL = "+ url.url);
+        System.out.println("--- call method = "+ method);
+    }
+
     private static void loggingStart(URIBuilder url, HttpMethod method){
         System.out.println("--- Api call start ----->");
         System.out.println("--- call URL = "+ url.getPath());
         System.out.println("--- call method = "+ method);
+    }
+
+    private static void loggingEnd(ApiUrl.UrlString url){
+        System.out.println("--- called URL = "+ url.url);
+        System.out.println("--- Api call end -----<");
     }
 
     private static void loggingEnd(URIBuilder url){
