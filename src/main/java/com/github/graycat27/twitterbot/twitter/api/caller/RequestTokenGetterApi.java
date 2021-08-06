@@ -26,10 +26,6 @@ public class RequestTokenGetterApi {
 
         RequestToken result = convertQueryStr2Domain(resStr);
 
-        System.out.println("============>>>>>");
-        System.out.println(result);
-        System.out.println("============<<<<<");
-
         return result;
     }
 

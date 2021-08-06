@@ -37,10 +37,6 @@ public class GetUserInfoApi {
         Type dataType = new TypeToken<ResponseCore<UserInfoData>>(){}.getType();
         ResponseCore<UserInfoData> data = JsonUtil.getObjectFromJsonStr(resJson, dataType);
 
-        System.out.println("============>>>>>");
-        System.out.println(data);
-        System.out.println("============<<<<<");
-
         return data;
     }
 }
