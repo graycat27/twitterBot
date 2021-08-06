@@ -14,7 +14,6 @@ import com.github.graycat27.twitterbot.utils.TweetTemplate;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Calendar;
 
 public class UserHundredChecker extends AbstractJob {
 
