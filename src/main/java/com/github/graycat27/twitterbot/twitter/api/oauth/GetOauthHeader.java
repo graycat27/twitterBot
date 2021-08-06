@@ -3,7 +3,6 @@ package com.github.graycat27.twitterbot.twitter.api.oauth;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
-import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.apache.http.NameValuePair;
