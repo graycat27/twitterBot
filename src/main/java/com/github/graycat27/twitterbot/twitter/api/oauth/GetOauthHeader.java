@@ -35,7 +35,7 @@ public class GetOauthHeader {
         oauthParam.put("oauth_consumer_key", oauthRequest.getConsumerKey());
         oauthParam.put("oauth_signature_method", "HMAC-SHA1");
         oauthParam.put("oauth_timestamp", String.valueOf( (int)(System.currentTimeMillis()/1000L) ));
-        oauthParam.put("oauth_nonce", get32ByteRandomData());
+        oauthParam.put("oauth_nonce", generateNonceData());
         oauthParam.put("oauth_version", "1.0");
 
         if(token != null){
@@ -99,7 +99,7 @@ public class GetOauthHeader {
         oauthParam.put("oauth_consumer_key", oauthRequest.getConsumerKey());
         oauthParam.put("oauth_signature_method", "HMAC-SHA1");
         oauthParam.put("oauth_timestamp", String.valueOf( (int)(System.currentTimeMillis()/1000L) ));
-        oauthParam.put("oauth_nonce", get32ByteRandomData());
+        oauthParam.put("oauth_nonce", generateNonceData());
         oauthParam.put("oauth_version", "1.0");
         oauthParam.put("oauth_token", oauthRequest.getOauthToken());
 
@@ -163,7 +163,7 @@ public class GetOauthHeader {
     /**
      * ref https://www.delftstack.com/howto/java/random-alphanumeric-string-in-java/#generate-random-alphanumeric-string-in-java-using-the-math-random-method
      */
-    private static String get32ByteRandomData(){
+    private static String generateNonceData(){
         int maxLen = 42;
         StringBuilder sb = new StringBuilder(maxLen);
         String oneByteChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
