@@ -22,11 +22,7 @@ public class RequestTokenGetterApi {
      */
     public static RequestToken getRequestToken() throws URISyntaxException, IOException {
 
-        List<NameValuePair> param = new ArrayList<>();
-        String callbackUrl = "https://graycat27twitterbot.herokuapp.com/twitterAuthCallback";
-        param.add(new BasicNameValuePair("oauth_callback", callbackUrl));
-
-        String resStr = ApiManager.getApiCaller().callApiV1Post(ApiUrl.getRequestToken, null, param);
+        String resStr = ApiManager.getApiCaller().callApiV1Post(ApiUrl.getRequestToken, null, null);
 
         RequestToken result = convertQueryStr2Domain(resStr);
 

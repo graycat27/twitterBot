@@ -43,9 +43,6 @@ public class CallTwitterApi {
         try{
             loggingStart(callUrl, HttpMethod.POST);
 
-//            if(postParam != null) {
-//                uriBuilder.addParameters(postParam);
-//            }
             HttpClient httpClient =
                     HttpClients.custom().setDefaultRequestConfig(
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
