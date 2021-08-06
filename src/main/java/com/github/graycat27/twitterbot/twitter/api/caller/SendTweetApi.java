@@ -17,7 +17,7 @@ public class SendTweetApi {
 
     private SendTweetApi(){ /* インスタンス化防止 */ }
 
-    public static void sendTweet(String userId, String tweetText) throws URISyntaxException, IOException {
+    public static void sendTweet(String userId, String tweetText) {
 
         List<NameValuePair> postParam = new ArrayList<>();
         postParam.add(new BasicNameValuePair("status", tweetText));

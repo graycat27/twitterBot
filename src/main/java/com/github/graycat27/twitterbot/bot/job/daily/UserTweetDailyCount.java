@@ -4,7 +4,10 @@ import com.github.graycat27.twitterbot.bot.job.AbstractJob;
 import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
+import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
+import com.github.graycat27.twitterbot.utils.TweetTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class UserTweetDailyCount extends AbstractJob {
@@ -32,7 +35,7 @@ public class UserTweetDailyCount extends AbstractJob {
         final TwitterRecordDomain recordResult = recordQuery.selectOne(recordParamDomain);
 
         if(isNewDate(recordResult)){
-            tweetDailyResult();
+            tweetDailyResult(recordResult);
             updateDailyData(recordResult);
         }
 
@@ -67,8 +70,15 @@ public class UserTweetDailyCount extends AbstractJob {
         }
     }
 
-    private void tweetDailyResult(){
-        //TODO make this
+    private void tweetDailyResult(final TwitterRecordDomain record){
+        int delta = record.getTotalTweetCount() - record.getTotalTweetCountAtDate();
+        Calendar.Builder yBuild = new Calendar.Builder().setInstant(record.getDateRecordTime());
+        Calendar yesterday = yBuild.build();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String yesterdayStr = sdf.format(yesterday);
+        String text = yesterdayStr + "のツイート数は"+ delta + "件でした "+ TweetTemplate.tag;
+
+        SendTweetApi.sendTweet(record.getTwUserId(), text);
     }
 
     private void updateDailyData(final TwitterRecordDomain record){
