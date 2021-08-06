@@ -4,6 +4,7 @@ import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
+import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,7 +38,7 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV1Post(ApiUrl.UrlString callUrl, AccessToken token,List<NameValuePair> postParam){
+    public String callApiV1Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
         URIBuilder uriBuilder;
         HttpEntity entity;
         String responseJsonStr;
