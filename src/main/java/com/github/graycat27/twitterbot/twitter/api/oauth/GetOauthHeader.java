@@ -75,7 +75,7 @@ public class GetOauthHeader {
             byte[] rawHmac = mac.doFinal(baseText.getBytes());
             String signature = Base64.getEncoder().encodeToString(rawHmac);
 
-            oauthParam.put("oauth_signature", urlEncode(signature));
+            oauthParam.put("oauth_signature", signature);
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -86,7 +86,7 @@ public class GetOauthHeader {
         for(Map.Entry<String, String> param : oauthParam.entrySet()){
             if(param.getValue() != null) {
                 paramStrBuilder.append(", ");
-                paramStrBuilder.append(param.getKey()).append("=\"").append(param.getValue()).append("\"");
+                paramStrBuilder.append(param.getKey()).append("=\"").append(urlEncode(param.getValue())).append("\"");
             }
         }
         String paramStr = paramStrBuilder.substring(2);
