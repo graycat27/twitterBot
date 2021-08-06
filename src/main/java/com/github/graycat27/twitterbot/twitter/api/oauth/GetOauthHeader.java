@@ -28,8 +28,8 @@ public class GetOauthHeader {
 
         RequestDomain oauthRequest = new RequestDomain(
                 authInfo.getApiKey(), authInfo.getSecretKey(),
-                token.getToken(), token.getTokenSecret(), HttpMethod.POST,
-                url.url
+                token == null ? null : token.getToken(), token == null ? null : token.getTokenSecret(),
+                HttpMethod.POST, url.url
         );
 
         SortedMap<String, String> oauthParam = new TreeMap<>();
