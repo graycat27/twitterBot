@@ -38,11 +38,13 @@ public class GetOauthHeader {
         oauthParam.put("oauth_nonce", generateNonceData());
         oauthParam.put("oauth_version", "1.0");
 
-        oauthParam.put("oauth_token", oauthRequest.getOauthToken());
-        if(token instanceof RequestToken) {
-            RequestToken requestToken = (RequestToken) token;
-            if (requestToken.getOauthVerifier() != null) {
-                oauthParam.put("oauth_verifier", requestToken.getOauthVerifier());
+        if(token != null){
+            oauthParam.put("oauth_token", oauthRequest.getOauthToken());
+            if(token instanceof RequestToken) {
+                RequestToken requestToken = (RequestToken) token;
+                if (requestToken.getOauthVerifier() != null) {
+                    oauthParam.put("oauth_verifier", requestToken.getOauthVerifier());
+                }
             }
         }
 
