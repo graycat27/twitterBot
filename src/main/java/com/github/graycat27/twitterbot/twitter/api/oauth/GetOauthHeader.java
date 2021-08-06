@@ -58,7 +58,7 @@ public class GetOauthHeader {
         try{
             StringBuilder paramStrBuilder = new StringBuilder();
             for(Map.Entry<String, String> param : oauthParam.entrySet()){
-                paramStrBuilder.append("&").append(param.getKey()).append("=").append(param.getValue());
+                paramStrBuilder.append("&").append(param.getKey()).append("=").append(urlEncode(param.getValue()));
             }
             String paramStr = paramStrBuilder.substring(1);   //最初の&を削除
 
