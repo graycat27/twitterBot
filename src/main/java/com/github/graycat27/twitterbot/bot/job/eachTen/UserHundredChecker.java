@@ -10,6 +10,7 @@ import com.github.graycat27.twitterbot.twitter.api.caller.GetUserInfoApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
 import com.github.graycat27.twitterbot.twitter.api.response.data.UserInfoData;
+import com.github.graycat27.twitterbot.utils.TweetTemplate;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -114,8 +115,13 @@ public class UserHundredChecker extends AbstractJob {
     }
 
     private void tweetHundred(int amount, String today){
-        //TODO make this
+        String tweetText = String.format(TweetTemplate.hundred, today, amount);
+        try {
+            SendTweetApi.sendTweet(user.getTwUserId(), tweetText);
+        } catch (URISyntaxException | IOException e) {
+            System.err.println("ツイートに失敗しました。 " + user.getTwUserId());
+            System.err.println(e.getMessage());
+        }
 
-        System.out.println("tweet that hundred limitation for "+ amount + ", "+ today);
     }
 }

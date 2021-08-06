@@ -9,6 +9,7 @@ import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
+import com.github.graycat27.twitterbot.utils.TweetTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -69,7 +70,7 @@ public class GetAuthService {
 
         /* 登録したことをツイート */
         try {
-            String status = "登録しました！毎日0時頃にツイート数をつぶやきます #ツイート数えったー";
+            String status = TweetTemplate.authed;
             SendTweetApi.sendTweet(token.getId(), status);
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
