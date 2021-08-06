@@ -53,8 +53,8 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpPost httpPost = new HttpPost(uriBuilder.build());
-            httpPost.setHeader("Authorization", GetOauthHeader.getUserOauthHeader(token, callUrl, postParam));
-            httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+            httpPost.addHeader("Authorization", GetOauthHeader.getUserOauthHeader(token, callUrl, postParam));
+            httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
             httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             HttpResponse response = httpClient.execute(httpPost);
             entity = response.getEntity();
@@ -88,8 +88,8 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpPost httpPost = new HttpPost(callUrl.build());
-            httpPost.setHeader("Authorization", GetOauthHeader.getOauthHeader(token));
-            httpPost.setHeader("Content-Type", "application/json");
+            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token));
+            httpPost.addHeader("Content-Type", "application/json");
             if(postParam != null && postParam.size() > 0) {
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             }
@@ -125,8 +125,8 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpGet httpGet = new HttpGet(callUrl.build());
-            httpGet.setHeader("Authorization", String.format("Bearer %s", authInfo.getBearerToken()));
-            httpGet.setHeader("Content-Type", "application/json");
+            httpGet.addHeader("Authorization", String.format("Bearer %s", authInfo.getBearerToken()));
+            httpGet.addHeader("Content-Type", "application/json");
 
             HttpResponse response = httpClient.execute(httpGet);
             entity = response.getEntity();
