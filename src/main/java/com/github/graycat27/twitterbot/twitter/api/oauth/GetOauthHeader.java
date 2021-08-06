@@ -31,69 +31,17 @@ public class GetOauthHeader {
                 HttpMethod.POST, url.url
         );
 
-        SortedMap<String, String> oauthParam = new TreeMap<>();
-        oauthParam.put("oauth_consumer_key", oauthRequest.getConsumerKey());
-        oauthParam.put("oauth_signature_method", "HMAC-SHA1");
-        oauthParam.put("oauth_timestamp", String.valueOf( (int)(System.currentTimeMillis()/1000L) ));
-        oauthParam.put("oauth_nonce", generateNonceData());
-        oauthParam.put("oauth_version", "1.0");
+        SortedMap<String, String> authMap = getAuthMap(requestParam, oauthRequest, token);
+        String signatureParam = createSign(authMap);
 
-        if(token != null){
-            oauthParam.put("oauth_token", oauthRequest.getOauthToken());
-            if(token instanceof RequestToken) {
-                RequestToken requestToken = (RequestToken) token;
-                if (requestToken.getOauthVerifier() != null) {
-                    oauthParam.put("oauth_verifier", requestToken.getOauthVerifier());
-                }
-            }
-        }
+        String signatureBaseData = createBase(HttpMethod.POST, ApiUrl.statusesUpdate, signatureParam);
+        String signatureSecretKey = createKey(oauthRequest.getConsumerSecret(), oauthRequest.getOauthTokenSecret());
 
-        if(requestParam != null) {
-            for (NameValuePair pair : requestParam) {
-                oauthParam.put(pair.getName(), pair.getValue());
-            }
-        }
+        String signature = calcSignature(signatureBaseData, signatureSecretKey);
 
-        // 署名(oauth_signature) の生成
-        try{
-            StringBuilder paramStrBuilder = new StringBuilder();
-            for(Map.Entry<String, String> param : oauthParam.entrySet()){
-                paramStrBuilder.append("&").append(param.getKey()).append("=").append(urlEncode(param.getValue()));
-            }
-            String paramStr = paramStrBuilder.substring(1);   //最初の&を削除
-
-            String baseText = oauthRequest.getMethod().name()
-                    + "&" + urlEncode(oauthRequest.getUrlStr())
-                    + "&" + urlEncode(paramStr);
-
-            String signKey = urlEncode(oauthRequest.getConsumerSecret()) + "&"
-                    + ((oauthRequest.getOauthTokenSecret() == null) ? "" : urlEncode(oauthRequest.getOauthTokenSecret()));
-
-            SecretKeySpec signingKey = new SecretKeySpec(signKey.getBytes(), "HmacSHA1");
-            javax.crypto.Mac mac = Mac.getInstance(signingKey.getAlgorithm());
-            mac.init(signingKey);
-            byte[] rawHmac = mac.doFinal(baseText.getBytes());
-            String signature = Base64.getEncoder().encodeToString(rawHmac);
-
-            oauthParam.put("oauth_signature", signature);
-        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-        // Authorization header の作成
-        StringBuilder paramStrBuilder = new StringBuilder();
-        for(Map.Entry<String, String> param : oauthParam.entrySet()){
-            if(param.getValue() != null) {
-                paramStrBuilder.append(", ");
-                paramStrBuilder.append(param.getKey()).append("=\"").append(urlEncode(param.getValue())).append("\"");
-            }
-        }
-        String paramStr = paramStrBuilder.substring(2);
-        String authHeader = "OAuth " + paramStr;
-
-        System.out.println("generated oauth header = " + authHeader);
-        return authHeader;
+        String header = createAuthHeader(url, signature, authMap);
+        System.out.println(header);
+        return header;
     }
 
     private static String urlEncode(String string) {
@@ -118,4 +66,96 @@ public class GetOauthHeader {
         }
         return sb.toString();
     }
+
+    private static SortedMap<String,String> getAuthMap(List<NameValuePair> queryParam, RequestDomain requestParam, OauthToken token){
+        SortedMap<String, String> authMap = new TreeMap<>();
+
+        if(queryParam != null) {
+            for (NameValuePair pair : queryParam) {
+                authMap.put(urlEncode(pair.getName()), urlEncode(pair.getValue()));
+            }
+        }
+        authMap.put(urlEncode("oauth_consumer_key"), urlEncode(requestParam.getConsumerKey()));
+        authMap.put(urlEncode("oauth_nonce"), urlEncode(generateNonceData()));
+        authMap.put(urlEncode("oauth_signature_method"), urlEncode("HMAC-SHA1"));
+        authMap.put(urlEncode("oauth_timestamp"), urlEncode(String.valueOf((int)(System.currentTimeMillis()/1000L))));
+        authMap.put(urlEncode("oauth_version"), urlEncode("1.0"));
+
+        if(token != null){
+            authMap.put("oauth_token", urlEncode(token.getToken()));
+            if(token instanceof RequestToken) {
+                RequestToken requestToken = (RequestToken) token;
+                if (requestToken.getOauthVerifier() != null) {
+                    authMap.put("oauth_verifier", urlEncode(requestToken.getOauthVerifier()));
+                }
+            }
+        }
+
+        return authMap;
+    }
+
+    private static String createSign(SortedMap<String,String> authParam){
+        Iterator<Map.Entry<String, String>> ite = authParam.entrySet().iterator();
+        StringBuilder sb = new StringBuilder();
+        while (ite.hasNext()) {
+            Map.Entry<String, String> entry = ite.next();
+            sb.append(entry.getKey());
+            sb.append('=');
+            sb.append(entry.getValue());
+            if(ite.hasNext()){
+                sb.append('&');
+            }
+        }
+
+        System.out.println(sb);
+        return sb.toString();
+    }
+
+    private static String createBase(HttpMethod method, ApiUrl.UrlString url, String encodedParam){
+        String base = method.name() + "&" + urlEncode(url.url) + "&" + urlEncode(encodedParam);
+        System.out.println(base);
+        return base;
+    }
+
+    private static String createKey(String consumerSecret, String tokenSecret){
+        return consumerSecret + "&" + tokenSecret;
+    }
+
+    private static String calcSignature(String data, String key){
+        try {
+            SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA1");
+            Mac mac = Mac.getInstance(signingKey.getAlgorithm());
+            mac.init(signingKey);
+            byte[] rawHmac = mac.doFinal(data.getBytes());
+            System.out.println(rawHmac);
+            return Base64.getEncoder().encodeToString(rawHmac);
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String createAuthHeader(ApiUrl.UrlString url, String signature, SortedMap<String,String> authMap){
+        StringBuilder sb = new StringBuilder();
+
+        authMap.put("oauth_signature", urlEncode(signature));
+
+        sb.append("OAuth ");
+        Iterator<Map.Entry<String, String>> ite = authMap.entrySet().iterator();
+        while (ite.hasNext()) {
+            Map.Entry<String, String> entry = ite.next();
+            sb.append(entry.getKey());
+            sb.append('=');
+            sb.append('"');
+            sb.append(entry.getValue());
+            sb.append('"');
+            if(ite.hasNext()){
+                sb.append(',').append(' ');
+            }
+        }
+
+        System.out.println(sb);
+        return sb.toString();
+    }
+
+
 }
