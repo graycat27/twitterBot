@@ -36,12 +36,8 @@ public class GetOauthHeader {
 
         String signatureBaseData = createBase(HttpMethod.POST, url, signatureParam);
         String signatureSecretKey = createKey(oauthRequest.getConsumerSecret(), oauthRequest.getOauthTokenSecret());
-
         String signature = calcSignature(signatureBaseData, signatureSecretKey);
-
-        String header = createAuthHeader(url, signature, authMap);
-        System.out.println(header);
-        return header;
+        return createAuthHeader(url, signature, authMap);
     }
 
     private static String urlEncode(String string) {
@@ -106,14 +102,11 @@ public class GetOauthHeader {
                 sb.append('&');
             }
         }
-
-        System.out.println(sb);
         return sb.toString();
     }
 
     private static String createBase(HttpMethod method, ApiUrl.UrlString url, String encodedParam){
         String base = method.name() + "&" + urlEncode(url.url) + "&" + urlEncode(encodedParam);
-        System.out.println(base);
         return base;
     }
 
@@ -127,7 +120,6 @@ public class GetOauthHeader {
             Mac mac = Mac.getInstance(signingKey.getAlgorithm());
             mac.init(signingKey);
             byte[] rawHmac = mac.doFinal(data.getBytes());
-            System.out.println(rawHmac);
             return Base64.getEncoder().encodeToString(rawHmac);
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);
@@ -152,8 +144,6 @@ public class GetOauthHeader {
                 sb.append(',').append(' ');
             }
         }
-
-        System.out.println(sb);
         return sb.toString();
     }
 

@@ -21,10 +21,6 @@ public class AccessTokenGetterApi {
 
         AccessToken data = convertQueryStr2Domain(resStr);
 
-        System.out.println("============>>>>>");
-        System.out.println(data);
-        System.out.println("============<<<<<");
-
         return data;
     }
 

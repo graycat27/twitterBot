@@ -57,9 +57,9 @@ public class CallTwitterApi {
             entity = response.getEntity();
 
         }catch(IOException e){
-            System.out.println("Exception occurred while calling Twitter API v1");
-            System.out.println(e.getMessage());
-            System.out.println(callUrl);
+            System.err.println("Exception occurred while calling Twitter API v1");
+            System.err.println(e.getMessage());
+            System.err.println(callUrl);
             throw new RuntimeException(e);
         }
 
@@ -91,9 +91,9 @@ public class CallTwitterApi {
             HttpResponse response = httpClient.execute(httpGet);
             entity = response.getEntity();
         }catch(URISyntaxException | IOException e){
-            System.out.println("Exception occurred while calling Twitter API v2");
-            System.out.println(e.getMessage());
-            System.out.println(callUrl);
+            System.err.println("Exception occurred while calling Twitter API v2");
+            System.err.println(e.getMessage());
+            System.err.println(callUrl);
             throw new RuntimeException(e);
         }
         responseJsonStr = convertEntity2JsonStr(entity);
@@ -136,9 +136,9 @@ public class CallTwitterApi {
                 jsonStr = EntityUtils.toString(entity, StandardCharsets.UTF_8.name());
             }
         } catch (IOException e) {
-            System.out.println("Exception occurred while converting API response data");
-            System.out.println(e.getMessage());
-            System.out.println(entity);
+            System.err.println("Exception occurred while converting API response data");
+            System.err.println(e.getMessage());
+            System.err.println(entity);
             throw new RuntimeException(e);
         }
 

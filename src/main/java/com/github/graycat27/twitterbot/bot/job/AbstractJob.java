@@ -8,7 +8,8 @@ public abstract class AbstractJob implements IBatchJob {
         try {
             jobTask();
         }catch(Exception e){
-            System.out.println("Error occurred on task "+ this.getClass().getName());
+            System.err.println("Error occurred on task "+ this.getClass().getName());
+            System.err.println(e.getMessage());
             e.printStackTrace();
             abEndLog();
             return;
