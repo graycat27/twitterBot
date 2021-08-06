@@ -21,6 +21,9 @@ public class SendTweetApi {
 
         List<NameValuePair> postParam = new ArrayList<>();
         postParam.add(new BasicNameValuePair("status", tweetText));
+        postParam.add(new BasicNameValuePair("include_entities", "true"));
+        postParam.add(new BasicNameValuePair("include_ext_alt_text", "true"));
+        postParam.add(new BasicNameValuePair("tweet_mode", "extended"));
 
         AccessToken token = getTokenByUser(userId);
         ApiManager.getApiCaller().callApiV1Post(ApiUrl.statusesUpdate, token, postParam);

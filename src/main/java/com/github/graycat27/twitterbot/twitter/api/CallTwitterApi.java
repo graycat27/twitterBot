@@ -17,7 +17,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.http.HttpMethod;
 
@@ -47,12 +46,6 @@ public class CallTwitterApi {
         try{
             uriBuilder = new URIBuilder(callUrl.url);
             loggingStart(uriBuilder, HttpMethod.POST);
-
-            if(callUrl.equals(ApiUrl.statusesUpdate)){
-                postParam.add(new BasicNameValuePair("include_entities", "true"));
-                postParam.add(new BasicNameValuePair("include_ext_alt_text", "true"));
-                postParam.add(new BasicNameValuePair("tweet_mode", "extended"));
-            }
 
             uriBuilder.addParameters(postParam);
             HttpClient httpClient =
