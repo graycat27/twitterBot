@@ -154,7 +154,8 @@ public class GetOauthHeader {
 
     private static String urlEncode(String string) {
         try {
-            return URLEncoder.encode(string, StandardCharsets.UTF_8.name());
+            String encoded = URLEncoder.encode(string, StandardCharsets.UTF_8.name());
+            return encoded.replaceAll("\\+","%20");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

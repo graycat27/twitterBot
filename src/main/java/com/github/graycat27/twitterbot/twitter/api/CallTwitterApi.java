@@ -16,8 +16,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.http.HttpMethod;
 
@@ -48,6 +48,12 @@ public class CallTwitterApi {
             uriBuilder = new URIBuilder(callUrl.url);
             loggingStart(uriBuilder, HttpMethod.POST);
 
+            if(callUrl.equals(ApiUrl.statusesUpdate)){
+                postParam.add(new BasicNameValuePair("include_entities", "true"));
+                postParam.add(new BasicNameValuePair("include_ext_alt_text", "true"));
+                postParam.add(new BasicNameValuePair("tweet_mode", "extended"));
+            }
+
             uriBuilder.addParameters(postParam);
             HttpClient httpClient =
                     HttpClients.custom().setDefaultRequestConfig(
@@ -55,7 +61,7 @@ public class CallTwitterApi {
                     ).build();
             HttpPost httpPost = new HttpPost(uriBuilder.build());
             httpPost.setHeader("Authorization", GetOauthHeader.getUserOauthHeader(token, callUrl, postParam));
-            httpPost.setHeader("Content-Type", "application/json");
+            httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
             httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             HttpResponse response = httpClient.execute(httpPost);
             entity = response.getEntity();
