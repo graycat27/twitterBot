@@ -118,7 +118,7 @@ public class GetOauthHeader {
     }
 
     private static String createKey(String consumerSecret, String tokenSecret){
-        return consumerSecret + "&" + tokenSecret;
+        return consumerSecret + "&" + ((tokenSecret != null) ? tokenSecret: "");
     }
 
     private static String calcSignature(String data, String key){
