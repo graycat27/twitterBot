@@ -46,6 +46,12 @@ public class GetOauthHeader {
             }
         }
 
+        if(requestParam != null) {
+            for (NameValuePair pair : requestParam) {
+                oauthParam.put(pair.getName(), pair.getValue());
+            }
+        }
+
         // 署名(oauth_signature) の生成
         try{
             StringBuilder paramStrBuilder = new StringBuilder();
