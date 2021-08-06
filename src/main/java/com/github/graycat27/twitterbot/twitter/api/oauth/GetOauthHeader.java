@@ -76,8 +76,10 @@ public class GetOauthHeader {
         // Authorization header の作成
         StringBuilder paramStrBuilder = new StringBuilder();
         for(Map.Entry<String, String> param : oauthParam.entrySet()){
-            paramStrBuilder.append(", ");
-            paramStrBuilder.append(param.getKey()).append("=\"").append(urlEncode(param.getValue())).append("\"");
+            if(param.getValue() != null) {
+                paramStrBuilder.append(", ");
+                paramStrBuilder.append(param.getKey()).append("=\"").append(urlEncode(param.getValue())).append("\"");
+            }
         }
         String paramStr = paramStrBuilder.substring(2);
         String authHeader = "OAuth " + paramStr;
