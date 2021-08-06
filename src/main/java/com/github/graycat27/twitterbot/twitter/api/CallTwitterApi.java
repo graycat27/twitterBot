@@ -46,7 +46,9 @@ public class CallTwitterApi {
             uriBuilder = new URIBuilder(callUrl.url);
             loggingStart(uriBuilder, HttpMethod.POST);
 
-            uriBuilder.addParameters(postParam);
+            if(postParam != null) {
+                uriBuilder.addParameters(postParam);
+            }
             HttpClient httpClient =
                     HttpClients.custom().setDefaultRequestConfig(
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
@@ -54,42 +56,7 @@ public class CallTwitterApi {
             HttpPost httpPost = new HttpPost(uriBuilder.build());
             httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
             httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
-            httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
-            HttpResponse response = httpClient.execute(httpPost);
-            entity = response.getEntity();
-
-        }catch(URISyntaxException | IOException e){
-            System.out.println("Exception occurred while calling Twitter API v1");
-            System.out.println(e.getMessage());
-            System.out.println(callUrl);
-            throw new RuntimeException(e);
-        }
-
-        responseJsonStr = convertEntity2JsonStr(entity);
-
-        System.out.println("==ApiResponse==>>>>>");
-        System.out.println(responseJsonStr);
-        System.out.println("==ApiResponse==<<<<<");
-
-        loggingEnd(uriBuilder);
-        return responseJsonStr;
-
-    }
-
-    public String callApiV1Post(URIBuilder callUrl, RequestToken token, List<NameValuePair> postParam){
-        loggingStart(callUrl, HttpMethod.POST);
-
-        HttpEntity entity;
-        String responseJsonStr;
-        try{
-            HttpClient httpClient =
-                    HttpClients.custom().setDefaultRequestConfig(
-                            RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
-                    ).build();
-            HttpPost httpPost = new HttpPost(callUrl.build());
-            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, ApiUrl.getRequestToken,null));
-            httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
-            if(postParam != null && postParam.size() > 0) {
+            if(postParam != null){
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             }
             HttpResponse response = httpClient.execute(httpPost);
@@ -108,7 +75,7 @@ public class CallTwitterApi {
         System.out.println(responseJsonStr);
         System.out.println("==ApiResponse==<<<<<");
 
-        loggingEnd(callUrl);
+        loggingEnd(uriBuilder);
         return responseJsonStr;
 
     }
