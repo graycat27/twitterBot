@@ -86,7 +86,7 @@ public class GetOauthHeader {
         for(Map.Entry<String, String> param : oauthParam.entrySet()){
             if(param.getValue() != null) {
                 paramStrBuilder.append(", ");
-                paramStrBuilder.append(param.getKey()).append("=\"").append(urlEncode(param.getValue())).append("\"");
+                paramStrBuilder.append(param.getKey()).append("=\"").append(param.getValue()).append("\"");
             }
         }
         String paramStr = paramStrBuilder.substring(2);
