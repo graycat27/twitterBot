@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>HTML-index</title>
+    <title>TOP|ツイート数えったー</title>
     <script>
         function onAuthClick(){
             window.location.href = 'getAuth'
@@ -24,12 +24,20 @@
     </style>
 </head>
 <body>
-<h1>ツイート数カウントbotへようこそ</h1>
+<h1>ツイート数えったー</h1>
+<h2>ツイートを数える！</h2>
 <button id="startAuth" onclick="onAuthClick()">
     <img src="../web-image/twitter-logo-white.png" style="width:30px;" />  Twitter連携！
 </button>
 <div>
-毎日日付が変わったころに、1日のツイート数をつぶやきます
+毎日日付が変わったころに、1日のツイート数をつぶやきます。<br>
+100ツイートごとでもお知らせします
+</div>
+
+<h2>どうやって数えてるの？</h2>
+<div>
+合計ツイート数の差分をツイート数として算出します。<br>
+日付が変わったころに合計ツイート数を記録し、随時最新の値と比較しています
 </div>
 </body>
 </html>
