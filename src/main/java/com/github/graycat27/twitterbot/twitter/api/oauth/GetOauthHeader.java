@@ -34,7 +34,7 @@ public class GetOauthHeader {
         SortedMap<String, String> authMap = getAuthMap(requestParam, oauthRequest, token);
         String signatureParam = createSign(authMap);
 
-        String signatureBaseData = createBase(HttpMethod.POST, ApiUrl.statusesUpdate, signatureParam);
+        String signatureBaseData = createBase(HttpMethod.POST, url, signatureParam);
         String signatureSecretKey = createKey(oauthRequest.getConsumerSecret(), oauthRequest.getOauthTokenSecret());
 
         String signature = calcSignature(signatureBaseData, signatureSecretKey);
