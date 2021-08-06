@@ -6,12 +6,14 @@ import com.github.graycat27.twitterbot.heroku.db.query.BotUserQuery;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterUserTokenQuery;
 import com.github.graycat27.twitterbot.twitter.api.caller.AccessTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
+import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 
 @Service
 public class GetAuthService {
@@ -65,6 +67,15 @@ public class GetAuthService {
         );
         tokenQuery.insert(insertDomain);
 
+
+        /*  */
+        try {
+            String dateTime = Calendar.getInstance().getTime().toString();
+            String status = "#ツイート数えったー テストツイートです "+ dateTime;
+            SendTweetApi.sendTweet(token.getId(), status);
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

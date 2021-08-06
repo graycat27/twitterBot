@@ -5,9 +5,11 @@ import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RequestTokenGetterApi {
@@ -20,8 +22,7 @@ public class RequestTokenGetterApi {
      */
     public static RequestToken getRequestToken() throws URISyntaxException, IOException {
 
-        URIBuilder uriBuilder = new URIBuilder(ApiUrl.getRequestToken.url);
-        String resStr = ApiManager.getApiCaller().callApiV1Post(uriBuilder, null);
+        String resStr = ApiManager.getApiCaller().callApiV1Post(ApiUrl.getRequestToken, null, null);
 
         RequestToken result = convertQueryStr2Domain(resStr);
 

@@ -3,12 +3,14 @@ package com.github.graycat27.twitterbot.twitter.api;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
-import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
+import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
@@ -19,6 +21,7 @@ import org.springframework.http.HttpMethod;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class CallTwitterApi {
 
@@ -33,24 +36,27 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV1Post(URIBuilder callUrl, RequestToken token){
-        loggingStart(callUrl, HttpMethod.POST);
-
+    public String callApiV1Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
         HttpEntity entity;
         String responseJsonStr;
+
         try{
+            loggingStart(callUrl, HttpMethod.POST);
+
             HttpClient httpClient =
                     HttpClients.custom().setDefaultRequestConfig(
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
-            HttpPost httpPost = new HttpPost(callUrl.build());
-            httpPost.setHeader("Authorization", GetOauthHeader.getOauthHeader(token));
-            httpPost.setHeader("Content-Type", "application/json");
-
+            HttpPost httpPost = new HttpPost(callUrl.url);
+            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
+            httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+            if(postParam != null){
+                httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
+            }
             HttpResponse response = httpClient.execute(httpPost);
             entity = response.getEntity();
 
-        }catch(URISyntaxException | IOException e){
+        }catch(IOException e){
             System.out.println("Exception occurred while calling Twitter API v1");
             System.out.println(e.getMessage());
             System.out.println(callUrl);
@@ -79,8 +85,8 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpGet httpGet = new HttpGet(callUrl.build());
-            httpGet.setHeader("Authorization", String.format("Bearer %s", authInfo.getBearerToken()));
-            httpGet.setHeader("Content-Type", "application/json");
+            httpGet.addHeader("Authorization", String.format("Bearer %s", authInfo.getBearerToken()));
+            httpGet.addHeader("Content-Type", "application/json");
 
             HttpResponse response = httpClient.execute(httpGet);
             entity = response.getEntity();
@@ -100,10 +106,21 @@ public class CallTwitterApi {
         return responseJsonStr;
     }
 
+    private static void loggingStart(ApiUrl.UrlString url, HttpMethod method){
+        System.out.println("--- Api call start ----->");
+        System.out.println("--- call URL = "+ url.url);
+        System.out.println("--- call method = "+ method);
+    }
+
     private static void loggingStart(URIBuilder url, HttpMethod method){
         System.out.println("--- Api call start ----->");
         System.out.println("--- call URL = "+ url.getPath());
         System.out.println("--- call method = "+ method);
+    }
+
+    private static void loggingEnd(ApiUrl.UrlString url){
+        System.out.println("--- called URL = "+ url.url);
+        System.out.println("--- Api call end -----<");
     }
 
     private static void loggingEnd(URIBuilder url){

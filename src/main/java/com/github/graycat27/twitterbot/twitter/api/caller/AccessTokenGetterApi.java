@@ -16,9 +16,8 @@ public class AccessTokenGetterApi {
     private AccessTokenGetterApi(){ /* インスタンス化防止 */ }
 
     public static AccessToken getAccessToken(String token, String verifier) throws URISyntaxException, IOException {
-        URIBuilder uriBuilder = new URIBuilder(ApiUrl.getAccessToken.url);
         RequestToken requestToken = new RequestToken(token, null, verifier);
-        String resStr = ApiManager.getApiCaller().callApiV1Post(uriBuilder, requestToken);
+        String resStr = ApiManager.getApiCaller().callApiV1Post(ApiUrl.getAccessToken, requestToken, null);
 
         AccessToken data = convertQueryStr2Domain(resStr);
 

@@ -2,7 +2,6 @@ package com.github.graycat27.twitterbot.heroku.db.query;
 
 import com.github.graycat27.twitterbot.heroku.db.DBConnection;
 import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
-import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterUserTokenDomain;
 import com.github.graycat27.twitterbot.heroku.db.sql.TwitterUserTokenSql;
 import org.apache.ibatis.session.SqlSession;
