@@ -6,6 +6,7 @@ import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.BotUserQuery;
 import com.github.graycat27.twitterbot.utils.ListUtil;
 
+import java.util.Collections;
 import java.util.List;
 
 public class GetTargetList extends AbstractJob {
@@ -14,6 +15,7 @@ public class GetTargetList extends AbstractJob {
     public void jobTask() {
         BotUserQuery query = new BotUserQuery();
         List<BotUsersDomain> resultList = query.selectMulti(null);
+        Collections.shuffle(resultList);
         ListUtil.printList(resultList);
 
         BotTask.setUserList(resultList);
