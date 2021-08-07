@@ -6,6 +6,6 @@ public class TwitterAuthSql {
 
     private TwitterAuthSql(){ /* インスタンス化防止 */ }
 
-    public static final String selectOne = Names.Mybatis.twitterAuth + ".selectOne";
+    public static final SqlKey selectOne = new SqlKey(Names.Mybatis.twitterAuth + ".selectOne");
 
 }

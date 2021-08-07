@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.heroku.db.query;
 import com.github.graycat27.twitterbot.heroku.db.DBConnection;
 import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterUserTokenDomain;
+import com.github.graycat27.twitterbot.heroku.db.sql.SqlKey;
 import com.github.graycat27.twitterbot.heroku.db.sql.TwitterUserTokenSql;
 import org.apache.ibatis.session.SqlSession;
 
@@ -16,10 +17,10 @@ public class TwitterUserTokenQuery extends QueryRunnable {
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            String sql = TwitterUserTokenSql.insert;
+            SqlKey sql = TwitterUserTokenSql.insert;
             TwitterUserTokenDomain domainParam = (TwitterUserTokenDomain) param;
             logParamObjectSecret(sql, domainParam);
-            int result = session.insert(sql, domainParam);
+            int result = session.insert(sql.val(), domainParam);
             logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
@@ -38,10 +39,10 @@ public class TwitterUserTokenQuery extends QueryRunnable {
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            String sql = TwitterUserTokenSql.selectOne;
+            SqlKey sql = TwitterUserTokenSql.selectOne;
             TwitterUserTokenDomain domainParam = (TwitterUserTokenDomain) param;
             logParamObject(sql, param);
-            TwitterUserTokenDomain result = session.selectOne(sql, domainParam);
+            TwitterUserTokenDomain result = session.selectOne(sql.val(), domainParam);
             logResultObjectSecret(sql, result);
             return result;
         } catch (SQLException sqlEx) {
@@ -56,9 +57,9 @@ public class TwitterUserTokenQuery extends QueryRunnable {
 
     public void delete(TwitterUserTokenDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            String sql = TwitterUserTokenSql.delete;
+            SqlKey sql = TwitterUserTokenSql.delete;
             logParamObject(sql, param);
-            int result = session.delete(sql, param);
+            int result = session.delete(sql.val(), param);
             logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);

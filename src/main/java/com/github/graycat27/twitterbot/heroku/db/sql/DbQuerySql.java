@@ -6,5 +6,5 @@ public class DbQuerySql {
 
     private DbQuerySql(){ /* インスタンス化防止 */ }
 
-    public static final String selectTodayString = Names.Mybatis.dbQuery+".selectTodayString";
+    public static final SqlKey selectTodayString = new SqlKey(Names.Mybatis.dbQuery+".selectTodayString");
 }

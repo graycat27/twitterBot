@@ -6,14 +6,14 @@ public class BotUserSql {
 
     private BotUserSql(){ /* インスタンス化防止 */ }
 
-    public static final String selectOne = Names.Mybatis.botUsers + ".selectOne";
-    public static final String selectMulti = Names.Mybatis.botUsers + ".selectMulti";
+    public static final SqlKey selectOne = new SqlKey(Names.Mybatis.botUsers + ".selectOne");
+    public static final SqlKey selectMulti = new SqlKey(Names.Mybatis.botUsers + ".selectMulti");
 
-    public static final String insert = Names.Mybatis.botUsers + ".insert";
-    public static final String update = Names.Mybatis.botUsers + ".update";
+    public static final SqlKey insert = new SqlKey(Names.Mybatis.botUsers + ".insert");
+    public static final SqlKey update = new SqlKey(Names.Mybatis.botUsers + ".update");
 
-    public static final String deleteLogical = Names.Mybatis.botUsers + ".deleteLogical";
-    public static final String restoreDeletedUser = Names.Mybatis.botUsers + ".restoreDeletedUser";
-    public static final String selectThoughDeleted = Names.Mybatis.botUsers + ".selectThoughDeleted";
+    public static final SqlKey deleteLogical = new SqlKey(Names.Mybatis.botUsers + ".deleteLogical");
+    public static final SqlKey restoreDeletedUser = new SqlKey(Names.Mybatis.botUsers + ".restoreDeletedUser");
+    public static final SqlKey selectThoughDeleted = new SqlKey(Names.Mybatis.botUsers + ".selectThoughDeleted");
 
 }
