@@ -27,10 +27,11 @@ public class TwitterAuthQuery extends QueryRunnable {
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = TwitterAuthSql.selectOne;
             TwitterAuthDomain domainParam = (TwitterAuthDomain) param;
-            logParamObject(domainParam);
-            TwitterAuthDomain result = session.selectOne(TwitterAuthSql.selectOne, domainParam);
-            logResultObjectSecret(result);
+            logParamObject(sql, domainParam);
+            TwitterAuthDomain result = session.selectOne(sql, domainParam);
+            logResultObjectSecret(sql, result);
             return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);

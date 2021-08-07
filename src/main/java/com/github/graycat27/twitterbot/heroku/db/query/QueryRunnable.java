@@ -21,52 +21,52 @@ public abstract class QueryRunnable implements IQuery {
         }
     }
 
-    protected void logParamObject(final IDbDomain domain){
+    protected void logParamObject(final String sql, final IDbDomain domain){
         if(domain == null){
-            System.out.println("== DB-I/O parameter is nothing ==>");
+            System.out.println("== DB-I/O parameter for "+ sql +" is nothing ==>");
             return;
         }
-        System.out.println("== DB-I/O parameter ==>");
+        System.out.println("== DB-I/O parameter == "+ sql +" ==>");
         System.out.println(domain);
         System.out.println("====<");
     }
 
-    protected void logParamObjectSecret(final IDbDomain domain){
+    protected void logParamObjectSecret(final String sql, final IDbDomain domain){
         if(domain == null){
-            System.out.println("== DB-I/O parameter is nothing ==>");
+            System.out.println("== DB-I/O parameter for "+ sql +" is nothing ==>");
             return;
         }
-        System.out.println("== DB-I/O parameter ==>");
+        System.out.println("== DB-I/O parameter == "+ sql +" ==>");
         System.out.println(domain.getClass().getSimpleName() + "**data-secret**");
         System.out.println("====<");
     }
 
-    protected void logResultObject(final IDbDomain domain){
-        System.out.println("== DB-I/O result ==>");
+    protected void logResultObject(final String sql, final IDbDomain domain){
+        System.out.println("== DB-I/O result == "+ sql +" ==>");
         System.out.println(domain.toString());
         System.out.println("====<");
     }
 
-    protected void logResultObject(final int count){
-        System.out.println("== DB-I/O result ==>");
+    protected void logResultObject(final String sql, final int count){
+        System.out.println("== DB-I/O result == "+ sql +" ==>");
         System.out.println(count);
         System.out.println("====<");
     }
 
-    protected void logResultObject(final List<? extends IDbDomain> resultList){
-        System.out.println("== DB-I/O result ==>");
+    protected void logResultObject(final String sql, final List<? extends IDbDomain> resultList){
+        System.out.println("== DB-I/O result == "+ sql +" ==>");
         ListUtil.printList(resultList);
         System.out.println("====<");
     }
 
-    protected void logResultObjectSecret(final IDbDomain domain){
-        System.out.println("== DB-I/O result ==>");
+    protected void logResultObjectSecret(final String sql, final IDbDomain domain){
+        System.out.println("== DB-I/O result == "+ sql +" ==>");
         System.out.println(domain.getClass().getSimpleName() + "**data-secret**");
         System.out.println("====<");
     }
 
-    protected void logResultObjectSecret(final List<? extends IDbDomain> resultList){
-        System.out.println("== DB-I/O result ==>");
+    protected void logResultObjectSecret(final String sql, final List<? extends IDbDomain> resultList){
+        System.out.println("== DB-I/O result == "+ sql +" ==>");
         ListUtil.printSecretDataList(resultList);
         System.out.println("====<");
     }

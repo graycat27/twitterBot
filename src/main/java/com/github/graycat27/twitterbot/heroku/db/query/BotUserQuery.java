@@ -16,10 +16,11 @@ public class BotUserQuery extends QueryRunnable{
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = BotUserSql.insert;
             BotUsersDomain domainParam = (BotUsersDomain) param;
-            logParamObject(domainParam);
-            int result = session.insert(BotUserSql.insert, domainParam);
-            logResultObject(result);
+            logParamObject(sql, domainParam);
+            int result = session.insert(sql, domainParam);
+            logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -31,11 +32,12 @@ public class BotUserQuery extends QueryRunnable{
             throw new IllegalArgumentException("cond or param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = BotUserSql.update;
             BotUsersDomain domainCond = (BotUsersDomain)cond;
             BotUsersDomain queryParam = new BotUsersDomain(domainCond.getTwUserId());
-            logParamObject(queryParam);
-            int result = session.update(BotUserSql.update, queryParam);
-            logResultObject(result);
+            logParamObject(sql, queryParam);
+            int result = session.update(sql, queryParam);
+            logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -47,10 +49,11 @@ public class BotUserQuery extends QueryRunnable{
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = BotUserSql.selectOne;
             BotUsersDomain domainParam = (BotUsersDomain)param;
-            logParamObject(domainParam);
-            BotUsersDomain result = session.selectOne(BotUserSql.selectOne, domainParam);
-            logResultObject(result);
+            logParamObject(sql, domainParam);
+            BotUsersDomain result = session.selectOne(sql, domainParam);
+            logResultObject(sql, result);
             return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
@@ -63,10 +66,11 @@ public class BotUserQuery extends QueryRunnable{
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = BotUserSql.selectMulti;
             BotUsersDomain domainParam = (BotUsersDomain)param;
-            logParamObject(domainParam);
-            List<BotUsersDomain> result = session.selectList(BotUserSql.selectMulti, domainParam);
-            logResultObject(result);
+            logParamObject(sql, domainParam);
+            List<BotUsersDomain> result = session.selectList(sql, domainParam);
+            logResultObject(sql, result);
             return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
@@ -75,9 +79,10 @@ public class BotUserQuery extends QueryRunnable{
 
     public void deleteLogical(BotUsersDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            logParamObject(param);
-            int result = session.update(BotUserSql.deleteLogical, param);
-            logResultObject(result);
+            String sql = BotUserSql.deleteLogical;
+            logParamObject(sql, param);
+            int result = session.update(sql, param);
+            logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -85,9 +90,10 @@ public class BotUserQuery extends QueryRunnable{
 
     public void restoreDeletedUser(BotUsersDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            logParamObject(param);
-            int result = session.update(BotUserSql.restoreDeletedUser, param);
-            logResultObject(result);
+            String sql = BotUserSql.restoreDeletedUser;
+            logParamObject(sql, param);
+            int result = session.update(sql, param);
+            logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -95,9 +101,10 @@ public class BotUserQuery extends QueryRunnable{
 
     public BotUsersDomain selectThoughDeleted(BotUsersDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            logParamObject(param);
-            BotUsersDomain result = session.selectOne(BotUserSql.selectThoughDeleted, param);
-            logResultObject(result);
+            String sql = BotUserSql.selectThoughDeleted;
+            logParamObject(sql, param);
+            BotUsersDomain result = session.selectOne(sql, param);
+            logResultObject(sql, result);
             return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);

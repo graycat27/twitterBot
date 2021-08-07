@@ -16,10 +16,11 @@ public class TwitterUserTokenQuery extends QueryRunnable {
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = TwitterUserTokenSql.insert;
             TwitterUserTokenDomain domainParam = (TwitterUserTokenDomain) param;
-            logParamObjectSecret(domainParam);
-            int result = session.insert(TwitterUserTokenSql.insert, domainParam);
-            logResultObject(result);
+            logParamObjectSecret(sql, domainParam);
+            int result = session.insert(sql, domainParam);
+            logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -37,10 +38,11 @@ public class TwitterUserTokenQuery extends QueryRunnable {
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = TwitterUserTokenSql.selectOne;
             TwitterUserTokenDomain domainParam = (TwitterUserTokenDomain) param;
-            logParamObject(param);
-            TwitterUserTokenDomain result = session.selectOne(TwitterUserTokenSql.selectOne, domainParam);
-            logResultObjectSecret(result);
+            logParamObject(sql, param);
+            TwitterUserTokenDomain result = session.selectOne(sql, domainParam);
+            logResultObjectSecret(sql, result);
             return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
@@ -54,9 +56,10 @@ public class TwitterUserTokenQuery extends QueryRunnable {
 
     public void delete(TwitterUserTokenDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            logParamObject(param);
-            int result = session.delete(TwitterUserTokenSql.delete, param);
-            logResultObject(result);
+            String sql = TwitterUserTokenSql.delete;
+            logParamObject(sql, param);
+            int result = session.delete(sql, param);
+            logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }

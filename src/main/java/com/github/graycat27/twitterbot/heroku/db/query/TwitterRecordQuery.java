@@ -16,10 +16,11 @@ public class TwitterRecordQuery extends QueryRunnable{
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = TwitterRecordSql.insert;
             TwitterRecordDomain domainParam = (TwitterRecordDomain) param;
-            logParamObject(domainParam);
-            int result = session.insert(TwitterRecordSql.insert, domainParam);
-            logResultObject(result);
+            logParamObject(sql, domainParam);
+            int result = session.insert(sql, domainParam);
+            logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -32,6 +33,7 @@ public class TwitterRecordQuery extends QueryRunnable{
             throw new IllegalArgumentException("cond or param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = TwitterRecordSql.update;
             TwitterRecordDomain domainCond = (TwitterRecordDomain)cond;
             TwitterRecordDomain domainParam = (TwitterRecordDomain)param;
             TwitterRecordDomain queryParam = new TwitterRecordDomain(
@@ -39,9 +41,9 @@ public class TwitterRecordQuery extends QueryRunnable{
                     domainParam.getRecordTime(), domainParam.getTotalTweetCount(),
                     domainParam.getDateRecordTime(), domainParam.getTotalTweetCountAtDate(),
                     domainParam.getTwDisplayId());
-            logParamObject(queryParam);
-            int result = session.update(TwitterRecordSql.update, queryParam);
-            logResultObject(result);
+            logParamObject(sql, queryParam);
+            int result = session.update(sql, queryParam);
+            logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -53,10 +55,11 @@ public class TwitterRecordQuery extends QueryRunnable{
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = TwitterRecordSql.selectOne;
             TwitterRecordDomain domainParam = (TwitterRecordDomain) param;
-            logParamObject(domainParam);
-            TwitterRecordDomain result = session.selectOne(TwitterRecordSql.selectOne, domainParam);
-            logResultObject(result);
+            logParamObject(sql, domainParam);
+            TwitterRecordDomain result = session.selectOne(sql, domainParam);
+            logResultObject(sql, result);
             return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
@@ -69,10 +72,11 @@ public class TwitterRecordQuery extends QueryRunnable{
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = TwitterRecordSql.selectMulti;
             TwitterRecordDomain domainParam = (TwitterRecordDomain) param;
-            logParamObject(domainParam);
-            List<TwitterRecordDomain> result = session.selectList(TwitterRecordSql.selectMulti, domainParam);
-            logResultObject(result);
+            logParamObject(sql, domainParam);
+            List<TwitterRecordDomain> result = session.selectList(sql, domainParam);
+            logResultObject(sql, result);
             return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
@@ -81,10 +85,13 @@ public class TwitterRecordQuery extends QueryRunnable{
 
     public void updateDaily(TwitterRecordDomain updateInfo){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            String sql = TwitterRecordSql.updateDaily;
             TwitterRecordDomain queryParam = new TwitterRecordDomain(
                     updateInfo.getTwUserId(), null, null,
                     updateInfo.getDateRecordTime(), updateInfo.getTotalTweetCountAtDate(), null);
-            session.update(TwitterRecordSql.updateDaily, queryParam);
+            logParamObject(sql, queryParam);
+            int result = session.update(sql, queryParam);
+            logResultObject(sql, result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
