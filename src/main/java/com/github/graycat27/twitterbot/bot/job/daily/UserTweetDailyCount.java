@@ -34,7 +34,11 @@ public class UserTweetDailyCount extends AbstractJob {
         );
         final TwitterRecordDomain recordResult = recordQuery.selectOne(recordParamDomain);
 
-        if(isNewDate(recordResult)){
+        System.out.println("DEBUG ** record = "+ recordResult.toString());
+
+        boolean isNewDate = isNewDate(recordResult);
+        System.out.println("DEBUG ** isNewDate = "+ isNewDate);
+        if(isNewDate){
             tweetDailyResult(recordResult);
             updateDailyData(recordResult);
         }
