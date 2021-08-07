@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.heroku.db.query;
 import com.github.graycat27.twitterbot.heroku.db.DBConnection;
 import com.github.graycat27.twitterbot.heroku.db.domain.IDbDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
+import com.github.graycat27.twitterbot.heroku.db.sql.SqlKey;
 import com.github.graycat27.twitterbot.heroku.db.sql.TwitterAuthSql;
 import org.apache.ibatis.session.SqlSession;
 
@@ -27,8 +28,12 @@ public class TwitterAuthQuery extends QueryRunnable {
             throw new IllegalArgumentException("param is wrong Type");
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
+            SqlKey sql = TwitterAuthSql.selectOne;
             TwitterAuthDomain domainParam = (TwitterAuthDomain) param;
-            return session.selectOne(TwitterAuthSql.selectOne, domainParam);
+            logParamObject(sql, domainParam);
+            TwitterAuthDomain result = session.selectOne(sql.val(), domainParam);
+            logResultObjectSecret(sql, result);
+            return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -36,6 +41,6 @@ public class TwitterAuthQuery extends QueryRunnable {
 
     @Override
     public List<TwitterAuthDomain> selectMulti(IDbDomain param) {
-        return new ArrayList<TwitterAuthDomain>(){{add(selectOne(param));}};
+        throw new UnsupportedOperationException("this table is unable to select multi");
     }
 }
