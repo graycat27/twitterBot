@@ -26,4 +26,19 @@ public class ListUtil {
 
 
     }
+
+    public static void printSecretDataList(final List<?> targetList){
+        if(targetList == null){
+            System.out.println("List is null");
+            return;
+        }
+
+        int size = targetList.size();
+        System.out.println("{ List:{size: "+ size +",");
+        System.out.println("       data:[");
+        if(size>0) {
+            System.out.println(targetList.get(size - 1).getClass().getSimpleName() + "**data-secret**");
+        }
+        System.out.println("]} }");
+    }
 }
