@@ -17,7 +17,9 @@ public class BotUserQuery extends QueryRunnable{
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             BotUsersDomain domainParam = (BotUsersDomain) param;
-            session.insert(BotUserSql.insert, domainParam);
+            logParamObject(domainParam);
+            int result = session.insert(BotUserSql.insert, domainParam);
+            logResultObject(result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -31,7 +33,9 @@ public class BotUserQuery extends QueryRunnable{
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             BotUsersDomain domainCond = (BotUsersDomain)cond;
             BotUsersDomain queryParam = new BotUsersDomain(domainCond.getTwUserId());
-            session.update(BotUserSql.update, queryParam);
+            logParamObject(queryParam);
+            int result = session.update(BotUserSql.update, queryParam);
+            logResultObject(result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -44,7 +48,10 @@ public class BotUserQuery extends QueryRunnable{
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             BotUsersDomain domainParam = (BotUsersDomain)param;
-            return session.selectOne(BotUserSql.selectOne, domainParam);
+            logParamObject(domainParam);
+            BotUsersDomain result = session.selectOne(BotUserSql.selectOne, domainParam);
+            logResultObject(result);
+            return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -57,7 +64,10 @@ public class BotUserQuery extends QueryRunnable{
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             BotUsersDomain domainParam = (BotUsersDomain)param;
-            return session.selectList(BotUserSql.selectMulti, domainParam);
+            logParamObject(domainParam);
+            List<BotUsersDomain> result = session.selectList(BotUserSql.selectMulti, domainParam);
+            logResultObject(result);
+            return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -65,7 +75,9 @@ public class BotUserQuery extends QueryRunnable{
 
     public void deleteLogical(BotUsersDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            session.update(BotUserSql.deleteLogical, param);
+            logParamObject(param);
+            int result = session.update(BotUserSql.deleteLogical, param);
+            logResultObject(result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -73,7 +85,9 @@ public class BotUserQuery extends QueryRunnable{
 
     public void restoreDeletedUser(BotUsersDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            session.update(BotUserSql.restoreDeletedUser, param);
+            logParamObject(param);
+            int result = session.update(BotUserSql.restoreDeletedUser, param);
+            logResultObject(result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -81,7 +95,10 @@ public class BotUserQuery extends QueryRunnable{
 
     public BotUsersDomain selectThoughDeleted(BotUsersDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            return session.selectOne(BotUserSql.selectThoughDeleted, param);
+            logParamObject(param);
+            BotUsersDomain result = session.selectOne(BotUserSql.selectThoughDeleted, param);
+            logResultObject(result);
+            return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }

@@ -13,7 +13,10 @@ public class DbQuery extends QueryRunnable {
 
     public Today getToday(){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            return session.selectOne(DbQuerySql.selectTodayString, null);
+            logParamObject(null);
+            Today result = session.selectOne(DbQuerySql.selectTodayString, null);
+            logResultObject(result);
+            return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }

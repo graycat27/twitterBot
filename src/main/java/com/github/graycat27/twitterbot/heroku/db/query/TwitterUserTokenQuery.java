@@ -17,7 +17,9 @@ public class TwitterUserTokenQuery extends QueryRunnable {
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             TwitterUserTokenDomain domainParam = (TwitterUserTokenDomain) param;
-            session.insert(TwitterUserTokenSql.insert, domainParam);
+            logParamObjectSecret(domainParam);
+            int result = session.insert(TwitterUserTokenSql.insert, domainParam);
+            logResultObject(result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -36,7 +38,10 @@ public class TwitterUserTokenQuery extends QueryRunnable {
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             TwitterUserTokenDomain domainParam = (TwitterUserTokenDomain) param;
-            return session.selectOne(TwitterUserTokenSql.selectOne, domainParam);
+            logParamObject(param);
+            TwitterUserTokenDomain result = session.selectOne(TwitterUserTokenSql.selectOne, domainParam);
+            logResultObjectSecret(result);
+            return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -49,7 +54,9 @@ public class TwitterUserTokenQuery extends QueryRunnable {
 
     public void delete(TwitterUserTokenDomain param){
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            session.delete(TwitterUserTokenSql.delete, param);
+            logParamObject(param);
+            int result = session.delete(TwitterUserTokenSql.delete, param);
+            logResultObject(result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }

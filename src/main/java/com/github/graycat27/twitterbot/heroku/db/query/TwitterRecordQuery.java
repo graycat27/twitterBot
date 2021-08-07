@@ -12,8 +12,14 @@ import java.util.List;
 public class TwitterRecordQuery extends QueryRunnable{
     @Override
     public void insert(IDbDomain param) {
+        if(param != null && !(param instanceof TwitterRecordDomain)){
+            throw new IllegalArgumentException("param is wrong Type");
+        }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
-            session.insert(TwitterRecordSql.insert, param);
+            TwitterRecordDomain domainParam = (TwitterRecordDomain) param;
+            logParamObject(domainParam);
+            int result = session.insert(TwitterRecordSql.insert, domainParam);
+            logResultObject(result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -33,7 +39,9 @@ public class TwitterRecordQuery extends QueryRunnable{
                     domainParam.getRecordTime(), domainParam.getTotalTweetCount(),
                     domainParam.getDateRecordTime(), domainParam.getTotalTweetCountAtDate(),
                     domainParam.getTwDisplayId());
-            session.update(TwitterRecordSql.update, queryParam);
+            logParamObject(queryParam);
+            int result = session.update(TwitterRecordSql.update, queryParam);
+            logResultObject(result);
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -46,7 +54,10 @@ public class TwitterRecordQuery extends QueryRunnable{
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             TwitterRecordDomain domainParam = (TwitterRecordDomain) param;
-            return session.selectOne(TwitterRecordSql.selectOne, domainParam);
+            logParamObject(domainParam);
+            TwitterRecordDomain result = session.selectOne(TwitterRecordSql.selectOne, domainParam);
+            logResultObject(result);
+            return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -59,7 +70,10 @@ public class TwitterRecordQuery extends QueryRunnable{
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             TwitterRecordDomain domainParam = (TwitterRecordDomain) param;
-            return session.selectList(TwitterRecordSql.selectMulti, domainParam);
+            logParamObject(domainParam);
+            List<TwitterRecordDomain> result = session.selectList(TwitterRecordSql.selectMulti, domainParam);
+            logResultObject(result);
+            return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }

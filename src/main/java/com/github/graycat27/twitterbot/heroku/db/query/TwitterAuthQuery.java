@@ -28,7 +28,10 @@ public class TwitterAuthQuery extends QueryRunnable {
         }
         try(SqlSession session = factory.openSession(DBConnection.getConnection())){
             TwitterAuthDomain domainParam = (TwitterAuthDomain) param;
-            return session.selectOne(TwitterAuthSql.selectOne, domainParam);
+            logParamObject(domainParam);
+            TwitterAuthDomain result = session.selectOne(TwitterAuthSql.selectOne, domainParam);
+            logResultObjectSecret(result);
+            return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
         }
@@ -36,6 +39,6 @@ public class TwitterAuthQuery extends QueryRunnable {
 
     @Override
     public List<TwitterAuthDomain> selectMulti(IDbDomain param) {
-        return new ArrayList<TwitterAuthDomain>(){{add(selectOne(param));}};
+        throw new UnsupportedOperationException("this table is unable to select multi");
     }
 }
