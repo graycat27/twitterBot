@@ -21,7 +21,7 @@ public abstract class QueryRunnable implements IQuery {
         }
     }
 
-    protected void logParamObject(IDbDomain domain){
+    protected void logParamObject(final IDbDomain domain){
         if(domain == null){
             System.out.println("== DB-I/O parameter is nothing ==>");
             return;
@@ -31,19 +31,19 @@ public abstract class QueryRunnable implements IQuery {
         System.out.println("====<");
     }
 
-    protected void logResultObject(IDbDomain domain){
+    protected void logResultObject(final IDbDomain domain){
         System.out.println("== DB-I/O result ==>");
         System.out.println(domain.toString());
         System.out.println("====<");
     }
 
-    protected void logResultObject(int count){
+    protected void logResultObject(final int count){
         System.out.println("== DB-I/O result ==>");
         System.out.println(count);
         System.out.println("====<");
     }
 
-    protected void logResultObject(List<? extends IDbDomain> resultList){
+    protected void logResultObject(final List<? extends IDbDomain> resultList){
         System.out.println("== DB-I/O result ==>");
         ListUtil.printList(resultList);
         System.out.println("====<");

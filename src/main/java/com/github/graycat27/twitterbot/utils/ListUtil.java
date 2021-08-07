@@ -6,7 +6,7 @@ public class ListUtil {
 
     private ListUtil(){ /* インスタンス化防止 */ }
 
-    public static void printList(List<?> targetList){
+    public static void printList(final List<?> targetList){
         if(targetList == null){
             System.out.println("List is null");
             return;
