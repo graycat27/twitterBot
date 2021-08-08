@@ -39,7 +39,12 @@ public class UserTweetDailyCount extends AbstractJob {
         boolean isNewDate = isNewDate(recordResult);
         System.out.println("DEBUG ** isNewDate = "+ isNewDate);
         if(isNewDate){
-            tweetDailyResult(recordResult);
+            try {
+                tweetDailyResult(recordResult);
+            }catch(Exception e){
+                System.err.println("failed to tweet daily result due to Exception "+ e.getMessage());
+                System.err.println(recordResult);
+            }
             updateDailyData(recordResult);
         }
 
