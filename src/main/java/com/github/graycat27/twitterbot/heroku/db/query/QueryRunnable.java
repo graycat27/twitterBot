@@ -44,7 +44,7 @@ public abstract class QueryRunnable implements IQuery {
 
     protected void logResultObject(final SqlKey sql, final IDbDomain domain){
         System.out.println("== DB-I/O result == "+ sql.val() +" ==>");
-        System.out.println(domain.toString());
+        System.out.println(domain == null ? "null" : domain.toString());
         System.out.println("====<");
     }
 
@@ -62,7 +62,7 @@ public abstract class QueryRunnable implements IQuery {
 
     protected void logResultObjectSecret(final SqlKey sql, final IDbDomain domain){
         System.out.println("== DB-I/O result == "+ sql.val() +" ==>");
-        System.out.println(domain.getClass().getSimpleName() + "**data-secret**");
+        System.out.println(domain == null ? "null" : domain.getClass().getSimpleName() + "**data-secret**");
         System.out.println("====<");
     }
 
