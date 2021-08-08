@@ -4,8 +4,10 @@ import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
+import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
@@ -54,13 +56,17 @@ public class CallTwitterApi {
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             }
             HttpResponse response = httpClient.execute(httpPost);
+            if(response.getStatusLine().getStatusCode() != HttpStatus.SC_OK){
+                System.err.println("Response status code = "+ response.getStatusLine().getStatusCode());
+                throw new TwitterApiException("API response status code was not 200-OK");
+            }
             entity = response.getEntity();
 
         }catch(IOException e){
             System.err.println("Exception occurred while calling Twitter API v1");
             System.err.println(e.getMessage());
             System.err.println(callUrl);
-            throw new RuntimeException(e);
+            throw new TwitterApiException(e);
         }
 
         responseJsonStr = convertEntity2JsonStr(entity);
@@ -94,7 +100,7 @@ public class CallTwitterApi {
             System.err.println("Exception occurred while calling Twitter API v2");
             System.err.println(e.getMessage());
             System.err.println(callUrl);
-            throw new RuntimeException(e);
+            throw new TwitterApiException(e);
         }
         responseJsonStr = convertEntity2JsonStr(entity);
 
@@ -139,7 +145,7 @@ public class CallTwitterApi {
             System.err.println("Exception occurred while converting API response data");
             System.err.println(e.getMessage());
             System.err.println(entity);
-            throw new RuntimeException(e);
+            throw new TwitterApiException(e);
         }
 
         return jsonStr;
