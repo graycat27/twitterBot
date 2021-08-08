@@ -74,5 +74,18 @@ class UserTweetDailyCountTest {
         assertTrue(isNewDate(latest, yesterday));
     }
 
+    @Test
+    public void isNewDate_diffDateTwoDiffDay(){
+        Timestamp latest = new Timestamp(2021, 8, 1, 14, 59, 59, 0);
+        Timestamp dayLogged = new Timestamp(2021, 7, 30, 15, 0, 0, 0);
+        assertTrue(isNewDate(latest, dayLogged));
+    }
+    @Test
+    public void isNewDate_diffDateTwoDiffDayOverMonth(){
+        Timestamp latest = new Timestamp(2021, 8, 2, 14, 59, 59, 0);
+        Timestamp dayLogged = new Timestamp(2021, 7, 31, 15, 0, 0, 0);
+        assertTrue(isNewDate(latest, dayLogged));
+    }
+
 
 }

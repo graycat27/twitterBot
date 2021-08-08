@@ -33,9 +33,13 @@ public class UserTweetDailyCount extends AbstractJob {
                 null, null, null, null, null
         );
         final TwitterRecordDomain recordResult = recordQuery.selectOne(recordParamDomain);
-
         if(isNewDate(recordResult)){
-            tweetDailyResult(recordResult);
+            try {
+                tweetDailyResult(recordResult);
+            }catch(Exception e){
+                System.err.println("failed to tweet daily result due to Exception "+ e.getMessage());
+                System.err.println(recordResult);
+            }
             updateDailyData(recordResult);
         }
 
@@ -44,29 +48,33 @@ public class UserTweetDailyCount extends AbstractJob {
     private boolean isNewDate(final TwitterRecordDomain record){
         //Hundredで更新されてる最新
         Calendar.Builder latestBuilder = new Calendar.Builder().setInstant(record.getRecordTime());
-        Calendar latest = latestBuilder.build();
+        final Calendar latest = latestBuilder.build();
 
         //日次処理で更新された日付
         Calendar.Builder yesterdayBuilder = new Calendar.Builder().setInstant(record.getDateRecordTime());
-        Calendar yesterday = yesterdayBuilder.build();
+        final Calendar yesterday = yesterdayBuilder.build();
 
-        final int latestDate = latest.get(Calendar.DATE);
+        final int latestDate = latest.get(Calendar.MONTH)*100 + latest.get(Calendar.DATE);
         final int latestHour = latest.get(Calendar.HOUR_OF_DAY);
-        final int yesterdayDate = yesterday.get(Calendar.DATE);
+        final int yesterdayDate = yesterday.get(Calendar.MONTH)*100 + yesterday.get(Calendar.DATE);
         final int yesterdayHour = yesterday.get(Calendar.HOUR_OF_DAY);
 
         final int JST = 9;
         final int DAY_BORDER = 24 - JST;    //15:00UTCがJSTの日界
 
         if(yesterdayDate == latestDate){
-            if( (yesterdayHour >= DAY_BORDER && latestHour >= DAY_BORDER) ||
-                (yesterdayHour < DAY_BORDER && latestHour < DAY_BORDER)
-            ) {
-                return false;
-            }
-            return true;
+            return (yesterdayHour < DAY_BORDER && DAY_BORDER <= latestHour);
         }else{  // yesterdayDate != latestDate
-            return latestHour >= DAY_BORDER;
+            if(yesterdayHour < DAY_BORDER){
+                return true;
+            }else{
+                Calendar theDayBefore = latest;
+                theDayBefore.add(Calendar.DATE, -1);
+                if(yesterday.before(theDayBefore)){
+                    return true;
+                }
+                return (DAY_BORDER <= latestHour);
+            }
         }
     }
 
@@ -75,7 +83,7 @@ public class UserTweetDailyCount extends AbstractJob {
         Calendar.Builder yBuild = new Calendar.Builder().setInstant(record.getDateRecordTime());
         Calendar yesterday = yBuild.build();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String yesterdayStr = sdf.format(yesterday);
+        String yesterdayStr = sdf.format(yesterday.getTime());
         String text = yesterdayStr + "のツイート数は"+ delta + "件でした "+ TweetTemplate.tag;
 
         SendTweetApi.sendTweet(record.getTwUserId(), text);
