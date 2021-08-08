@@ -86,6 +86,9 @@ public class UserTweetDailyCount extends AbstractJob {
         String yesterdayStr = sdf.format(yesterday.getTime());
         String text = yesterdayStr + "のツイート数は"+ delta + "件でした "+ TweetTemplate.tag;
 
+        if(delta <= 0){
+            text += TweetTemplate.minus;
+        }
         SendTweetApi.sendTweet(record.getTwUserId(), text);
     }
 
