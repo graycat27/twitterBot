@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +52,8 @@ public class WebController extends HttpServlet {
 
     @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
     String authCallBack(String oauth_token, String oauth_verifier,
-                        @ModelAttribute @Validated({RequestToken.class}) RequestToken sessionToken){
+                        @ModelAttribute @Validated({RequestToken.class}) RequestToken sessionToken,
+                        SessionStatus sessionStatus){
         try{
             Objects.requireNonNull(oauth_token);
             Objects.requireNonNull(oauth_verifier);
@@ -63,6 +65,7 @@ public class WebController extends HttpServlet {
         System.out.println(oauth_token);
         System.out.println(sessionToken.getToken());
         System.out.println("DEBUG ===<");
+        sessionStatus.setComplete();
 
         if(!(sessionToken.getToken().equals(oauth_token))){
             return idx();
