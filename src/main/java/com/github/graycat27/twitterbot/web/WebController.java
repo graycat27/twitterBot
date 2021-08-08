@@ -60,12 +60,7 @@ public class WebController extends HttpServlet {
         }catch(NullPointerException e){
             return idx();
         }
-
-        System.out.println("DEBUG ===>");
-        System.out.println(oauth_token);
-        System.out.println(sessionToken.getToken());
-        System.out.println("DEBUG ===<");
-        sessionStatus.setComplete();
+        sessionStatus.setComplete();    //sessionの情報削除
 
         if(!(sessionToken.getToken().equals(oauth_token))){
             return idx();
