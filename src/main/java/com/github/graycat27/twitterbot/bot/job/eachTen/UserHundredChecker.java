@@ -62,7 +62,7 @@ public class UserHundredChecker extends AbstractJob {
             Today dbToday = dbQuery.getToday();
             String today = dbToday.getToday();
 
-            tweetHundred(hundred, today);
+            tweetHundred(hundred, today, record.getTwDisplayId());
         }
 
         TwitterRecordQuery recordQuery = new TwitterRecordQuery();
@@ -113,8 +113,8 @@ public class UserHundredChecker extends AbstractJob {
         return ( deltaNow / 100 ) * 100;
     }
 
-    private void tweetHundred(int amount, String today){
-        String tweetText = String.format(TweetTemplate.hundred, today, amount);
+    private void tweetHundred(int amount, String today, String displayId){
+        String tweetText = String.format(TweetTemplate.hundred, today, amount) + "@"+ displayId;
         SendTweetApi.sendTweet(user.getTwUserId(), tweetText);
 
     }

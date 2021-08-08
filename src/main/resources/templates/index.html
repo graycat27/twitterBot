@@ -14,6 +14,10 @@
             font-family: Helvetica Neue Pro;
             font-weight: bold;
         }
+        div#main{
+            background-color: #eee;
+            padding: 5px;
+        }
         button#startAuth {
             background-color: #1da1f2;
             color: #fff;
@@ -25,6 +29,7 @@
     </style>
 </head>
 <body>
+<div id="main">
 <h1>ツイート数えったー</h1>
 <h2>ツイートを数える！</h2>
 <button id="startAuth" onclick="onAuthClick()">
@@ -39,6 +44,10 @@
 <div>
 合計ツイート数の差分をツイート数として算出します。<br>
 日付が変わったころに合計ツイート数を記録し、随時最新の値と比較しています
+    <div style="max-width:600px;background-color:#ff6">
+        ツイ消しや、RTしたツイートの削除などにより、その日の実際のツイート数より小さく（場合によってはマイナスで）算出されることがあります
+    </div>
+</div>
 </div>
 </body>
 </html>
