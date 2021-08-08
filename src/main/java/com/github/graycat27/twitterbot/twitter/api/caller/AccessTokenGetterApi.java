@@ -15,13 +15,11 @@ public class AccessTokenGetterApi {
 
     private AccessTokenGetterApi(){ /* インスタンス化防止 */ }
 
-    public static AccessToken getAccessToken(String token, String verifier) throws URISyntaxException, IOException {
+    public static AccessToken getAccessToken(String token, String verifier) throws URISyntaxException {
         RequestToken requestToken = new RequestToken(token, null, verifier);
         String resStr = ApiManager.getApiCaller().callApiV1Post(ApiUrl.getAccessToken, requestToken, null);
 
-        AccessToken data = convertQueryStr2Domain(resStr);
-
-        return data;
+        return convertQueryStr2Domain(resStr);
     }
 
     private static AccessToken convertQueryStr2Domain(String queryStr) throws URISyntaxException{

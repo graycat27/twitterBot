@@ -22,7 +22,7 @@ public class GetAuthService {
         RequestToken apiResult;
         try {
             apiResult = RequestTokenGetterApi.getRequestToken();
-        } catch (URISyntaxException | IOException e) {
+        } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
@@ -35,7 +35,7 @@ public class GetAuthService {
         AccessToken apiResult;
         try{
             apiResult = AccessTokenGetterApi.getAccessToken(token, verifier);
-        } catch (URISyntaxException | IOException e) {
+        } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }

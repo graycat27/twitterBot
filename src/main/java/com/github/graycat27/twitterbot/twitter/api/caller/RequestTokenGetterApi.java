@@ -20,13 +20,11 @@ public class RequestTokenGetterApi {
      * ref: https://developer.twitter.com/ja/docs/authentication/oauth-1-0a/authorizing-a-request
      * ref: https://n3104.hatenablog.com/entry/20101014/1287070373
      */
-    public static RequestToken getRequestToken() throws URISyntaxException, IOException {
+    public static RequestToken getRequestToken() throws URISyntaxException {
 
         String resStr = ApiManager.getApiCaller().callApiV1Post(ApiUrl.getRequestToken, null, null);
 
-        RequestToken result = convertQueryStr2Domain(resStr);
-
-        return result;
+        return convertQueryStr2Domain(resStr);
     }
 
     private static RequestToken convertQueryStr2Domain(String queryStr) throws URISyntaxException {
