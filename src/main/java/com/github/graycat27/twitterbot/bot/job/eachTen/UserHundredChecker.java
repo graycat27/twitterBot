@@ -114,7 +114,7 @@ public class UserHundredChecker extends AbstractJob {
     }
 
     private void tweetHundred(int amount, String today, String displayId){
-        String tweetText = String.format(TweetTemplate.hundred, today, amount) + " @"+ displayId;
+        String tweetText = String.format(TweetTemplate.hundred, today, amount) + "@"+ displayId;
         SendTweetApi.sendTweet(user.getTwUserId(), tweetText);
 
     }
