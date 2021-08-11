@@ -82,6 +82,7 @@ public class UserTweetDailyCount extends AbstractJob {
         int delta = record.getTotalTweetCount() - record.getTotalTweetCountAtDate();
         Calendar.Builder yBuild = new Calendar.Builder().setInstant(record.getDateRecordTime());
         Calendar yesterday = yBuild.build();
+        yesterday.add(Calendar.DATE, 1);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String yesterdayStr = sdf.format(yesterday.getTime());
         String text = yesterdayStr + "のツイート数は"+ delta + "件でした"
