@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>TOP|ツイート数えったー</title>
     <link rel="icon" href="/image/gray.png" type="image/png">
+    <meta name="description"
+          content="Twitterでのツイート件数を毎日数えて自動投稿するbotサービスの登録・紹介ページです">
+    <meta name="keywords"
+          content="ツイート数えったー,Twitter,ツイート数,数える,bot,graycat27">
     <script>
         function onAuthClick(){
             window.location.href = 'getAuth'
@@ -23,6 +27,15 @@
             background-color: #1da1f2;
             color: #fff;
             font-size: 27px;
+            font-family: Helvetica Neue Pro;
+            font-weight: bold;
+        }
+        div#tagLinkDiv {
+            margin: 5px;
+        }
+        div#tagLinkDiv > a#tagLink {
+            color: #fff;
+            background-color: #1da1f2;
             font-family: Helvetica Neue Pro;
             font-weight: bold;
         }
@@ -58,6 +71,11 @@
 <div>
 毎日日付が変わったころに、1日のツイート数をつぶやきます。<br>
 100ツイートごとでもお知らせします
+    <div id="tagLinkDiv">
+        みんなのツイート数えったー！
+        <a id="tagLink" href="https://twitter.com/hashtag/%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E6%95%B0%E3%81%88%E3%81%A3%E3%81%9F%E3%83%BC?f=live"
+            target="_blank">#ツイート数えったー</a>
+    </div>
     <div id="sampleTweets">
         <h3>ツイート例</h3>
 
@@ -77,12 +95,14 @@
     <div style="max-width:600px;background-color:#ff6;padding:5px;">
         ツイ消しや、RTしたツイートの削除などにより、その日の実際のツイート数より小さく（場合によってはマイナスで）算出されることがあります
     </div>
+    システムのソースコードはこちら（<a href="https://github.com/graycat27/twitterBot">GitHub(twitterBot)</a>）
 </div>
 
 <h2>作った人</h2>
 <div>
     Twitter <a href="https://twitter.com/gray_cat27?ref_src=twsrc%5Etfw">@gray_cat27</a><br>
     YouTube <a href="https://youtube.com/user/graycat27">graycat27</a><br>
+    GitHub <a href="https://github.com/graycat27">graycat27</a><br>
     <a class="twitter-timeline" data-width="500" data-height="300" href="https://twitter.com/gray_cat27?ref_src=twsrc%5Etfw">Tweets by gray_cat27</a>
 </div>
 </div>
