@@ -1,0 +1,1 @@
+$ java -cp target/classes:target/dependency/* com.github.graycat27.twitterbot.TwitterBot
