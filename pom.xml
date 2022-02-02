@@ -28,7 +28,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <webjars-bootstrap.version>5.0.2</webjars-bootstrap.version>
+        <webjars-bootstrap.version>5.1.1</webjars-bootstrap.version>
     </properties>
 
     <dependencies>
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator</artifactId>
-            <version>0.30</version>
+            <version>0.42</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
