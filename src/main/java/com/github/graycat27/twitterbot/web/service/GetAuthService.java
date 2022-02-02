@@ -12,7 +12,6 @@ import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import com.github.graycat27.twitterbot.utils.TweetTemplate;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 @Service
