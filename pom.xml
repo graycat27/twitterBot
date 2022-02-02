@@ -36,7 +36,7 @@
             <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.5.9</version>
+            <version>3.5.7</version>
         </dependency>
         <dependency>
             <!-- jdbc driver https://mvnrepository.com/artifact/org.postgresql/postgresql -->
