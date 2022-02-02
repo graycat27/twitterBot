@@ -61,24 +61,24 @@
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>2.5.3</version>
+            <version>2.6.3</version>
         </dependency>
         <dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.5.3</version>
+            <version>2.6.3</version>
         </dependency>
         <dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-maven-plugin -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>2.5.3</version>
+            <version>2.6.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>2.5.3</version>
+            <version>2.6.3</version>
             <exclusions>
                 <exclusion>
                     <groupId>nz.net.ultraq.thymeleaf</groupId>
@@ -90,7 +90,7 @@
             <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>5.3.9</version>
+            <version>5.3.15</version>
         </dependency>
         <dependency>
             <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
@@ -102,7 +102,7 @@
             <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-autoconfigure -->
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-autoconfigure</artifactId>
-            <version>2.2.0</version>
+            <version>2.2.1</version>
         </dependency>
 
 
