@@ -6,7 +6,7 @@
 
     <groupId>com.github.graycat27</groupId>
     <artifactId>twitterBot</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <repositories>
         <repository>
