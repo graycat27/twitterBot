@@ -6,6 +6,7 @@ import com.github.graycat27.twitterbot.bot.job.IBatchJob;
 import com.github.graycat27.twitterbot.bot.job.daily.TweetDailyCount;
 import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class BotTask {
@@ -41,13 +42,13 @@ public class BotTask {
             trace[2] = this#set/get
             trace[3] = caller job class
              */
-            Object caller = Class.forName(trace[3].getClassName()).newInstance();
+            Object caller = Class.forName(trace[3].getClassName()).getDeclaredConstructor().newInstance();
             if(caller instanceof IBatchJob){
                 System.out.println("data access validate is success");
             }else{
                 throw new IllegalAccessException();
             }
-        } catch (ClassNotFoundException|InstantiationException e) {
+        } catch (ClassNotFoundException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
             throw new IllegalAccessException();
         }
