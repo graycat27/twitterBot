@@ -17,4 +17,8 @@ module twitterBot {
     requires spring.web;
 
     exports com.github.graycat27.twitterbot.utils;
+
+    // Gson needs to right for reflection access
+    opens com.github.graycat27.twitterbot.twitter.api.response to com.google.gson;
+    opens com.github.graycat27.twitterbot.twitter.api.response.data to com.google.gson;
 }
