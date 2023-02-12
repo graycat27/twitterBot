@@ -147,6 +147,10 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <compilerArgs>
+                        <arg>--module-path</arg>
+                        <arg>com.github.graycat27.twitterbot</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
