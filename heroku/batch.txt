@@ -1,1 +1,3 @@
 $ java -cp target/classes:target/dependency/* com.github.graycat27.twitterbot.TwitterBot
+
+$ exec /dev/tcp/graycat27twitterbot.herokuapp.com/80
