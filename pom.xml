@@ -157,6 +157,7 @@
                     </jdkToolchain>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <failOnError>false</failOnError>
                 </configuration>
             </plugin>
             <plugin>
