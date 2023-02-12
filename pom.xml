@@ -8,6 +8,8 @@
     <artifactId>twitterBot</artifactId>
     <version>1.2</version>
 
+    <packaging>maven-plugin</packaging>
+
     <repositories>
         <repository>
             <id>repo1.maven.org</id>
