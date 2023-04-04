@@ -16,7 +16,7 @@ public class AccessTokenGetterApi {
 
     public static AccessToken getAccessToken(String token, String verifier) throws URISyntaxException {
         RequestToken requestToken = new RequestToken(token, null, verifier);
-        String resStr = ApiManager.getApiCaller().callApiV2Post(ApiUrl.getAccessToken, requestToken, null);
+        String resStr = ApiManager.getApiCaller().callApiV2Post(ApiUrl.getAccessToken, requestToken, null, "application/x-www-form-urlencoded");
 
         return convertQueryStr2Domain(resStr);
     }

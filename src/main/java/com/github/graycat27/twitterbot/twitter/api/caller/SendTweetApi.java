@@ -21,7 +21,7 @@ public class SendTweetApi {
         postParam.add(new BasicNameValuePair("text", tweetText));
 
         AccessToken token = getTokenByUser(userId);
-        ApiManager.getApiCaller().callApiV2Post(ApiUrl.postTweet, token, postParam);
+        ApiManager.getApiCaller().callApiV2Post(ApiUrl.postTweet, token, postParam, "application/json");
 
     }
 

@@ -19,7 +19,7 @@ public class RequestTokenGetterApi {
      */
     public static RequestToken getRequestToken() throws URISyntaxException {
 
-        String resStr = ApiManager.getApiCaller().callApiV2Post(ApiUrl.getRequestToken, null, null);
+        String resStr = ApiManager.getApiCaller().callApiV2Post(ApiUrl.getRequestToken, null, null, "application/x-www-form-urlencoded");
 
         return convertQueryStr2Domain(resStr);
     }

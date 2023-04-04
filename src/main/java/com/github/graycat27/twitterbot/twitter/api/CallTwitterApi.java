@@ -38,7 +38,7 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV2Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
+    public String callApiV2Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam, String contentType){
         HttpEntity entity;
         String responseJsonStr;
 
@@ -51,7 +51,7 @@ public class CallTwitterApi {
                     ).build();
             HttpPost httpPost = new HttpPost(callUrl.url);
             httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
-            httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+            httpPost.addHeader("Content-Type", contentType);
             if(postParam != null){
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             }
