@@ -41,12 +41,8 @@ public class GetOauthHeader {
     }
 
     private static String urlEncode(String string) {
-        try {
-            String encoded = URLEncoder.encode(string, StandardCharsets.UTF_8.name());
-            return encoded.replaceAll("\\+","%20");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        String encoded = URLEncoder.encode(string, StandardCharsets.UTF_8);
+        return encoded.replaceAll("\\+","%20");
     }
 
     /**
@@ -79,8 +75,7 @@ public class GetOauthHeader {
 
         if(token != null){
             authMap.put("oauth_token", urlEncode(token.getToken()));
-            if(token instanceof RequestToken) {
-                RequestToken requestToken = (RequestToken) token;
+            if(token instanceof RequestToken requestToken) {
                 if (requestToken.getOauthVerifier() != null) {
                     authMap.put("oauth_verifier", urlEncode(requestToken.getOauthVerifier()));
                 }
@@ -106,8 +101,7 @@ public class GetOauthHeader {
     }
 
     private static String createBase(HttpMethod method, ApiUrl.UrlString url, String encodedParam){
-        String base = method.name() + "&" + urlEncode(url.url) + "&" + urlEncode(encodedParam);
-        return base;
+        return method.name() + "&" + urlEncode(url.url) + "&" + urlEncode(encodedParam);
     }
 
     private static String createKey(String consumerSecret, String tokenSecret){
