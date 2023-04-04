@@ -38,7 +38,7 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV1Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
+    public String callApiV2Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
         HttpEntity entity;
         String responseJsonStr;
 
@@ -63,7 +63,7 @@ public class CallTwitterApi {
             entity = response.getEntity();
 
         }catch(IOException e){
-            System.err.println("Exception occurred while calling Twitter API v1");
+            System.err.println("Exception occurred while calling Twitter API v2");
             System.err.println(e.getMessage());
             System.err.println(callUrl);
             throw new TwitterApiException(e);

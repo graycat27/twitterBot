@@ -8,8 +8,6 @@ import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +18,10 @@ public class SendTweetApi {
     public static void sendTweet(String userId, String tweetText) {
 
         List<NameValuePair> postParam = new ArrayList<>();
-        postParam.add(new BasicNameValuePair("status", tweetText));
-        postParam.add(new BasicNameValuePair("include_entities", "true"));
-        postParam.add(new BasicNameValuePair("include_ext_alt_text", "true"));
-        postParam.add(new BasicNameValuePair("tweet_mode", "extended"));
+        postParam.add(new BasicNameValuePair("text", tweetText));
 
         AccessToken token = getTokenByUser(userId);
-        ApiManager.getApiCaller().callApiV1Post(ApiUrl.statusesUpdate, token, postParam);
+        ApiManager.getApiCaller().callApiV2Post(ApiUrl.postTweet, token, postParam);
 
     }
 

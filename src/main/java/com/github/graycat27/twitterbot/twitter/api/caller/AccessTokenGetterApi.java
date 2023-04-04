@@ -7,7 +7,6 @@ import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class AccessTokenGetterApi {
 
     public static AccessToken getAccessToken(String token, String verifier) throws URISyntaxException {
         RequestToken requestToken = new RequestToken(token, null, verifier);
-        String resStr = ApiManager.getApiCaller().callApiV1Post(ApiUrl.getAccessToken, requestToken, null);
+        String resStr = ApiManager.getApiCaller().callApiV2Post(ApiUrl.getAccessToken, requestToken, null);
 
         return convertQueryStr2Domain(resStr);
     }
