@@ -38,7 +38,7 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV2Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam, String contentType){
+    public String callApiV1Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
         HttpEntity entity;
         String responseJsonStr;
 
@@ -51,7 +51,7 @@ public class CallTwitterApi {
                     ).build();
             HttpPost httpPost = new HttpPost(callUrl.url);
             httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
-            httpPost.addHeader("Content-Type", contentType);
+            httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
             if(postParam != null){
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             }
@@ -63,7 +63,7 @@ public class CallTwitterApi {
             entity = response.getEntity();
 
         }catch(IOException e){
-            System.err.println("Exception occurred while calling Twitter API v2");
+            System.err.println("Exception occurred while calling Twitter API v1");
             System.err.println(e.getMessage());
             System.err.println(callUrl);
             throw new TwitterApiException(e);
@@ -111,6 +111,40 @@ public class CallTwitterApi {
         loggingEnd(callUrl);
         return responseJsonStr;
     }
+
+    public String callApiV2Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam) {
+        HttpEntity entity;
+        String responseJsonStr;
+
+        try {
+            loggingStart(callUrl, HttpMethod.POST);
+
+            HttpClient httpClient =
+                    HttpClients.custom().setDefaultRequestConfig(
+                            RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
+                    ).build();
+            HttpPost httpPost = new HttpPost(callUrl.url);
+            httpPost.addHeader("Authorization", String.format("Bearer %s", authInfo.getBearerToken()));
+            httpPost.addHeader("Content-Type", "application/json");
+
+            HttpResponse response = httpClient.execute(httpPost);
+            entity = response.getEntity();
+        } catch (Exception e) {
+            System.err.println("Exception occurred while calling Twitter API v2");
+            System.err.println(e.getMessage());
+            System.err.println(callUrl);
+            throw new TwitterApiException(e);
+        }
+        responseJsonStr = convertEntity2JsonStr(entity);
+
+        System.out.println("==ApiResponse==>>>>>");
+        System.out.println(responseJsonStr);
+        System.out.println("==ApiResponse==<<<<<");
+
+        loggingEnd(callUrl);
+        return responseJsonStr;
+    }
+
 
     private static void loggingStart(ApiUrl.UrlString url, HttpMethod method){
         System.out.println("--- Api call start ----->");
