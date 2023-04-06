@@ -124,7 +124,7 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpPost httpPost = new HttpPost(callUrl.url);
-            httpPost.addHeader("Authorization", String.format("Bearer %s", authInfo.getBearerToken()));
+            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
             httpPost.addHeader("Content-Type", "application/json");
 
             HttpResponse response = httpClient.execute(httpPost);
