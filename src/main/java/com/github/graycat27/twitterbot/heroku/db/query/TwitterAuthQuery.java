@@ -8,7 +8,6 @@ import com.github.graycat27.twitterbot.heroku.db.sql.TwitterAuthSql;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TwitterAuthQuery extends QueryRunnable {
