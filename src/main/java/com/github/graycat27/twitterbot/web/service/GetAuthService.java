@@ -8,7 +8,6 @@ import com.github.graycat27.twitterbot.twitter.api.caller.AccessTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
-import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
 import com.github.graycat27.twitterbot.utils.TweetTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,29 +16,26 @@ import java.net.URISyntaxException;
 @Service
 public class GetAuthService {
 
-    public RequestToken getAuth(){
-        RequestToken apiResult;
+    private String state = null;
+    public void getAuth(){
         try {
-            apiResult = RequestTokenGetterApi.getRequestToken();
+            state = RequestTokenGetterApi.getRequestToken();
         } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-
-        return apiResult;
     }
 
-    public AccessToken getUserAccessToken(String token, String verifier){
-
-        AccessToken apiResult;
+    public void getUserAccessToken(String state, String code){
         try{
-            apiResult = AccessTokenGetterApi.getAccessToken(token, verifier);
+            if(!this.state.equals(state)){
+                throw new IllegalStateException("token state is un matched");
+            }
+            AccessTokenGetterApi.getAccessToken(code);
         } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-
-        return apiResult;
     }
 
     /**

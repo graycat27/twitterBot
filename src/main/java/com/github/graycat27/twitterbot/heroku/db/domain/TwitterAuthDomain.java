@@ -38,6 +38,9 @@ public class TwitterAuthDomain extends CommonDomain {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
     }
+    public TwitterAuthDomain(){
+        //nothing to do
+    }
 
     @Override
     public String toString() {

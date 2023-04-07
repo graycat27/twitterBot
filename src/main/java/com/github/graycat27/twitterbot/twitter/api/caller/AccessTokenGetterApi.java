@@ -1,55 +1,34 @@
 package com.github.graycat27.twitterbot.twitter.api.caller;
 
+import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
+import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
-import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
-import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
+import com.github.graycat27.twitterbot.utils.UrlString;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.net.URISyntaxException;
-import java.util.List;
+import java.util.ArrayList;
 
 public class AccessTokenGetterApi {
 
     private AccessTokenGetterApi(){ /* インスタンス化防止 */ }
 
-    public static AccessToken getAccessToken(String token, String verifier) throws URISyntaxException {
-        RequestToken requestToken = new RequestToken(token, null, verifier);
-        String resStr = ApiManager.getApiCaller().callApiV1Post(ApiUrl.getAccessToken, requestToken, null);
+    public static void getAccessToken(String code) throws URISyntaxException {
 
-        return convertQueryStr2Domain(resStr);
+        ArrayList<NameValuePair> queryParameters = new ArrayList<>();
+        queryParameters.add(new BasicNameValuePair("code", code));
+        queryParameters.add(new BasicNameValuePair("grant_type", "authorization_code"));
+        TwitterAuthQuery authQuery = new TwitterAuthQuery();
+        TwitterAuthDomain authInfo = authQuery.selectOne(new TwitterAuthDomain());
+        queryParameters.add(new BasicNameValuePair("client_id", authInfo.getClientId()));
+        UrlString callback = new UrlString("https://graycat27twitterbot.herokuapp.com/twitterAuthComplete");
+        queryParameters.add(new BasicNameValuePair("redirect_uri", callback.url));
+        queryParameters.add(new BasicNameValuePair("code_verifier", "challenge"));
+
+        ApiManager.getApiCaller().callApiV2PostUrlEncodedContent(ApiUrl.getAccessToken, queryParameters);
+
     }
 
-    private static AccessToken convertQueryStr2Domain(String queryStr) throws URISyntaxException{
-        try {
-            URIBuilder urlBuilder = new URIBuilder("?"+ queryStr);
-            List<NameValuePair> params = urlBuilder.getQueryParams();
-            String token = null;
-            String tokenSecret = null;
-            String userId = null;
-            String screenName = null;
-            for (NameValuePair keyVal : params) {
-                switch (keyVal.getName()) {
-                    case "oauth_token":
-                        token = keyVal.getValue();
-                        break;
-                    case "oauth_token_secret":
-                        tokenSecret = keyVal.getValue();
-                        break;
-                    case "user_id":
-                        userId = keyVal.getValue();
-                        break;
-                    case "screen_name":
-                        screenName = keyVal.getValue();
-                        break;
-                }
-            }
-            return new AccessToken(token, tokenSecret, userId, screenName);
-        }catch(URISyntaxException e){
-            System.err.println("*** error while converting request param to domain ***");
-            System.err.println("*** tried to convert = "+ queryStr);
-            throw e;
-        }
-    }
 }

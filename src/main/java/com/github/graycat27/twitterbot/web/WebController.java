@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
-
 import jakarta.servlet.http.HttpServlet;
-import java.util.Objects;
 
 @Controller
 @SpringBootApplication
@@ -38,33 +35,22 @@ public class WebController extends HttpServlet {
     }
 
     @RequestMapping(value = "/getAuth", method = RequestMethod.GET)
-    String getAuth(Model model){
+    void getAuth(Model model){
         GetAuthService service = new GetAuthService();
-        RequestToken requestToken = service.getAuth();
-        model.addAttribute(requestToken);
-        return "redirect:https://api.twitter.com/oauth/authorize?oauth_token="+ requestToken.get("oauth_token");
+        service.getAuth();
     }
 
     @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
-    String authCallBack(String oauth_token, String oauth_verifier,
-                        @ModelAttribute @Validated({RequestToken.class}) RequestToken sessionToken,
-                        SessionStatus sessionStatus){
-        try{
-            Objects.requireNonNull(oauth_token);
-            Objects.requireNonNull(oauth_verifier);
-        }catch(NullPointerException e){
-            return idx();
-        }
-        sessionStatus.setComplete();    //sessionの情報削除
-
-        if(!(sessionToken.getToken().equals(oauth_token))){
-            return idx();
-        }
-
+    void authCodeCallback(String state, String code){
         GetAuthService service = new GetAuthService();
-        AccessToken response = service.getUserAccessToken(oauth_token, oauth_verifier);
-        service.registerUserAccessToken(response);
+        service.getUserAccessToken(state, code);
+    }
 
-        return "twitterAuthCallback";
+    @RequestMapping(value = "/twitterAuthComplete", method = RequestMethod.GET)
+    String authCallBack(@ModelAttribute @Validated({AccessToken.class}) AccessToken accessToken){
+        GetAuthService service = new GetAuthService();
+        service.registerUserAccessToken(accessToken);
+
+        return "twitterAuthDone";
     }
 }
