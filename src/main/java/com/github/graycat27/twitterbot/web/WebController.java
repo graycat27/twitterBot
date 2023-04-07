@@ -37,7 +37,7 @@ public class WebController extends HttpServlet {
     @RequestMapping(value = "/getAuth", method = RequestMethod.GET)
     String getAuth(Model model){
         GetAuthService service = new GetAuthService();
-        return service.getAuth().url;
+        return "redirect:"+ service.getAuth().url;
 
     }
 
