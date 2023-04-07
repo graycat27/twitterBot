@@ -9,6 +9,7 @@ import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.utils.TweetTemplate;
+import com.github.graycat27.twitterbot.utils.UrlString;
 import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
@@ -17,9 +18,11 @@ import java.net.URISyntaxException;
 public class GetAuthService {
 
     private String state = null;
-    public void getAuth(){
+    public UrlString getAuth(){
         try {
-            state = RequestTokenGetterApi.getRequestToken();
+            RequestTokenGetterApi.RedirectInfo redirect = RequestTokenGetterApi.getRequestToken();
+            state = redirect.state.toString();
+            return redirect.url;
         } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

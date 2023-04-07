@@ -17,11 +17,15 @@ public class RequestTokenGetterApi {
 
     private RequestTokenGetterApi(){ /* インスタンス化防止 */ }
 
-    /*
-     * ref: https://developer.twitter.com/ja/docs/authentication/oauth-1-0a/authorizing-a-request
-     * ref: https://n3104.hatenablog.com/entry/20101014/1287070373
-     */
-    public static String getRequestToken() throws URISyntaxException {
+    public static class RedirectInfo{
+        public final UUID state;
+        public final UrlString url;
+        /*  */RedirectInfo(UUID state, UrlString url){
+            this.state = state; this.url = url;
+        }
+    }
+
+    public static RedirectInfo getRequestToken() throws URISyntaxException {
 
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.getAuthorize.url);
 
@@ -40,10 +44,9 @@ public class RequestTokenGetterApi {
         queryParameters.add(new BasicNameValuePair("code_challenge_method", "plain"));
 
         uriBuilder.addParameters(queryParameters);
-        ApiManager.getApiCaller().callApiV2Get(uriBuilder);
         //twitter will redirect to redirect-uri
 
-        return uid.toString();
+        return new RedirectInfo(uid, new UrlString(uriBuilder.build()));
 
     }
 
