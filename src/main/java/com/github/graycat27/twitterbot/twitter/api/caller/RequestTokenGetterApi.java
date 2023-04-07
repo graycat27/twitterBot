@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.twitter.api.caller;
 import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
+import com.github.graycat27.twitterbot.utils.UrlString;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 

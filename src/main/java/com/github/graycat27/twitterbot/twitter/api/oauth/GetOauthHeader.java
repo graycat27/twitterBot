@@ -2,9 +2,9 @@ package com.github.graycat27.twitterbot.twitter.api.oauth;
 
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
-import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
+import com.github.graycat27.twitterbot.utils.UrlString;
 import org.apache.http.NameValuePair;
 import org.springframework.http.HttpMethod;
 
@@ -20,7 +20,7 @@ public class GetOauthHeader {
 
     private GetOauthHeader(){ /* インスタンス化防止 */ }
 
-    public static String getOauthHeader(OauthToken token, ApiUrl.UrlString url, List<NameValuePair> requestParam){
+    public static String getOauthHeader(OauthToken token, UrlString url, List<NameValuePair> requestParam){
         TwitterAuthQuery authQuery = new TwitterAuthQuery();
         TwitterAuthDomain authInfo = authQuery.selectOne(null);
 
@@ -99,7 +99,7 @@ public class GetOauthHeader {
         return sb.toString();
     }
 
-    private static String createBase(HttpMethod method, ApiUrl.UrlString url, String encodedParam){
+    private static String createBase(HttpMethod method, UrlString url, String encodedParam){
         return method.name() + "&" + urlEncode(url.url) + "&" + urlEncode(encodedParam);
     }
 
@@ -119,7 +119,7 @@ public class GetOauthHeader {
         }
     }
 
-    private static String createAuthHeader(ApiUrl.UrlString url, String signature, SortedMap<String,String> authMap){
+    private static String createAuthHeader(UrlString url, String signature, SortedMap<String,String> authMap){
         StringBuilder sb = new StringBuilder();
 
         authMap.put("oauth_signature", urlEncode(signature));

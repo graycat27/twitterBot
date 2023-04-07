@@ -4,6 +4,7 @@ import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
+import com.github.graycat27.twitterbot.utils.UrlString;
 import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -38,7 +39,7 @@ public class CallTwitterApi {
     }
 
     // method
-    public String callApiV1Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
+    public String callApiV1Post(UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
         HttpEntity entity;
         String responseJsonStr;
 
@@ -112,7 +113,7 @@ public class CallTwitterApi {
         return responseJsonStr;
     }
 
-    public String callApiV2Post(ApiUrl.UrlString callUrl, OauthToken token, List<NameValuePair> postParam) {
+    public String callApiV2Post(UrlString callUrl, OauthToken token, List<NameValuePair> postParam) {
         HttpEntity entity;
         String responseJsonStr;
 
@@ -146,7 +147,7 @@ public class CallTwitterApi {
     }
 
 
-    private static void loggingStart(ApiUrl.UrlString url, HttpMethod method){
+    private static void loggingStart(UrlString url, HttpMethod method){
         System.out.println("--- Api call start ----->");
         System.out.println("--- call URL = "+ url.url);
         System.out.println("--- call method = "+ method);
@@ -158,7 +159,7 @@ public class CallTwitterApi {
         System.out.println("--- call method = "+ method);
     }
 
-    private static void loggingEnd(ApiUrl.UrlString url){
+    private static void loggingEnd(UrlString url){
         System.out.println("--- called URL = "+ url.url);
         System.out.println("--- Api call end -----<");
     }
