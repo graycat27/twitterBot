@@ -35,15 +35,19 @@ public class WebController extends HttpServlet {
     }
 
     @RequestMapping(value = "/getAuth", method = RequestMethod.GET)
-    void getAuth(Model model){
+    String getAuth(Model model){
         GetAuthService service = new GetAuthService();
         service.getAuth();
+
+        return "working";
     }
 
     @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
-    void authCodeCallback(String state, String code){
+    String authCodeCallback(String state, String code){
         GetAuthService service = new GetAuthService();
         service.getUserAccessToken(state, code);
+
+        return "working";
     }
 
     @RequestMapping(value = "/twitterAuthComplete", method = RequestMethod.GET)
