@@ -1,7 +1,7 @@
 module twitterBot {
     requires java.sql;
     requires java.naming;
-    requires javax.servlet.api;
+    requires jakarta.servlet;
     requires com.google.gson;
     requires org.apache.httpcomponents.httpclient;
     requires org.apache.httpcomponents.httpcore;
