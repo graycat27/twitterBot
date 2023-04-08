@@ -133,8 +133,13 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpPost httpPost = new HttpPost(callUrl.url);
-            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
+            if(token != null) {
+                httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
+            }
             httpPost.addHeader("Content-Type", contentType);
+            if(postParam != null){
+                httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
+            }
 
             HttpResponse response = httpClient.execute(httpPost);
             entity = response.getEntity();
