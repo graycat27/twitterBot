@@ -2,18 +2,22 @@ package com.github.graycat27.twitterbot.twitter.api.caller;
 
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
-import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
+import com.github.graycat27.twitterbot.utils.ListUtil;
 import com.github.graycat27.twitterbot.utils.UrlString;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class RequestTokenGetterApi {
+
+    private static final Logger logger = Logger.getLogger(RequestTokenGetterApi.class.getName());
 
     private RequestTokenGetterApi(){ /* インスタンス化防止 */ }
 
@@ -36,7 +40,7 @@ public class RequestTokenGetterApi {
         queryParameters.add(new BasicNameValuePair("client_id", authInfo.getClientId()));
         UrlString callBack = new UrlString("https://graycat27twitterbot.herokuapp.com/twitterAuthCallback");
         queryParameters.add(new BasicNameValuePair("redirect_uri", callBack.url));
-        String scope = "tweet.read%20tweet.write%20users.read%20offline.access";
+        String scope = "tweet.read tweet.write users.read offline.access";
         queryParameters.add(new BasicNameValuePair("scope", scope));
         UUID uid = UUID.randomUUID();
         queryParameters.add(new BasicNameValuePair("state", uid.toString()));
@@ -44,9 +48,13 @@ public class RequestTokenGetterApi {
         queryParameters.add(new BasicNameValuePair("code_challenge_method", "plain"));
 
         uriBuilder.addParameters(queryParameters);
-        //twitter will redirect to redirect-uri
+        URI redirectUri = uriBuilder.build();
+        UrlString authUrl = new UrlString(redirectUri);
 
-        return new RedirectInfo(uid, new UrlString(uriBuilder.build()));
+        ListUtil.printList(queryParameters);
+        logger.info(authUrl.url);
+
+        return new RedirectInfo(uid, authUrl);
 
     }
 

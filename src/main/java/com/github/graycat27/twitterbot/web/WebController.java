@@ -2,6 +2,7 @@ package com.github.graycat27.twitterbot.web;
 
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
+import com.github.graycat27.twitterbot.utils.UrlString;
 import com.github.graycat27.twitterbot.web.service.GetAuthService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,8 +38,8 @@ public class WebController extends HttpServlet {
     @RequestMapping(value = "/getAuth", method = RequestMethod.GET)
     String getAuth(Model model){
         GetAuthService service = new GetAuthService();
-        return "redirect:"+ service.getAuth().url;
-
+        UrlString redirectInfo = service.getAuth();
+        return "redirect:"+ redirectInfo.url;
     }
 
     @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
