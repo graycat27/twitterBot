@@ -55,7 +55,7 @@ public class WebController extends HttpServlet {
                 (UUID) request.getSession().getAttribute("state"),
                 (UUID) request.getSession().getAttribute("challenge"));
 
-        return "working";
+        return "twitterAuthComplete";
     }
 
     @RequestMapping(value = "/twitterAuthComplete", method = RequestMethod.GET)
