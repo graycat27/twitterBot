@@ -1,23 +1,24 @@
 package com.github.graycat27.twitterbot.web;
 
+import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
-import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
-import com.github.graycat27.twitterbot.utils.UrlString;
 import com.github.graycat27.twitterbot.web.service.GetAuthService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import jakarta.servlet.http.HttpServlet;
+
+import java.util.UUID;
 
 @Controller
 @SpringBootApplication
-@SessionAttributes(types = {RequestToken.class})
 public class WebController extends HttpServlet {
 
     /** Spring boot用のmainメソッド */
@@ -36,16 +37,20 @@ public class WebController extends HttpServlet {
     }
 
     @RequestMapping(value = "/getAuth", method = RequestMethod.GET)
-    String getAuth(Model model){
+    String getAuth(HttpServletRequest request, HttpServletResponse response){
         GetAuthService service = new GetAuthService();
-        UrlString redirectInfo = service.getAuth();
-        return "redirect:"+ redirectInfo.url;
+        RequestTokenGetterApi.RedirectInfo redirectInfo = service.getAuth();
+
+        HttpSession session = request.getSession();
+        session.setAttribute("state", redirectInfo.state);
+
+        return "redirect:"+ redirectInfo.url.url;
     }
 
     @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
-    String authCodeCallback(String state, String code){
+    String authCodeCallback(HttpServletRequest request, HttpServletResponse response, String state, String code){
         GetAuthService service = new GetAuthService();
-        service.getUserAccessToken(state, code);
+        service.getUserAccessToken(state, code, (UUID) request.getSession().getAttribute("state"));
 
         return "working";
     }

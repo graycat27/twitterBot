@@ -9,29 +9,26 @@ import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.utils.TweetTemplate;
-import com.github.graycat27.twitterbot.utils.UrlString;
 import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
+import java.util.UUID;
 
 @Service
 public class GetAuthService {
 
-    private String state = null;
-    public UrlString getAuth(){
+    public RequestTokenGetterApi.RedirectInfo getAuth(){
         try {
-            RequestTokenGetterApi.RedirectInfo redirect = RequestTokenGetterApi.getRequestToken();
-            state = redirect.state.toString();
-            return redirect.url;
+            return RequestTokenGetterApi.getRequestToken();
         } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
-    public void getUserAccessToken(String state, String code){
+    public void getUserAccessToken(String state, String code, UUID savedState){
         try{
-            if(!this.state.equals(state)){
+            if(!savedState.toString().equals(state)){
                 throw new IllegalStateException("token state is un matched");
             }
             AccessTokenGetterApi.getAccessToken(code);
