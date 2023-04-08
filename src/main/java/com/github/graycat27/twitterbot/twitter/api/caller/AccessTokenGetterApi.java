@@ -4,6 +4,7 @@ import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
+import com.github.graycat27.twitterbot.utils.ListUtil;
 import com.github.graycat27.twitterbot.utils.UrlString;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -26,6 +27,8 @@ public class AccessTokenGetterApi {
         UrlString callback = new UrlString("https://graycat27twitterbot.herokuapp.com/twitterAuthComplete");
         queryParameters.add(new BasicNameValuePair("redirect_uri", callback.url));
         queryParameters.add(new BasicNameValuePair("code_verifier", "challenge"));
+
+        ListUtil.printList(queryParameters);
 
         ApiManager.getApiCaller().callApiV2PostUrlEncodedContent(ApiUrl.getAccessToken, queryParameters);
 
