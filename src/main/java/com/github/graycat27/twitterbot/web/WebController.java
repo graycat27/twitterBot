@@ -43,6 +43,7 @@ public class WebController extends HttpServlet {
 
         HttpSession session = request.getSession();
         session.setAttribute("state", redirectInfo.state);
+        session.setAttribute("challenge", redirectInfo.challenge);
 
         return "redirect:"+ redirectInfo.url.url;
     }
@@ -50,7 +51,9 @@ public class WebController extends HttpServlet {
     @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
     String authCodeCallback(HttpServletRequest request, HttpServletResponse response, String state, String code){
         GetAuthService service = new GetAuthService();
-        service.getUserAccessToken(state, code, (UUID) request.getSession().getAttribute("state"));
+        service.getUserAccessToken(state, code,
+                (UUID) request.getSession().getAttribute("state"),
+                (UUID) request.getSession().getAttribute("challenge"));
 
         return "working";
     }

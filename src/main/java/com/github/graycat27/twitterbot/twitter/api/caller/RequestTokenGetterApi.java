@@ -23,9 +23,10 @@ public class RequestTokenGetterApi {
 
     public static class RedirectInfo{
         public final UUID state;
+        public final UUID challenge;
         public final UrlString url;
-        /*  */RedirectInfo(UUID state, UrlString url){
-            this.state = state; this.url = url;
+        /* pkg-prv */RedirectInfo(UUID state, UUID challenge, UrlString url){
+            this.state = state; this.challenge = challenge; this.url = url;
         }
     }
 
@@ -44,7 +45,8 @@ public class RequestTokenGetterApi {
         queryParameters.add(new BasicNameValuePair("scope", scope));
         UUID uid = UUID.randomUUID();
         queryParameters.add(new BasicNameValuePair("state", uid.toString()));
-        queryParameters.add(new BasicNameValuePair("code_challenge", "challenge"));
+        UUID challenge = UUID.randomUUID();
+        queryParameters.add(new BasicNameValuePair("code_challenge", challenge.toString()));
         queryParameters.add(new BasicNameValuePair("code_challenge_method", "plain"));
 
         uriBuilder.addParameters(queryParameters);
@@ -54,7 +56,7 @@ public class RequestTokenGetterApi {
         ListUtil.printList(queryParameters);
         logger.info(authUrl.url);
 
-        return new RedirectInfo(uid, authUrl);
+        return new RedirectInfo(uid, challenge, authUrl);
 
     }
 

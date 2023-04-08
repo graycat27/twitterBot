@@ -26,12 +26,12 @@ public class GetAuthService {
         }
     }
 
-    public void getUserAccessToken(String state, String code, UUID savedState){
+    public void getUserAccessToken(String state, String code, UUID savedState, UUID savedChallenge){
         try{
             if(!savedState.toString().equals(state)){
                 throw new IllegalStateException("token state is un matched");
             }
-            AccessTokenGetterApi.getAccessToken(code);
+            AccessTokenGetterApi.getAccessToken(code, savedChallenge);
         } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
