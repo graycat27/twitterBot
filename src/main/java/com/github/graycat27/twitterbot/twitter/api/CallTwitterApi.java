@@ -24,6 +24,7 @@ import org.springframework.http.HttpMethod;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 
 public class CallTwitterApi {
@@ -81,7 +82,7 @@ public class CallTwitterApi {
 
     }
 
-    public String callApiV2Get(URIBuilder callUrl){
+    public String callApiV2Get(UrlString baseUrl, URIBuilder callUrl){
         loggingStart(callUrl, HttpMethod.GET);
 
         HttpEntity entity;
@@ -92,7 +93,7 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpGet httpGet = new HttpGet(callUrl.build());
-            httpGet.addHeader("Authorization", String.format("Bearer %s", authInfo.getBearerToken()));
+            httpGet.addHeader("Authorization", GetOauthHeader.getOauthHeader(null, baseUrl, Collections.emptyList()));
             httpGet.addHeader("Content-Type", "application/json");
 
             HttpResponse response = httpClient.execute(httpGet);
