@@ -54,7 +54,6 @@ public class WebController extends HttpServlet {
         String tokenStr = service.getUserAccessToken(state, code,
                 (UUID) request.getSession().getAttribute("state"),
                 (UUID) request.getSession().getAttribute("challenge"));
-        log(tokenStr);
         service.registerUserAccessToken();
 
         return "redirect:twitterAuthDone";
