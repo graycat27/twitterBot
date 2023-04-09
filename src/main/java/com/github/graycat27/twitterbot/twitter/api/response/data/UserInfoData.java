@@ -8,7 +8,7 @@ public class UserInfoData extends IMetaData {
     private String pinned_tweet_id;
     private String description;
 
-    public class PublicMetrics extends IMetaData{
+    public static class PublicMetrics extends IMetaData{
         private int Followers_count;
         private int following_count;
         private int tweet_count;
