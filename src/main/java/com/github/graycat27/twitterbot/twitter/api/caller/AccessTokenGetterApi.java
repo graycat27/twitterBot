@@ -17,7 +17,7 @@ public class AccessTokenGetterApi {
 
     private AccessTokenGetterApi(){ /* インスタンス化防止 */ }
 
-    public static void getAccessToken(String code, UUID challenge) throws URISyntaxException {
+    public static String getAccessToken(String code, UUID challenge) throws URISyntaxException {
 
         ArrayList<NameValuePair> queryParameters = new ArrayList<>();
         queryParameters.add(new BasicNameValuePair("code", code));
@@ -31,7 +31,7 @@ public class AccessTokenGetterApi {
 
         ListUtil.printList(queryParameters);
 
-        ApiManager.getApiCaller().callApiV2PostUrlEncodedContent(ApiUrl.getAccessToken, queryParameters);
+        return ApiManager.getApiCaller().callApiV2PostUrlEncodedContent(ApiUrl.getAccessToken, queryParameters);
 
     }
 

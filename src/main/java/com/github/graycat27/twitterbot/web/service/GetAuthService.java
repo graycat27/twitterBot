@@ -26,12 +26,12 @@ public class GetAuthService {
         }
     }
 
-    public void getUserAccessToken(String state, String code, UUID savedState, UUID savedChallenge){
+    public String getUserAccessToken(String state, String code, UUID savedState, UUID savedChallenge){
         try{
             if(!savedState.toString().equals(state)){
                 throw new IllegalStateException("token state is un matched");
             }
-            AccessTokenGetterApi.getAccessToken(code, savedChallenge);
+            return AccessTokenGetterApi.getAccessToken(code, savedChallenge);
         } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -47,6 +47,7 @@ public class GetAuthService {
 
         BotUsersDomain searchBotUser = new BotUsersDomain(token.getId());
         BotUsersDomain selectUserResult = userQuery.selectThoughDeleted(searchBotUser);
+        /*
         if(selectUserResult == null){
             userQuery.insert(searchBotUser);
         }else{
@@ -61,7 +62,7 @@ public class GetAuthService {
             token.getId(), token.getToken(), token.getTokenSecret()
         );
         tokenQuery.insert(insertDomain);
-
+        */
         /* 登録したことをツイート */
         String status = TweetTemplate.authed;
         SendTweetApi.sendTweet(token.getId(), status);
