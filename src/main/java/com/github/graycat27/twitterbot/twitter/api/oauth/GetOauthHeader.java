@@ -20,20 +20,20 @@ public class GetOauthHeader {
 
     private GetOauthHeader(){ /* インスタンス化防止 */ }
 
-    public static String getOauthHeader(OauthToken token, UrlString url, List<NameValuePair> requestParam){
+    public static String getOauthHeader(OauthToken token, UrlString url, HttpMethod method, List<NameValuePair> requestParam){
         TwitterAuthQuery authQuery = new TwitterAuthQuery();
         TwitterAuthDomain authInfo = authQuery.selectOne(null);
 
         RequestDomain oauthRequest = new RequestDomain(
                 authInfo.getApiKey(), authInfo.getSecretKey(),
                 token == null ? null : token.getToken(), token == null ? null : token.getTokenSecret(),
-                HttpMethod.POST, url.url
+                method, url.url
         );
 
         SortedMap<String, String> authMap = getAuthMap(requestParam, oauthRequest, token);
         String signatureParam = createSign(authMap);
 
-        String signatureBaseData = createBase(HttpMethod.POST, url, signatureParam);
+        String signatureBaseData = createBase(method, url, signatureParam);
         String signatureSecretKey = createKey(oauthRequest.getConsumerSecret(), oauthRequest.getOauthTokenSecret());
         String signature = calcSignature(signatureBaseData, signatureSecretKey);
         return createAuthHeader(url, signature, authMap);

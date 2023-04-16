@@ -52,7 +52,7 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpPost httpPost = new HttpPost(callUrl.url);
-            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
+            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, HttpMethod.POST, postParam));
             httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
             if(postParam != null){
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
@@ -93,7 +93,7 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpGet httpGet = new HttpGet(callUrl.build());
-            httpGet.addHeader("Authorization", GetOauthHeader.getOauthHeader(null, baseUrl, Collections.emptyList()));
+            httpGet.addHeader("Authorization", GetOauthHeader.getOauthHeader(null, baseUrl, HttpMethod.GET, Collections.emptyList()));
             httpGet.addHeader("Content-Type", "application/json");
 
             HttpResponse response = httpClient.execute(httpGet);
@@ -134,7 +134,7 @@ public class CallTwitterApi {
                             RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
                     ).build();
             HttpPost httpPost = new HttpPost(callUrl.url);
-            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, postParam));
+            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, HttpMethod.POST, postParam));
             httpPost.addHeader("Content-Type", contentType);
             if(postParam != null){
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
