@@ -89,7 +89,7 @@
             <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>6.0.4</version>
+            <version>6.1.14</version>
         </dependency>
         <dependency>
             <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
