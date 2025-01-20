@@ -48,7 +48,7 @@ public class RequestTokenGetterApi {
         ListUtil.printList(queryParameters);
         logger.info(authUrl.url);
 
-        return new RedirectInfo(uid, challenge, authUrl);
+        return new RedirectInfo(uid, challenge.toString(), authUrl);
 
     }
 

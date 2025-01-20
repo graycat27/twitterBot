@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public class RedirectInfo {
     public final UUID state;
-    public final UUID challenge;
+    public final String challenge;
     public final UrlString url;
 
-    public RedirectInfo(UUID state, UUID challenge, UrlString url){
+    public RedirectInfo(UUID state, String challenge, UrlString url){
         this.state = state; this.challenge = challenge; this.url = url;
     }
 }

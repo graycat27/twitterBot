@@ -19,7 +19,7 @@ public class AccessTokenGetterApi {
 
     private AccessTokenGetterApi(){ /* インスタンス化防止 */ }
 
-    public static AccessToken getAccessToken(String code, UUID challenge) throws URISyntaxException {
+    public static AccessToken getAccessToken(String code, String challenge) throws URISyntaxException {
 
         TwitterAuthQuery authQuery = new TwitterAuthQuery();
         TwitterAuthDomain authInfo = authQuery.selectOne(new TwitterAuthDomain());
@@ -30,7 +30,7 @@ public class AccessTokenGetterApi {
         queryParameters.add(new BasicNameValuePair("grant_type", "authorization_code"));
         queryParameters.add(new BasicNameValuePair("client_id", authInfo.getClientId()));
         queryParameters.add(new BasicNameValuePair("redirect_uri", callback.url));
-        queryParameters.add(new BasicNameValuePair("code_verifier", challenge.toString()));
+        queryParameters.add(new BasicNameValuePair("code_verifier", challenge));
 
         ListUtil.printList(queryParameters);
 

@@ -24,7 +24,7 @@ public class GetAuthService {
         }
     }
 
-    public AccessToken getUserRefreshToken(String state, String code, UUID savedState, UUID savedChallenge){
+    public AccessToken getUserRefreshToken(String state, String code, UUID savedState, String savedChallenge){
         try{
             if(!savedState.toString().equals(state)){
                 throw new IllegalStateException("token state is un matched");
