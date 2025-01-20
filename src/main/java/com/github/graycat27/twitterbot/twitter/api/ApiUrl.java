@@ -6,7 +6,7 @@ import com.github.graycat27.twitterbot.utils.UrlString;
 public class ApiUrl {
 
     // private field
-    private static final String twitterApiCore = "https://api.x.com";
+    private static final String twitterApiCore = "https://api.twitter.com";
     private static final String twitterCore = "https://twitter.com";
 
     private ApiUrl(){ /* インスタンス化防止 */ }
