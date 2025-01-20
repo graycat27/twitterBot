@@ -25,7 +25,7 @@ public class JsonUtil {
     public static String getJsonString(List<NameValuePair> nvp){
         StringBuilder sb = new StringBuilder("{");
         for(NameValuePair nv : nvp){
-            sb.append(nv.getName()).append(":").append(nv.getValue());
+            sb.append("\"").append(nv.getName()).append("\":\"").append(nv.getValue()).append("\"");
             sb.append(",");
         }
         sb.deleteCharAt(sb.length()-1);
