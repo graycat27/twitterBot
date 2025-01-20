@@ -112,11 +112,11 @@ public class CallTwitterApi {
         return callApiV2Post(callUrl, GetV2OauthHeader.getAuthorizationHeader(), postParam, "application/x-www-form-urlencoded");
     }
     public String callApiV2PostUrlEncodedContent(UrlString callUrl, AccessToken token, List<NameValuePair> postParam){
-        return callApiV2Post(callUrl, GetV2OauthHeader.getAuthorizationHeader(token), postParam, "application/x-www-form-urlencoded");
+        return callApiV2Post(callUrl, GetV2OauthHeader.getAuthorizationHeader(token, true), postParam, "application/x-www-form-urlencoded");
     }
 
     public String callApiV2Post(UrlString callUrl, AccessToken token, List<NameValuePair> postParam) {
-        return callApiV2Post(callUrl, GetV2OauthHeader.getAuthorizationHeader(token), postParam, "application/json");
+        return callApiV2Post(callUrl, GetV2OauthHeader.getAuthorizationHeader(token, true), postParam, "application/json");
     }
 
     private String callApiV2Post(UrlString callUrl, String authHeader, List<NameValuePair> postParam, String contentType){
