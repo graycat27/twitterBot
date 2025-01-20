@@ -123,9 +123,7 @@ public class CallTwitterApi {
         loggingStart(callUrl, HttpMethod.POST);
         try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpPost httpPost = new HttpPost(callUrl.url);
-            if(authHeader != null) {
-                httpPost.addHeader("Authorization", authHeader);
-            }
+            httpPost.addHeader("Authorization", authHeader);
             httpPost.addHeader("Content-Type", contentType);
             if(postParam != null){
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
