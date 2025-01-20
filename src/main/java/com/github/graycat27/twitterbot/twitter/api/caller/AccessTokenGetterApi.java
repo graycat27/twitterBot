@@ -32,7 +32,9 @@ public class AccessTokenGetterApi {
         queryParameters.add(new BasicNameValuePair("client_id", authInfo.getClientId()));
         ListUtil.printList(queryParameters);
 
+        //APIリクエスト通信
         String response = ApiManager.getApiCaller().callApiV2PostUrlEncodedContent(ApiUrl.getRefreshToken, queryParameters);
+
         System.out.println(response);
         return JsonUtil.getObjectFromJsonStr(response, AccessToken.class);
 
