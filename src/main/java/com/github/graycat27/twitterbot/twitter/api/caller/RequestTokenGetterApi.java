@@ -25,18 +25,17 @@ public class RequestTokenGetterApi {
     public static RedirectInfo getRequestToken() throws URISyntaxException {
 
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.getAuthorize.url);
+        TwitterAuthQuery authQuery = new TwitterAuthQuery();
+        TwitterAuthDomain authInfo = authQuery.selectOne(new TwitterAuthDomain());
+        UrlString callBack = new UrlString("https://graycat27twitterbot.herokuapp.com/twitterAuthCallback");
 
         ArrayList<NameValuePair> queryParameters = new ArrayList<>();
         queryParameters.add(new BasicNameValuePair("response_type", "code"));
-        TwitterAuthQuery authQuery = new TwitterAuthQuery();
-        TwitterAuthDomain authInfo = authQuery.selectOne(new TwitterAuthDomain());
         queryParameters.add(new BasicNameValuePair("client_id", authInfo.getClientId()));
-        UrlString callBack = new UrlString("https://graycat27twitterbot.herokuapp.com/twitterAuthCallback");
         queryParameters.add(new BasicNameValuePair("redirect_uri", callBack.url));
-        String scope = "tweet.read tweet.write users.read offline.access";
-        queryParameters.add(new BasicNameValuePair("scope", scope));
-        UUID uid = UUID.randomUUID();
-        queryParameters.add(new BasicNameValuePair("state", uid.toString()));
+        queryParameters.add(new BasicNameValuePair("scope", "tweet.read tweet.write users.read offline.access"));
+        UUID state = UUID.randomUUID();
+        queryParameters.add(new BasicNameValuePair("state", state.toString()));
         UUID challenge = UUID.randomUUID();
         queryParameters.add(new BasicNameValuePair("code_challenge", challenge.toString()));
         queryParameters.add(new BasicNameValuePair("code_challenge_method", "plain"));
@@ -48,7 +47,7 @@ public class RequestTokenGetterApi {
         ListUtil.printList(queryParameters);
         logger.info(authUrl.url);
 
-        return new RedirectInfo(uid, challenge.toString(), authUrl);
+        return new RedirectInfo(state, challenge.toString(), authUrl);
 
     }
 
