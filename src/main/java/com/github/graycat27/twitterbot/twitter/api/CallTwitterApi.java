@@ -4,6 +4,7 @@ import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetV2OauthHeader;
+import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
 import com.github.graycat27.twitterbot.utils.UrlString;
 import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
@@ -73,14 +74,14 @@ public class CallTwitterApi {
 
     }
 
-    public String callApiV2Get(UrlString baseUrl, URIBuilder callUrl){
+    public String callApiV2Get(UrlString baseUrl, URIBuilder callUrl, AccessToken token){
         loggingStart(callUrl, HttpMethod.GET);
 
         HttpEntity entity;
         String responseJsonStr;
         try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpGet httpGet = new HttpGet(callUrl.build());
-            httpGet.addHeader("Authorization", GetOauthHeader.getOauthHeader(null, baseUrl, HttpMethod.GET, Collections.emptyList()));
+            httpGet.addHeader("Authorization", GetV2OauthHeader.getAuthorizationHeader(token));
             httpGet.addHeader("Content-Type", "application/json");
 
             HttpEntity responseEntity = httpClient.execute(httpGet, response -> {

@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.twitter.api.caller;
 import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
+import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.UserInfoData;
 import com.github.graycat27.twitterbot.utils.JsonUtil;
 import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
@@ -23,7 +24,7 @@ public class GetUserInfoApi {
     /**
      * @param id TwitterID
      */
-    public static ResponseCore<UserInfoData> getUser(String id){
+    public static ResponseCore<UserInfoData> getUser(String id, AccessToken token){
         try {
             URIBuilder uriBuilder = new URIBuilder(ApiUrl.userById + id);
 
@@ -31,7 +32,7 @@ public class GetUserInfoApi {
             queryParameters.add(new BasicNameValuePair("user.fields", "id,name,username,public_metrics"));
             uriBuilder.addParameters(queryParameters);
 
-            String resJson = ApiManager.getApiCaller().callApiV2Get(ApiUrl.userById, uriBuilder);
+            String resJson = ApiManager.getApiCaller().callApiV2Get(ApiUrl.userById, uriBuilder, token);
 
             Type dataType = new TypeToken<ResponseCore<UserInfoData>>() {
             }.getType();
