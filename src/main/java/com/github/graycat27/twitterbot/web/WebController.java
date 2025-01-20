@@ -57,6 +57,7 @@ public class WebController extends HttpServlet {
         AccessToken token = service.getUserRefreshToken(state, code,
                 (UUID) request.getSession().getAttribute("state"),
                 (String) request.getSession().getAttribute("challenge"));
+
         request.getSession().setAttribute("token", token);
         return "redirect:twitterAuthComplete";
     }
