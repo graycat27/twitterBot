@@ -34,6 +34,9 @@ public class TwitterRecordDomain extends CommonDomain {
     public TwitterRecordDomain(){
         this(null, null, null, null, null, null);
     }
+    public TwitterRecordDomain(String twitterUserId){
+        this(twitterUserId, null, null, null, null, null);
+    }
     public TwitterRecordDomain(
         String twitterUserId,
         Timestamp recordTime,

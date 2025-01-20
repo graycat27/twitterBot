@@ -32,8 +32,7 @@ public class UserHundredChecker extends AbstractJob {
             TwitterUserTokenDomain tokenRecord = tokenQuery.selectOne(new TwitterUserTokenDomain(user.getTwUserId()));
             ResponseCore<UserInfoData> userData = GetUserInfoApi.getUser(user.getTwUserId(), tokenRecord.getToken(), true);
             TwitterRecordQuery recordQuery = new TwitterRecordQuery();
-            TwitterRecordDomain selectParam = new TwitterRecordDomain(
-                    user.getTwUserId(), null, null, null, null, null);
+            TwitterRecordDomain selectParam = new TwitterRecordDomain(user.getTwUserId());
             TwitterRecordDomain record = recordQuery.selectOne(selectParam);
 
             if(record != null){
