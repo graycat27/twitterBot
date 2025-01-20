@@ -138,7 +138,7 @@ public class CallTwitterApi {
             }
 
             responseJsonStr = httpClient.execute(httpPost, response ->{
-                if(isSuccess(response.getCode())){
+                if(!isSuccess(response.getCode())){
                     System.err.println("Response status code = "+ response.getCode() + response.getReasonPhrase());
                     System.err.println(convertEntity2JsonStr(response.getEntity()));
                     throw new TwitterApiException("API response status code was not 200-OK");
