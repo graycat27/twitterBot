@@ -1,7 +1,9 @@
 package com.github.graycat27.twitterbot.web;
 
 import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
+import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
+import com.github.graycat27.twitterbot.utils.TweetTemplate;
 import com.github.graycat27.twitterbot.web.service.GetAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import jakarta.servlet.http.HttpServlet;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
@@ -49,23 +52,23 @@ public class WebController extends HttpServlet {
     }
 
     @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
-    String authCodeCallback(HttpServletRequest request, HttpServletResponse response, String state, String code){
+    String authCodeCallback(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam String state, @RequestParam String code
+    ){
         GetAuthService service = new GetAuthService();
-        /* v2対応
-        String tokenStr = service.getUserAccessToken(state, code,
+        AccessToken token = service.getUserRefreshToken(state, code,
                 (UUID) request.getSession().getAttribute("state"),
                 (UUID) request.getSession().getAttribute("challenge"));
-         */
-        service.registerUserAccessToken();
+        service.registerUserAccessToken(token);
 
         return "redirect:twitterAuthDone";
     }
 
     @RequestMapping(value = "/twitterAuthComplete", method = RequestMethod.GET)
     String authCallBack(@ModelAttribute @Validated({AccessToken.class}) AccessToken accessToken){
-        GetAuthService service = new GetAuthService();
-        //service.registerUserAccessToken(accessToken);
-
+        /* 登録したことをツイート */
+        String status = TweetTemplate.authed;
+        SendTweetApi.sendTweet(accessToken.getId(), status);
         return "twitterAuthDone";
     }
 }

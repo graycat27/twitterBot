@@ -4,6 +4,8 @@ import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.ApiManager;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
+import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
+import com.github.graycat27.twitterbot.utils.JsonUtil;
 import com.github.graycat27.twitterbot.utils.ListUtil;
 import com.github.graycat27.twitterbot.utils.UrlString;
 import org.apache.hc.core5.http.NameValuePair;
@@ -17,7 +19,7 @@ public class AccessTokenGetterApi {
 
     private AccessTokenGetterApi(){ /* インスタンス化防止 */ }
 
-    public static String getAccessToken(String code, UUID challenge) throws URISyntaxException {
+    public static AccessToken getAccessToken(String code, UUID challenge) throws URISyntaxException {
 
         ArrayList<NameValuePair> queryParameters = new ArrayList<>();
         queryParameters.add(new BasicNameValuePair("code", code));
@@ -31,7 +33,9 @@ public class AccessTokenGetterApi {
 
         ListUtil.printList(queryParameters);
 
-        return ApiManager.getApiCaller().callApiV2PostUrlEncodedContent(ApiUrl.getAccessToken, queryParameters);
+        String response = ApiManager.getApiCaller().callApiV2PostUrlEncodedContent(ApiUrl.getRefreshToken, queryParameters);
+        System.out.println(response);
+        return JsonUtil.getObjectFromJsonStr(response, AccessToken.class);
 
     }
 
