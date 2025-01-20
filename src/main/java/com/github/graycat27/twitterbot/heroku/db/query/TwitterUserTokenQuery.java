@@ -43,7 +43,8 @@ public class TwitterUserTokenQuery extends QueryRunnable {
             TwitterUserTokenDomain domainParam = (TwitterUserTokenDomain) param;
             logParamObject(sql, param);
             TwitterUserTokenDomain result = session.selectOne(sql.val(), domainParam);
-            logResultObjectSecret(sql, result);
+            //logResultObjectSecret(sql, result);
+            logResultObject(sql, result); //for debug
             return result;
         } catch (SQLException sqlEx) {
             throw new RuntimeException(sqlEx);
