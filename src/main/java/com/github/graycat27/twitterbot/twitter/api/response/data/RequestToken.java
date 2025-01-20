@@ -19,11 +19,17 @@ public class RequestToken extends IMetaData implements OauthToken {
     public String getOauthVerifier(){
         return oauth_verifier;
     }
+    private final String oauth_refresh_token;
+    @Override
+    public String getRefreshToken() {
+        return oauth_refresh_token;
+    }
 
-    public RequestToken(String token, String tokenSecret, String verifier){
+    public RequestToken(String token, String tokenSecret, String verifier, String refresh){
         this.oauth_token = token;
         this.oauth_token_secret = tokenSecret;
         this.oauth_verifier = verifier;
+        this.oauth_refresh_token = refresh;
     }
 
 }

@@ -2,15 +2,14 @@ package com.github.graycat27.twitterbot.twitter.api.oauth;
 
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
-import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.RequestToken;
-import org.apache.http.NameValuePair;
+import com.github.graycat27.twitterbot.utils.UrlString;
+import org.apache.hc.core5.http.NameValuePair;
 import org.springframework.http.HttpMethod;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -21,32 +20,28 @@ public class GetOauthHeader {
 
     private GetOauthHeader(){ /* インスタンス化防止 */ }
 
-    public static String getOauthHeader(OauthToken token, ApiUrl.UrlString url, List<NameValuePair> requestParam){
+    public static String getOauthHeader(OauthToken token, UrlString url, HttpMethod method, List<NameValuePair> requestParam){
         TwitterAuthQuery authQuery = new TwitterAuthQuery();
         TwitterAuthDomain authInfo = authQuery.selectOne(null);
 
         RequestDomain oauthRequest = new RequestDomain(
                 authInfo.getApiKey(), authInfo.getSecretKey(),
                 token == null ? null : token.getToken(), token == null ? null : token.getTokenSecret(),
-                HttpMethod.POST, url.url
+                method, url.url
         );
 
         SortedMap<String, String> authMap = getAuthMap(requestParam, oauthRequest, token);
         String signatureParam = createSign(authMap);
 
-        String signatureBaseData = createBase(HttpMethod.POST, url, signatureParam);
+        String signatureBaseData = createBase(method, url, signatureParam);
         String signatureSecretKey = createKey(oauthRequest.getConsumerSecret(), oauthRequest.getOauthTokenSecret());
         String signature = calcSignature(signatureBaseData, signatureSecretKey);
         return createAuthHeader(url, signature, authMap);
     }
 
     private static String urlEncode(String string) {
-        try {
-            String encoded = URLEncoder.encode(string, StandardCharsets.UTF_8.name());
-            return encoded.replaceAll("\\+","%20");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        String encoded = URLEncoder.encode(string, StandardCharsets.UTF_8);
+        return encoded.replaceAll("\\+","%20");
     }
 
     /**
@@ -79,8 +74,7 @@ public class GetOauthHeader {
 
         if(token != null){
             authMap.put("oauth_token", urlEncode(token.getToken()));
-            if(token instanceof RequestToken) {
-                RequestToken requestToken = (RequestToken) token;
+            if(token instanceof RequestToken requestToken) {
                 if (requestToken.getOauthVerifier() != null) {
                     authMap.put("oauth_verifier", urlEncode(requestToken.getOauthVerifier()));
                 }
@@ -105,9 +99,8 @@ public class GetOauthHeader {
         return sb.toString();
     }
 
-    private static String createBase(HttpMethod method, ApiUrl.UrlString url, String encodedParam){
-        String base = method.name() + "&" + urlEncode(url.url) + "&" + urlEncode(encodedParam);
-        return base;
+    private static String createBase(HttpMethod method, UrlString url, String encodedParam){
+        return method.name() + "&" + urlEncode(url.url) + "&" + urlEncode(encodedParam);
     }
 
     private static String createKey(String consumerSecret, String tokenSecret){
@@ -126,7 +119,7 @@ public class GetOauthHeader {
         }
     }
 
-    private static String createAuthHeader(ApiUrl.UrlString url, String signature, SortedMap<String,String> authMap){
+    private static String createAuthHeader(UrlString url, String signature, SortedMap<String,String> authMap){
         StringBuilder sb = new StringBuilder();
 
         authMap.put("oauth_signature", urlEncode(signature));

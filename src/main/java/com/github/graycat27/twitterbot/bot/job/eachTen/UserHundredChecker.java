@@ -4,16 +4,16 @@ import com.github.graycat27.twitterbot.bot.job.AbstractJob;
 import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.Today;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterRecordDomain;
+import com.github.graycat27.twitterbot.heroku.db.domain.TwitterUserTokenDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.DbQuery;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterRecordQuery;
+import com.github.graycat27.twitterbot.heroku.db.query.TwitterUserTokenQuery;
 import com.github.graycat27.twitterbot.twitter.api.caller.GetUserInfoApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
 import com.github.graycat27.twitterbot.twitter.api.response.data.UserInfoData;
 import com.github.graycat27.twitterbot.utils.TweetTemplate;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
+import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
 
 public class UserHundredChecker extends AbstractJob {
 
@@ -28,7 +28,9 @@ public class UserHundredChecker extends AbstractJob {
     protected void jobTask() {
 
         try {
-            ResponseCore<UserInfoData> userData = GetUserInfoApi.getUser(user.getTwUserId());
+            TwitterUserTokenQuery tokenQuery = new TwitterUserTokenQuery();
+            TwitterUserTokenDomain tokenRecord = tokenQuery.selectOne(new TwitterUserTokenDomain(user.getTwUserId()));
+            ResponseCore<UserInfoData> userData = GetUserInfoApi.getUser(user.getTwUserId(), tokenRecord.getToken());
             TwitterRecordQuery recordQuery = new TwitterRecordQuery();
             TwitterRecordDomain selectParam = new TwitterRecordDomain(
                     user.getTwUserId(), null, null, null, null, null);
@@ -42,7 +44,7 @@ public class UserHundredChecker extends AbstractJob {
                 doTask4NewUser(userData);
             }
 
-        } catch (URISyntaxException | IOException e) {
+        } catch (TwitterApiException e) {
             e.printStackTrace();
         }
 

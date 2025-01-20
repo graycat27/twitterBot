@@ -1,6 +1,6 @@
 package com.github.graycat27.twitterbot.heroku.db.domain;
 
-import com.google.gson.Gson;
+import com.github.graycat27.twitterbot.utils.JsonUtil;
 
 public class TwitterAuthDomain extends CommonDomain {
 
@@ -16,20 +16,34 @@ public class TwitterAuthDomain extends CommonDomain {
     public String getBearerToken(){
         return bearerToken;
     }
+    private String clientId;
+    public String getClientId(){
+        return clientId;
+    }
+    private String clientSecret;
+    public String getClientSecret(){
+        return clientSecret;
+    }
 
     public TwitterAuthDomain(
         String apiKey,
         String secretKey,
-        String bearerToken
+        String bearerToken,
+        String clientId,
+        String clientSecret
     ){
         this.apiKey = apiKey;
         this.secretKey = secretKey;
         this.bearerToken = bearerToken;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+    }
+    public TwitterAuthDomain(){
+        //nothing to do
     }
 
     @Override
     public String toString() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
+        return JsonUtil.getJsonString(this);
     }
 }

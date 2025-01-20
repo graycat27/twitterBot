@@ -1,8 +1,10 @@
 package com.github.graycat27.twitterbot.utils;
 
 import com.google.gson.*;
+import org.apache.hc.core5.http.NameValuePair;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 public class JsonUtil {
 
@@ -19,6 +21,16 @@ public class JsonUtil {
     /** 引数のobjectをJSON文字列に変換します */
     public static String getJsonString(Object o){
         return gson.toJson(o);
+    }
+    public static String getJsonString(List<NameValuePair> nvp){
+        StringBuilder sb = new StringBuilder("{");
+        for(NameValuePair nv : nvp){
+            sb.append("\"").append(nv.getName()).append("\":\"").append(nv.getValue()).append("\"");
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("}");
+        return sb.toString();
     }
 
     /** JSON文字列からType引数の型のオブジェクトに変換します */
