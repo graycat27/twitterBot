@@ -133,8 +133,7 @@ public class CallTwitterApi {
 
             HttpEntity responseEntity = httpClient.execute(httpPost, response ->{
                 if(response.getCode() != HttpStatus.SC_OK){
-                    System.err.println("Response status code = "+ response.getCode());
-                    System.err.println("Response message = "+ response.getReasonPhrase());
+                    System.err.println("Response status code = "+ response.getCode() + response.getReasonPhrase());
                     throw new TwitterApiException("API response status code was not 200-OK");
                 }
                 return response.getEntity();
@@ -183,7 +182,7 @@ public class CallTwitterApi {
         String jsonStr = null;
         try {
             if (null != entity) {
-                jsonStr = EntityUtils.toString(entity, StandardCharsets.UTF_8.name());
+                jsonStr = EntityUtils.toString(entity, StandardCharsets.UTF_8);
             }
         } catch (IOException | ParseException e) {
             System.err.println("Exception occurred while converting API response data");
