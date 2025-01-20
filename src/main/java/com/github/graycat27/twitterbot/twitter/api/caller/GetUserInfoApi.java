@@ -29,10 +29,7 @@ public class GetUserInfoApi {
         URIBuilder uriBuilder = new URIBuilder(ApiUrl.userById + id);
 
         ArrayList<NameValuePair> queryParameters = new ArrayList<>();
-        queryParameters.add(new BasicNameValuePair("user.fields", "id"));
-        queryParameters.add(new BasicNameValuePair("user.fields", "name"));
-        queryParameters.add(new BasicNameValuePair("user.fields", "username"));
-        queryParameters.add(new BasicNameValuePair("user.fields", "public_metrics"));
+        queryParameters.add(new BasicNameValuePair("user.fields", "id,name,username,public_metrics"));
         uriBuilder.addParameters(queryParameters);
 
         String resJson = ApiManager.getApiCaller().callApiV2Get(ApiUrl.userById, uriBuilder);
