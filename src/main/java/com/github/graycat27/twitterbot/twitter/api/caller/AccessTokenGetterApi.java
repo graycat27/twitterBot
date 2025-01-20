@@ -20,8 +20,6 @@ public class AccessTokenGetterApi {
 
     public static AccessToken getAccessToken(String code, String challenge) throws URISyntaxException {
 
-        TwitterAuthQuery authQuery = new TwitterAuthQuery();
-        TwitterAuthDomain authInfo = authQuery.selectOne(new TwitterAuthDomain());
         UrlString callback = new UrlString("https://graycat27twitterbot.herokuapp.com/twitterAuthComplete");
 
         ArrayList<NameValuePair> queryParameters = new ArrayList<>();
@@ -29,7 +27,6 @@ public class AccessTokenGetterApi {
         queryParameters.add(new BasicNameValuePair("grant_type", "authorization_code"));
         queryParameters.add(new BasicNameValuePair("redirect_uri", callback.url));
         queryParameters.add(new BasicNameValuePair("code_verifier", challenge));
-        queryParameters.add(new BasicNameValuePair("client_id", authInfo.getClientId()));
         ListUtil.printList(queryParameters);
 
         //APIリクエスト通信
