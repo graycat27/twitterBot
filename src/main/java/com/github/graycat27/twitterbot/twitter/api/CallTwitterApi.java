@@ -6,19 +6,18 @@ import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
 import com.github.graycat27.twitterbot.utils.UrlString;
 import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.cookie.StandardCookieSpec;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.http.HttpMethod;
 
 import java.io.IOException;
@@ -44,25 +43,22 @@ public class CallTwitterApi {
         HttpEntity entity;
         String responseJsonStr;
 
-        try{
-            loggingStart(callUrl, HttpMethod.POST);
-
-            HttpClient httpClient =
-                    HttpClients.custom().setDefaultRequestConfig(
-                            RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
-                    ).build();
+        loggingStart(callUrl, HttpMethod.POST);
+        try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpPost httpPost = new HttpPost(callUrl.url);
             httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, HttpMethod.POST, postParam));
             httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
             if(postParam != null){
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             }
-            HttpResponse response = httpClient.execute(httpPost);
-            if(response.getStatusLine().getStatusCode() != HttpStatus.SC_OK){
-                System.err.println("Response status code = "+ response.getStatusLine().getStatusCode());
-                throw new TwitterApiException("API response status code was not 200-OK");
-            }
-            entity = response.getEntity();
+            HttpEntity responseEntity = httpClient.execute(httpPost, response ->{
+                if(response.getCode() != HttpStatus.SC_OK){
+                    System.err.println("Response status code = "+ response.getCode());
+                    throw new TwitterApiException("API response status code was not 200-OK");
+                }
+                return response.getEntity();
+            });
+            responseJsonStr = convertEntity2JsonStr(responseEntity);
 
         }catch(IOException e){
             System.err.println("Exception occurred while calling Twitter API v1");
@@ -70,8 +66,6 @@ public class CallTwitterApi {
             System.err.println(callUrl);
             throw new TwitterApiException(e);
         }
-
-        responseJsonStr = convertEntity2JsonStr(entity);
 
         System.out.println("==ApiResponse==>>>>>");
         System.out.println(responseJsonStr);
@@ -87,24 +81,25 @@ public class CallTwitterApi {
 
         HttpEntity entity;
         String responseJsonStr;
-        try {
-            HttpClient httpClient =
-                    HttpClients.custom().setDefaultRequestConfig(
-                            RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
-                    ).build();
+        try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpGet httpGet = new HttpGet(callUrl.build());
             httpGet.addHeader("Authorization", GetOauthHeader.getOauthHeader(null, baseUrl, HttpMethod.GET, Collections.emptyList()));
             httpGet.addHeader("Content-Type", "application/json");
 
-            HttpResponse response = httpClient.execute(httpGet);
-            entity = response.getEntity();
+            HttpEntity responseEntity = httpClient.execute(httpGet, response -> {
+                if(response.getCode() != HttpStatus.SC_OK){
+                    System.err.println("Response status code = "+ response.getCode());
+                    throw new TwitterApiException("API response status code was not 200-OK");
+                }
+                return response.getEntity();
+            });
+            responseJsonStr = convertEntity2JsonStr(responseEntity);
         }catch(URISyntaxException | IOException e){
             System.err.println("Exception occurred while calling Twitter API v2");
             System.err.println(e.getMessage());
             System.err.println(callUrl);
             throw new TwitterApiException(e);
         }
-        responseJsonStr = convertEntity2JsonStr(entity);
 
         System.out.println("==ApiResponse==>>>>>");
         System.out.println(responseJsonStr);
@@ -126,13 +121,8 @@ public class CallTwitterApi {
         HttpEntity entity;
         String responseJsonStr;
 
-        try {
-            loggingStart(callUrl, HttpMethod.POST);
-
-            HttpClient httpClient =
-                    HttpClients.custom().setDefaultRequestConfig(
-                            RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()
-                    ).build();
+        loggingStart(callUrl, HttpMethod.POST);
+        try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpPost httpPost = new HttpPost(callUrl.url);
             httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, HttpMethod.POST, postParam));
             httpPost.addHeader("Content-Type", contentType);
@@ -140,15 +130,20 @@ public class CallTwitterApi {
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             }
 
-            HttpResponse response = httpClient.execute(httpPost);
-            entity = response.getEntity();
+            HttpEntity responseEntity = httpClient.execute(httpPost, response ->{
+                if(response.getCode() != HttpStatus.SC_OK){
+                    System.err.println("Response status code = "+ response.getCode());
+                    throw new TwitterApiException("API response status code was not 200-OK");
+                }
+                return response.getEntity();
+            });
+            responseJsonStr = convertEntity2JsonStr(responseEntity);
         } catch (Exception e) {
             System.err.println("Exception occurred while calling Twitter API v2");
             System.err.println(e.getMessage());
             System.err.println(callUrl);
             throw new TwitterApiException(e);
         }
-        responseJsonStr = convertEntity2JsonStr(entity);
 
         System.out.println("==ApiResponse==>>>>>");
         System.out.println(responseJsonStr);
@@ -188,7 +183,7 @@ public class CallTwitterApi {
             if (null != entity) {
                 jsonStr = EntityUtils.toString(entity, StandardCharsets.UTF_8.name());
             }
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             System.err.println("Exception occurred while converting API response data");
             System.err.println(e.getMessage());
             System.err.println(entity);

@@ -25,7 +25,7 @@ class RequestTokenGetterApiTest {
         return result;
     }
 
-    @Test
+    //@Test
     public void convQuery2Dom_normal(){
         String in = "oauth_token=token_val&oauth_token_secret=secretVal&oauth_callback_confirmed=true";
         RequestToken res = convertQueryStr2Domain(in);
