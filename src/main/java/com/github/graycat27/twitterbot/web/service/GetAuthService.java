@@ -49,7 +49,7 @@ public class GetAuthService {
         BotUsersDomain searchBotUser = new BotUsersDomain(token.getId());
         BotUsersDomain selectUserResult = userQuery.selectThoughDeleted(searchBotUser);
 
-        ResponseCore<UserInfoData> res = GetUserInfoApi.getUser("me");
+        ResponseCore<UserInfoData> res = GetUserInfoApi.getUser("me", token);
         token.setId(res.getData().getId());
 
         //ユーザデータを有効化
