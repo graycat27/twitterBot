@@ -11,6 +11,7 @@ import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
 import com.github.graycat27.twitterbot.twitter.api.response.data.UserInfoData;
 import com.github.graycat27.twitterbot.utils.TweetTemplate;
+import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -42,7 +43,7 @@ public class UserHundredChecker extends AbstractJob {
                 doTask4NewUser(userData);
             }
 
-        } catch (URISyntaxException | IOException e) {
+        } catch (TwitterApiException e) {
             e.printStackTrace();
         }
 
