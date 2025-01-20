@@ -1,5 +1,6 @@
 package com.github.graycat27.twitterbot.heroku.db.domain;
 
+import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.google.gson.Gson;
 
 public class TwitterUserTokenDomain extends CommonDomain {
@@ -31,6 +32,16 @@ public class TwitterUserTokenDomain extends CommonDomain {
         this.oauthToken = oauthToken;
         this.oauthTokenSecret = oauthTokenSecret;
         this.oauthRefreshToken = oauthRefreshToken;
+    }
+    public TwitterUserTokenDomain(String twUserId){
+        this.twUserId = twUserId;
+        this.oauthToken = null;
+        this.oauthTokenSecret = null;
+        this.oauthRefreshToken = null;
+    }
+
+    public AccessToken getToken(){
+        return new AccessToken(oauthToken,oauthTokenSecret,oauthRefreshToken,twUserId,null);
     }
 
     @Override
