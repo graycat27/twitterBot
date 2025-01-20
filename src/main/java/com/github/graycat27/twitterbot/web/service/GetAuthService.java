@@ -4,6 +4,7 @@ import com.github.graycat27.twitterbot.heroku.db.domain.BotUsersDomain;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterUserTokenDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.BotUserQuery;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterUserTokenQuery;
+import com.github.graycat27.twitterbot.twitter.api.RedirectInfo;
 import com.github.graycat27.twitterbot.twitter.api.caller.AccessTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Service
 public class GetAuthService {
 
-    public RequestTokenGetterApi.RedirectInfo getAuth(){
+    public RedirectInfo getAuth(){
         try {
             return RequestTokenGetterApi.getRequestToken();
         } catch (URISyntaxException e) {

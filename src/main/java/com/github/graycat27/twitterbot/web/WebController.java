@@ -1,5 +1,6 @@
 package com.github.graycat27.twitterbot.web;
 
+import com.github.graycat27.twitterbot.twitter.api.RedirectInfo;
 import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
@@ -42,7 +43,7 @@ public class WebController extends HttpServlet {
     @RequestMapping(value = "/getAuth", method = RequestMethod.GET)
     String getAuth(HttpServletRequest request, HttpServletResponse response){
         GetAuthService service = new GetAuthService();
-        RequestTokenGetterApi.RedirectInfo redirectInfo = service.getAuth();
+        RedirectInfo redirectInfo = service.getAuth();
 
         HttpSession session = request.getSession();
         session.setAttribute("state", redirectInfo.state);

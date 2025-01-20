@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.twitter.api.caller;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
+import com.github.graycat27.twitterbot.twitter.api.RedirectInfo;
 import com.github.graycat27.twitterbot.utils.ListUtil;
 import com.github.graycat27.twitterbot.utils.UrlString;
 import org.apache.hc.core5.http.NameValuePair;
@@ -20,15 +21,6 @@ public class RequestTokenGetterApi {
     private static final Logger logger = Logger.getLogger(RequestTokenGetterApi.class.getName());
 
     private RequestTokenGetterApi(){ /* インスタンス化防止 */ }
-
-    public static class RedirectInfo{
-        public final UUID state;
-        public final UUID challenge;
-        public final UrlString url;
-        /* pkg-prv */RedirectInfo(UUID state, UUID challenge, UrlString url){
-            this.state = state; this.challenge = challenge; this.url = url;
-        }
-    }
 
     public static RedirectInfo getRequestToken() throws URISyntaxException {
 
