@@ -38,7 +38,7 @@ public class RequestTokenGetterApi {
         UUID uid = UUID.randomUUID();
         queryParameters.add(new BasicNameValuePair("state", uid.toString()));
         UUID challenge = UUID.randomUUID();
-        queryParameters.add(new BasicNameValuePair("code_challenge", "yuiKtMr"));
+        queryParameters.add(new BasicNameValuePair("code_challenge", challenge.toString()));
         queryParameters.add(new BasicNameValuePair("code_challenge_method", "plain"));
 
         uriBuilder.addParameters(queryParameters);
