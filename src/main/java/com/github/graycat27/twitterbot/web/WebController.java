@@ -58,6 +58,9 @@ public class WebController extends HttpServlet {
                 (UUID) request.getSession().getAttribute("state"),
                 (String) request.getSession().getAttribute("challenge"));
 
+        request.removeAttribute("state");
+        request.removeAttribute("challenge");
+
         request.getSession().setAttribute("token", token);
         return "redirect:twitterAuthComplete";
     }
