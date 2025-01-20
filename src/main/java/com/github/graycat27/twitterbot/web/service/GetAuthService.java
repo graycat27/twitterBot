@@ -46,11 +46,11 @@ public class GetAuthService {
         TwitterUserTokenQuery tokenQuery = new TwitterUserTokenQuery();
         BotUserQuery userQuery = new BotUserQuery();
 
-        BotUsersDomain searchBotUser = new BotUsersDomain(token.getId());
-        BotUsersDomain selectUserResult = userQuery.selectThoughDeleted(searchBotUser);
-
         ResponseCore<UserInfoData> res = GetUserInfoApi.getUser("me", token);
         token.setId(res.getData().getId());
+
+        BotUsersDomain searchBotUser = new BotUsersDomain(token.getId());
+        BotUsersDomain selectUserResult = userQuery.selectThoughDeleted(searchBotUser);
 
         //ユーザデータを有効化
         if(selectUserResult == null){
