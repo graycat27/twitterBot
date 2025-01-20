@@ -129,15 +129,14 @@ public class CallTwitterApi {
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
             }
 
-            HttpEntity responseEntity = httpClient.execute(httpPost, response ->{
+            responseJsonStr = httpClient.execute(httpPost, response ->{
                 if(response.getCode() != HttpStatus.SC_OK){
                     System.err.println("Response status code = "+ response.getCode() + response.getReasonPhrase());
                     System.err.println(convertEntity2JsonStr(response.getEntity()));
                     throw new TwitterApiException("API response status code was not 200-OK");
                 }
-                return response.getEntity();
+                return convertEntity2JsonStr(response.getEntity());
             });
-            responseJsonStr = convertEntity2JsonStr(responseEntity);
         } catch (Exception e) {
             System.err.println("Exception occurred while calling Twitter API v2");
             System.err.println(e.getMessage());
