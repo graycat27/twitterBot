@@ -6,6 +6,7 @@ import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetV2OauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
+import com.github.graycat27.twitterbot.utils.JsonUtil;
 import com.github.graycat27.twitterbot.utils.UrlString;
 import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -14,7 +15,9 @@ import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.io.entity.BasicHttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.http.HttpMethod;
 
@@ -125,7 +128,11 @@ public class CallTwitterApi {
             httpPost.addHeader("Authorization", authHeader);
             httpPost.addHeader("Content-Type", contentType);
             if(postParam != null){
-                httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
+                if("application/json".equals(contentType)){
+                    httpPost.setEntity(new StringEntity(JsonUtil.getJsonString(postParam)));
+                }else {
+                    httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
+                }
             }
 
             responseJsonStr = httpClient.execute(httpPost, response ->{
