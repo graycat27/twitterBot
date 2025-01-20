@@ -51,9 +51,11 @@ public class WebController extends HttpServlet {
     @RequestMapping(value = "/twitterAuthCallback", method = RequestMethod.GET)
     String authCodeCallback(HttpServletRequest request, HttpServletResponse response, String state, String code){
         GetAuthService service = new GetAuthService();
+        /* v2対応
         String tokenStr = service.getUserAccessToken(state, code,
                 (UUID) request.getSession().getAttribute("state"),
                 (UUID) request.getSession().getAttribute("challenge"));
+         */
         service.registerUserAccessToken();
 
         return "redirect:twitterAuthDone";
