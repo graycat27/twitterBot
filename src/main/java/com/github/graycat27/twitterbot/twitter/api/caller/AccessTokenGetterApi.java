@@ -30,7 +30,7 @@ public class AccessTokenGetterApi {
         queryParameters.add(new BasicNameValuePair("grant_type", "authorization_code"));
         queryParameters.add(new BasicNameValuePair("client_id", authInfo.getClientId()));
         queryParameters.add(new BasicNameValuePair("redirect_uri", callback.url));
-        queryParameters.add(new BasicNameValuePair("code_verifier", challenge.toString()));
+        queryParameters.add(new BasicNameValuePair("code_verifier", "challenge")); //challenge.toString()));
 
         ListUtil.printList(queryParameters);
 
