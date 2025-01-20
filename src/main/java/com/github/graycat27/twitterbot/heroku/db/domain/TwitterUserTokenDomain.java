@@ -43,7 +43,7 @@ public class TwitterUserTokenDomain extends CommonDomain {
     }
     /** DB用 */
     public TwitterUserTokenDomain(Timestamp t1, Timestamp t2, boolean del,
-                                  String twUserId,String oauthToken,String oauthTokenSecret,String oauthRefreshToken){
+                                  String oauthRefreshToken,String oauthToken,String oauthTokenSecret,String twUserId){
         this(twUserId, oauthToken, oauthTokenSecret, oauthRefreshToken);
     }
 

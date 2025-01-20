@@ -4,7 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="twitterBot.TwitterUserTokenMapper">
     <select id="selectOne" resultType="TwitterUserTokenDomain" parameterType="TwitterUserTokenDomain">
-        SELECT * FROM twitter_user_token
+        SELECT
+            created_date as t1, update_date as t2, is_deleted,
+            tw_user_id as twUserId, oauth_token as oauthToken, oauth_token_secret as oauthTokenSecret, oauth_refresh_token as oauthRefreshToken
+        FROM twitter_user_token
         WHERE
             is_deleted = FALSE
             AND tw_user_id = #{twUserId}
