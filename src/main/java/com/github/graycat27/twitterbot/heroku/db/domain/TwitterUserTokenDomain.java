@@ -3,6 +3,8 @@ package com.github.graycat27.twitterbot.heroku.db.domain;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.google.gson.Gson;
 
+import java.sql.Timestamp;
+
 public class TwitterUserTokenDomain extends CommonDomain {
 
     private final String twUserId;
@@ -38,6 +40,11 @@ public class TwitterUserTokenDomain extends CommonDomain {
         this.oauthToken = null;
         this.oauthTokenSecret = null;
         this.oauthRefreshToken = null;
+    }
+    /** DB用 */
+    public TwitterUserTokenDomain(Timestamp t1, Timestamp t2, boolean del,
+                                  String twUserId,String oauthToken,String oauthTokenSecret,String oauthRefreshToken){
+        this(twUserId, oauthToken, oauthTokenSecret, oauthRefreshToken);
     }
 
     public AccessToken getToken(){
