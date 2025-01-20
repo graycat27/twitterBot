@@ -5,6 +5,7 @@ import com.github.graycat27.twitterbot.twitter.api.ApiUrl;
 import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
 import com.github.graycat27.twitterbot.twitter.api.response.data.UserInfoData;
 import com.github.graycat27.twitterbot.utils.JsonUtil;
+import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
 import com.google.gson.reflect.TypeToken;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
@@ -21,22 +22,24 @@ public class GetUserInfoApi {
 
     /**
      * https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/User-Lookup/UsersDemo.java
-     * @throws URISyntaxException
-     * @throws IOException
      */
-    public static ResponseCore<UserInfoData> getUser(String id) throws URISyntaxException, IOException {
+    public static ResponseCore<UserInfoData> getUser(String id){
+        try {
+            URIBuilder uriBuilder = new URIBuilder(ApiUrl.userById + id);
 
-        URIBuilder uriBuilder = new URIBuilder(ApiUrl.userById + id);
+            ArrayList<NameValuePair> queryParameters = new ArrayList<>();
+            queryParameters.add(new BasicNameValuePair("user.fields", "id,name,username,public_metrics"));
+            uriBuilder.addParameters(queryParameters);
 
-        ArrayList<NameValuePair> queryParameters = new ArrayList<>();
-        queryParameters.add(new BasicNameValuePair("user.fields", "id,name,username,public_metrics"));
-        uriBuilder.addParameters(queryParameters);
+            String resJson = ApiManager.getApiCaller().callApiV2Get(ApiUrl.userById, uriBuilder);
 
-        String resJson = ApiManager.getApiCaller().callApiV2Get(ApiUrl.userById, uriBuilder);
+            Type dataType = new TypeToken<ResponseCore<UserInfoData>>() {
+            }.getType();
+            ResponseCore<UserInfoData> data = JsonUtil.getObjectFromJsonStr(resJson, dataType);
 
-        Type dataType = new TypeToken<ResponseCore<UserInfoData>>(){}.getType();
-        ResponseCore<UserInfoData> data = JsonUtil.getObjectFromJsonStr(resJson, dataType);
-
-        return data;
+            return data;
+        }catch(URISyntaxException e){
+            throw new TwitterApiException(e);
+        }
     }
 }

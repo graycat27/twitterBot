@@ -6,8 +6,11 @@ import com.github.graycat27.twitterbot.heroku.db.query.BotUserQuery;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterUserTokenQuery;
 import com.github.graycat27.twitterbot.twitter.api.RedirectInfo;
 import com.github.graycat27.twitterbot.twitter.api.caller.AccessTokenGetterApi;
+import com.github.graycat27.twitterbot.twitter.api.caller.GetUserInfoApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
+import com.github.graycat27.twitterbot.twitter.api.response.ResponseCore;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
+import com.github.graycat27.twitterbot.twitter.api.response.data.UserInfoData;
 import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
@@ -45,6 +48,9 @@ public class GetAuthService {
 
         BotUsersDomain searchBotUser = new BotUsersDomain(token.getId());
         BotUsersDomain selectUserResult = userQuery.selectThoughDeleted(searchBotUser);
+
+        ResponseCore<UserInfoData> res = GetUserInfoApi.getUser("me");
+        token.setId(res.getData().getId());
 
         //ユーザデータを有効化
         if(selectUserResult == null){

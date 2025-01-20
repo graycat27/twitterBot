@@ -12,7 +12,7 @@ public class ApiUrl {
     private ApiUrl(){ /* インスタンス化防止 */ }
 
     // public field
-    public static final UrlString userById = new UrlString(twitterApiCore + "/2/users/by");
+    public static final UrlString userById = new UrlString(twitterApiCore + "/2/users/");
     public static final UrlString getAuthorize = new UrlString(twitterCore + "/i/oauth2/authorize");
     public static final UrlString getRefreshToken = new UrlString(twitterApiCore + "/2/oauth2/token");
     public static final UrlString postTweet = new UrlString(twitterApiCore + "/2/tweets");

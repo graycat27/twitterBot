@@ -17,7 +17,14 @@ public class AccessToken extends IMetaData implements OauthToken{
     public String getRefreshToken() {
         return refresh_token;
     }
-    private final String user_id;
+    private String user_id;
+    public void setId(String id){
+        if(user_id == null){
+            this.user_id = id;
+        }else{
+            throw new IllegalStateException("already set");
+        }
+    }
     public String getId(){
         return user_id;
     }
