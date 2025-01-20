@@ -20,7 +20,7 @@ public class AccessTokenGetterApi {
 
     public static AccessToken getAccessToken(String code, String challenge) throws URISyntaxException {
 
-        UrlString callback = new UrlString("https://graycat27twitterbot.herokuapp.com/twitterAuthComplete");
+        UrlString callback = new UrlString("https://graycat27twitterbot.herokuapp.com/twitterAuthCallback");
 
         ArrayList<NameValuePair> queryParameters = new ArrayList<>();
         queryParameters.add(new BasicNameValuePair("code", code));
