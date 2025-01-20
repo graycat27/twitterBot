@@ -60,17 +60,19 @@ public class WebController extends HttpServlet {
         AccessToken token = service.getUserRefreshToken(state, code,
                 (UUID) request.getSession().getAttribute("state"),
                 (UUID) request.getSession().getAttribute("challenge"));
+        request.getSession().setAttribute("token", token);
         return "redirect:twitterAuthComplete";
     }
 
     @RequestMapping(value = "/twitterAuthComplete", method = RequestMethod.GET)
-    String authCallBack(@ModelAttribute @Validated({AccessToken.class}) AccessToken accessToken){
+    String authCallBack(HttpServletRequest request){
         GetAuthService service = new GetAuthService();
-        service.registerUserAccessToken(accessToken);
+        AccessToken token = (AccessToken) request.getSession().getAttribute("token");
+        service.registerUserAccessToken(token);
 
         /* 登録したことをツイート */
         String status = TweetTemplate.authed;
-        SendTweetApi.sendTweet(accessToken.getId(), status);
+        SendTweetApi.sendTweet(token.getId(), status);
         return "twitterAuthDone";
     }
 }
