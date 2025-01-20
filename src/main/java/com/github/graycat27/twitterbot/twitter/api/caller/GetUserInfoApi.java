@@ -21,7 +21,7 @@ public class GetUserInfoApi {
     private GetUserInfoApi(){ /* インスタンス化防止 */ }
 
     /**
-     * https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/User-Lookup/UsersDemo.java
+     * @param id TwitterID
      */
     public static ResponseCore<UserInfoData> getUser(String id){
         try {
