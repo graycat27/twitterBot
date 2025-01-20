@@ -107,28 +107,24 @@ public class CallTwitterApi {
     }
 
     public String callApiV2PostUrlEncodedContent(UrlString callUrl, List<NameValuePair> postParam){
-        return callApiV2Post(callUrl, null, postParam, "application/x-www-form-urlencoded");
+        return callApiV2Post(callUrl, GetV2OauthHeader.getAuthorizationHeader(), postParam, "application/x-www-form-urlencoded");
     }
     public String callApiV2PostUrlEncodedContent(UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
-        return callApiV2Post(callUrl, token, postParam, "application/x-www-form-urlencoded");
+        return callApiV2Post(callUrl, GetV2OauthHeader.getAuthorizationHeader(token), postParam, "application/x-www-form-urlencoded");
     }
 
     public String callApiV2Post(UrlString callUrl, OauthToken token, List<NameValuePair> postParam) {
-        return callApiV2Post(callUrl, token, postParam, "application/json");
+        return callApiV2Post(callUrl, GetV2OauthHeader.getAuthorizationHeader(token), postParam, "application/json");
     }
 
-    private String callApiV2Post(UrlString callUrl, OauthToken token, List<NameValuePair> postParam, String contentType){
+    private String callApiV2Post(UrlString callUrl, String authHeader, List<NameValuePair> postParam, String contentType){
         HttpEntity entity;
         String responseJsonStr;
 
         loggingStart(callUrl, HttpMethod.POST);
         try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpPost httpPost = new HttpPost(callUrl.url);
-            if(token == null){
-                httpPost.addHeader("Authorization", GetV2OauthHeader.getAuthorizationHeader());
-            }else {
-                httpPost.addHeader("Authorization", GetV2OauthHeader.getAuthorizationHeader(token));
-            }
+            httpPost.addHeader("Authorization", authHeader);
             httpPost.addHeader("Content-Type", contentType);
             if(postParam != null){
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
