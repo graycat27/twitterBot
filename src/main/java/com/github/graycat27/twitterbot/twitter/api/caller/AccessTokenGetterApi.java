@@ -13,7 +13,6 @@ import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class AccessTokenGetterApi {
 

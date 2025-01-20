@@ -1,7 +1,6 @@
 package com.github.graycat27.twitterbot.web;
 
 import com.github.graycat27.twitterbot.twitter.api.RedirectInfo;
-import com.github.graycat27.twitterbot.twitter.api.caller.RequestTokenGetterApi;
 import com.github.graycat27.twitterbot.twitter.api.caller.SendTweetApi;
 import com.github.graycat27.twitterbot.twitter.api.response.data.AccessToken;
 import com.github.graycat27.twitterbot.utils.TweetTemplate;
@@ -12,8 +11,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import jakarta.servlet.http.HttpServlet;
