@@ -3,6 +3,7 @@ package com.github.graycat27.twitterbot.twitter.api;
 import com.github.graycat27.twitterbot.heroku.db.domain.TwitterAuthDomain;
 import com.github.graycat27.twitterbot.heroku.db.query.TwitterAuthQuery;
 import com.github.graycat27.twitterbot.twitter.api.oauth.GetOauthHeader;
+import com.github.graycat27.twitterbot.twitter.api.oauth.GetV2OauthHeader;
 import com.github.graycat27.twitterbot.twitter.api.response.data.OauthToken;
 import com.github.graycat27.twitterbot.utils.UrlString;
 import com.github.graycat27.twitterbot.utils.exception.TwitterApiException;
@@ -108,6 +109,9 @@ public class CallTwitterApi {
     public String callApiV2PostUrlEncodedContent(UrlString callUrl, List<NameValuePair> postParam){
         return callApiV2Post(callUrl, null, postParam, "application/x-www-form-urlencoded");
     }
+    public String callApiV2PostUrlEncodedContent(UrlString callUrl, OauthToken token, List<NameValuePair> postParam){
+        return callApiV2Post(callUrl, token, postParam, "application/x-www-form-urlencoded");
+    }
 
     public String callApiV2Post(UrlString callUrl, OauthToken token, List<NameValuePair> postParam) {
         return callApiV2Post(callUrl, token, postParam, "application/json");
@@ -120,7 +124,11 @@ public class CallTwitterApi {
         loggingStart(callUrl, HttpMethod.POST);
         try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpPost httpPost = new HttpPost(callUrl.url);
-            httpPost.addHeader("Authorization", GetOauthHeader.getOauthHeader(token, callUrl, HttpMethod.POST, postParam));
+            if(token == null){
+                httpPost.addHeader("Authorization", GetV2OauthHeader.getAuthorizationHeader());
+            }else {
+                httpPost.addHeader("Authorization", GetV2OauthHeader.getAuthorizationHeader(token));
+            }
             httpPost.addHeader("Content-Type", contentType);
             if(postParam != null){
                 httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
