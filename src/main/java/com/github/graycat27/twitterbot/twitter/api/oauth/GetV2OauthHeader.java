@@ -14,13 +14,17 @@ public class GetV2OauthHeader {
     }
 
     public static String getAuthorizationHeader(OauthToken token){
-        return "Bearer "+token.getToken();
+        String res = "Bearer "+token.getToken();
+        System.out.println(res);
+        return res;
     }
 
     public static String getAuthorizationHeader(){
         TwitterAuthQuery authQuery = new TwitterAuthQuery();
         TwitterAuthDomain record = authQuery.selectOne(null);
         String base = record.getClientId()+":"+record.getClientSecret();
-        return "Basic "+Base64.getEncoder().encodeToString(base.getBytes(StandardCharsets.UTF_8));
+        String res = "Basic "+Base64.getEncoder().encodeToString(base.getBytes(StandardCharsets.UTF_8));
+        System.out.println(res);
+        return res;
     }
 }
