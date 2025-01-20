@@ -14,8 +14,13 @@ public class GetV2OauthHeader {
         /* インスタンス化防止 */
     }
 
-    public static String getAuthorizationHeader(AccessToken token){
-        String res = "Bearer "+token.getToken();
+    public static String getAuthorizationHeader(AccessToken token, boolean refresh){
+        String res;
+        if(refresh){
+            res = "Bearer "+token.getRefreshToken();
+        }else {
+            res = "Bearer " + token.getToken();
+        }
         System.out.println(res);
         return res;
     }

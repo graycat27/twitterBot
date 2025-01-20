@@ -77,13 +77,13 @@ public class CallTwitterApi {
 
     }
 
-    public String callApiV2Get(UrlString baseUrl, URIBuilder callUrl, AccessToken token){
+    public String callApiV2Get(UrlString baseUrl, URIBuilder callUrl, AccessToken token, boolean refresh){
         loggingStart(callUrl, HttpMethod.GET);
 
         String responseJsonStr;
         try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpGet httpGet = new HttpGet(callUrl.build());
-            httpGet.addHeader("Authorization", GetV2OauthHeader.getAuthorizationHeader(token));
+            httpGet.addHeader("Authorization", GetV2OauthHeader.getAuthorizationHeader(token, refresh));
             httpGet.addHeader("Content-Type", "application/json");
 
             responseJsonStr = httpClient.execute(httpGet, response -> {

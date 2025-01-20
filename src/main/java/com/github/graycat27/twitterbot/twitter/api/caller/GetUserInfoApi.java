@@ -24,7 +24,7 @@ public class GetUserInfoApi {
     /**
      * @param id TwitterID
      */
-    public static ResponseCore<UserInfoData> getUser(String id, AccessToken token){
+    public static ResponseCore<UserInfoData> getUser(String id, AccessToken token, boolean refresh){
         try {
             URIBuilder uriBuilder = new URIBuilder(ApiUrl.userById + id);
 
@@ -32,7 +32,7 @@ public class GetUserInfoApi {
             queryParameters.add(new BasicNameValuePair("user.fields", "id,name,username,public_metrics"));
             uriBuilder.addParameters(queryParameters);
 
-            String resJson = ApiManager.getApiCaller().callApiV2Get(ApiUrl.userById, uriBuilder, token);
+            String resJson = ApiManager.getApiCaller().callApiV2Get(ApiUrl.userById, uriBuilder, token, refresh);
 
             Type dataType = new TypeToken<ResponseCore<UserInfoData>>() {
             }.getType();

@@ -46,7 +46,7 @@ public class GetAuthService {
         TwitterUserTokenQuery tokenQuery = new TwitterUserTokenQuery();
         BotUserQuery userQuery = new BotUserQuery();
 
-        ResponseCore<UserInfoData> res = GetUserInfoApi.getUser("me", token);
+        ResponseCore<UserInfoData> res = GetUserInfoApi.getUser("me", token, false);
         token.setId(res.getData().getId());
 
         BotUsersDomain searchBotUser = new BotUsersDomain(token.getId());
