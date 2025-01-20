@@ -77,21 +77,19 @@ public class CallTwitterApi {
     public String callApiV2Get(UrlString baseUrl, URIBuilder callUrl, AccessToken token){
         loggingStart(callUrl, HttpMethod.GET);
 
-        HttpEntity entity;
         String responseJsonStr;
         try(CloseableHttpClient httpClient = HttpClients.createDefault()){
             HttpGet httpGet = new HttpGet(callUrl.build());
             httpGet.addHeader("Authorization", GetV2OauthHeader.getAuthorizationHeader(token));
             httpGet.addHeader("Content-Type", "application/json");
 
-            HttpEntity responseEntity = httpClient.execute(httpGet, response -> {
+            responseJsonStr = httpClient.execute(httpGet, response -> {
                 if(response.getCode() != HttpStatus.SC_OK){
                     System.err.println("Response status code = "+ response.getCode());
                     throw new TwitterApiException("API response status code was not 200-OK");
                 }
-                return response.getEntity();
+                return convertEntity2JsonStr(response.getEntity());
             });
-            responseJsonStr = convertEntity2JsonStr(responseEntity);
         }catch(URISyntaxException | IOException e){
             System.err.println("Exception occurred while calling Twitter API v2");
             System.err.println(e.getMessage());
