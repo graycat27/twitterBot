@@ -27,10 +27,10 @@ public class SendTweetApi {
 
     private static AccessToken getTokenByUser(String userId){
         TwitterUserTokenQuery tokenQuery = new TwitterUserTokenQuery();
-        TwitterUserTokenDomain param = new TwitterUserTokenDomain(userId, null, null);
+        TwitterUserTokenDomain param = new TwitterUserTokenDomain(userId, null, null, null);
 
         TwitterUserTokenDomain resultDomain = tokenQuery.selectOne(param);
         return new AccessToken(resultDomain.getOauthToken(), resultDomain.getOauthTokenSecret(),
-                resultDomain.getTwUserId(), null);
+                resultDomain.getTwUserId(), resultDomain.getTwUserId(), resultDomain.getOauthRefreshToken());
     }
 }
