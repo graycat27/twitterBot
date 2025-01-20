@@ -51,14 +51,14 @@ public class GetAuthService {
         }else{
             userQuery.restoreDeletedUser(searchBotUser);
             TwitterUserTokenDomain deleteDomain = new TwitterUserTokenDomain(
-                    token.getId(), null, null
+                    token.getId(), null, null, null
             );
             tokenQuery.delete(deleteDomain);
         }
 
         //トークン情報を最新化
         TwitterUserTokenDomain insertDomain = new TwitterUserTokenDomain(
-                token.getId(), token.getToken(), token.getTokenSecret()
+                token.getId(), token.getToken(), token.getTokenSecret(), token.getRefreshToken()
         );
         tokenQuery.insert(insertDomain);
 

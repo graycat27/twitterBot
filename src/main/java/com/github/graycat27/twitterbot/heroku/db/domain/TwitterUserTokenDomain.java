@@ -16,15 +16,21 @@ public class TwitterUserTokenDomain extends CommonDomain {
     public String getOauthTokenSecret(){
         return oauthTokenSecret;
     }
+    private final String oauthRefreshToken;
+    public String getOauthRefreshToken(){
+        return oauthRefreshToken;
+    }
 
     public TwitterUserTokenDomain(
             String twUserId,
             String oauthToken,
-            String oauthTokenSecret
+            String oauthTokenSecret,
+            String oauthRefreshToken
     ){
         this.twUserId = twUserId;
         this.oauthToken = oauthToken;
         this.oauthTokenSecret = oauthTokenSecret;
+        this.oauthRefreshToken = oauthRefreshToken;
     }
 
     @Override
