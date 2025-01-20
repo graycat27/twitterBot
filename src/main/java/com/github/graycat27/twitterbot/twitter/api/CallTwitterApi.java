@@ -133,6 +133,7 @@ public class CallTwitterApi {
                 }else {
                     httpPost.setEntity(new UrlEncodedFormEntity(postParam, StandardCharsets.UTF_8));
                 }
+                httpPost.getEntity().writeTo(System.out);
             }
 
             responseJsonStr = httpClient.execute(httpPost, response ->{
