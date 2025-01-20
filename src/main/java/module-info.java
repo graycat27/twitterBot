@@ -3,8 +3,8 @@ module twitterBot {
     requires java.naming;
     requires jakarta.servlet;
     requires com.google.gson;
-    requires org.apache.httpcomponents.httpclient;
-    requires org.apache.httpcomponents.httpcore;
+    requires org.apache.httpcomponents.client5.httpclient5;
+    requires org.apache.httpcomponents.core5.httpcore5;
     requires org.mybatis;
     requires org.mybatis.spring;
     requires org.mybatis.spring.boot.autoconfigure;
