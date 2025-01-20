@@ -12,9 +12,9 @@
 
     <insert id="insert" parameterType="TwitterUserTokenDomain">
         INSERT INTO twitter_user_token
-            (tw_user_id, oauth_token, oauth_token_secret)
+            (tw_user_id, oauth_token, oauth_token_secret, oauth_refresh_token)
         VALUES
-            (#{twUserId}, #{oauthToken}, #{oauthTokenSecret})
+            (#{twUserId}, #{oauthToken}, #{oauthTokenSecret}, #{oauthRefreshToken})
     </insert>
 
     <delete id="delete" parameterType="TwitterUserTokenDomain">
